@@ -14,3 +14,16 @@ class Token(NamedTuple):
     column: int
 
 def tokenize(code):
+	# Keywords taken from https://docs.python.org/3/library/re.html?highlight=regular%20expression.
+	# Taken up to ISO C99.
+	keywords = {'AUTO', 'BREAK', 'CASE', 'CHAR' 'CONST', 'CONTINUE', 'DEFAULT', 'DO', 'DOUBLE', 'ELSE', 'ENUM', 'EXTERN', 'FLOAT', 'FOR', 'GOTO', 'IF', 'INT', 'LONG', 'REGISTER', 'RETURN', 'SHORT', 'SIGNED', 'SIZEOF', 'STATIC', 'STRUCT', 'SWITCH', 'TYPEDEF', 'UNION', 'UNSIGNED', 'VOID', 'VOLATILE', 'WHILE', 'INLINE', '_BOOL', '_COMPLEX', _IMAGINARY'}
+
+	token_specs = [
+	('ID'		r'[A-Za-z_][A-Za-z0-9_]*'),	#Identifiers
+	('END'		r';'),				#Statement end
+	('NEWLINE' 	r'\n'),				#Moves to a new line
+	('TAB'		r'\t'),				#Tabs over right
+	('ASSIGN'	r'='),				#Used to assign values to variables
+	
+	
+	]

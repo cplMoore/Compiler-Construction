@@ -22,7 +22,7 @@ def tokenize(code):
 			'UNSIGNED', 'VOID', 'VOLATILE', 'WHILE', 'INLINE', '_BOOL', '_COMPLEX', _IMAGINARY'}
 
 	token_specs = [
-	('ID'		r'[A-Za-z_][A-Za-z0-9_]*'),	#Identifiers
+	('ID'		r'[A-Za-z_][A-Za-z0-9_]+'),	#Identifiers
 	('END'		r';'),				#Statement end
 	('NEWLINE' 	r'\n'),				#Moves to a new line
 	('TAB'		r'\t'),				#Tabs over right

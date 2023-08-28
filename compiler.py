@@ -23,6 +23,7 @@ def tokenize(code):
 
 	token_specs = [
 	('ID'		r'[A-Za-z_][A-Za-z0-9_]+'),	#Identifiers
+        ("Number'       r'[0-9}+.[0-9]+),		#Numbers
 	('END'		r';'),				#Statement end
 	('NEWLINE' 	r'\n'),				#Moves to a new line
 	('TAB'		r'\t'),				#Tabs over right

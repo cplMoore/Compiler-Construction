@@ -22,12 +22,15 @@ def tokenize(code):
 			'UNSIGNED', 'VOID', 'VOLATILE', 'WHILE', 'INLINE', '_BOOL', '_COMPLEX', _IMAGINARY'}
 
 	token_specs = [
-	('ID'		r'[A-Za-z_][A-Za-z0-9_]+'),	#Identifiers
-        ('Number'       r'[0-9]+.[0-9]+'),		#Numbers
-	('END'		r';'),				#Statement end
-	('NEWLINE' 	r'\n'),				#Moves to a new line
-	('TAB'		r'\t'),				#Tabs over right
-	('ASSIGN'	r'='),				#Used to assign values to variables
-	
-	
+		('ID'		r'[A-Za-z_][A-Za-z0-9_]+'),	#Identifiers
+        	('Number'       r'[0-9]+.[0-9]+'),		#Numbers
+		('END'		r';'),				#Statement end
+		('NEWLINE' 	r'\n'),				#Moves to a new line
+		('TAB'		r'\t'),				#Tabs over right
+		('ASSIGN'	r'='),				#Used to assign values to variables
+		('OP'		r'+-*/'),			#Math operators(not sure if I can list like that)
+		('LPAREN'	r'('),
+		('RPAREN'	r')'),
+		('LCB'		r'{'),
+		('RCB'		r'}'),
 	]

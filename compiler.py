@@ -33,4 +33,9 @@ def tokenize(code):
 		('RPAREN'	r')'),
 		('LCB'		r'{'),
 		('RCB'		r'}'),
+		('LOGICAND'	r'&&'),				#Logical and
+		('LOGICOR'	r'||'),				#Logical or
+		('NEGATE'	r'!'),				#Logical not
+		('INCRMNT'	r'++'),				#Increments a value by one
+		('DECRMNT'	r'--'),				#Decrements a value by one
 	]

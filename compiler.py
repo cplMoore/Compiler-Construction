@@ -14,7 +14,7 @@ class Token(NamedTuple):
     column: int
 
 def tokenize(code):
-	# Keywords taken from https://docs.python.org/3/library/re.html?highlight=regular%20expression.
+	# Keywords taken from C documentation.
 	# Taken up to ISO C99.
 	keywords = {'AUTO', 'BREAK', 'CASE', 'CHAR' 'CONST', 'CONTINUE', 'DEFAULT', 'DO', 'DOUBLE', 'ELSE',
 			'ENUM', 'EXTERN', 'FLOAT', 'FOR', 'GOTO', 'IF', 'INT', 'LONG', 'REGISTER', 'RETURN', 
@@ -23,7 +23,7 @@ def tokenize(code):
 
 	token_specs = [
 		('ID'		r'[A-Za-z_][A-Za-z0-9_]+'),	#Identifiers
-        	('Number'       r'[0-9]+.[0-9]+'),		#Numbers
+        	('NUMBER'       r'[0-9]+.[0-9]+'),		#Numbers
 		('END'		r';'),				#Statement end
 		('NEWLINE' 	r'\n'),				#Moves to a new line
 		('TAB'		r'\t'),				#Tabs over right
@@ -38,4 +38,29 @@ def tokenize(code):
 		('NEGATE'	r'!'),				#Logical not
 		('INCRMNT'	r'++'),				#Increments a value by one
 		('DECRMNT'	r'--'),				#Decrements a value by one
+		('MISMATCH'	r'.'),				
 	]
+
+	#Token recognizer was taken from https://docs.python.org/3/library/re.html?highlight=re#writing-a-tokenizer
+	tok_regex = '|'.join('(?P<%s>%s)' % pair for pair in token_specs)
+	line_num = 1
+	line_start = 0
+	for mo in re.finditer(tok_regex, code):
+		kind = mo.lastgroup
+		value = mo.group()
+		column = mo.start() - line_start
+		if kind == 'NUMBER':
+			value = float(value) if '.' in value else int(value)
+		elif kind == 'ID' and value in keywords:
+			kind = value
+		elif kind == 'NEWLINE':
+			line_start = mo.end()
+			line_num += 1
+			continue
+		elif kind == 'TAB':
+			continue
+		
+		elif kind == 'MISMATCH':
+			raise RuntimeError(f'{value!r} unexpected on line {line_num}')
+				
+		yield Token(kind, value, line_num, column)

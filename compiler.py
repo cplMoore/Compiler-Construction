@@ -64,3 +64,11 @@ def tokenize(code):
 			raise RuntimeError(f'{value!r} unexpected on line {line_num}')
 				
 		yield Token(kind, value, line_num, column)
+
+
+statements = '''
+	
+'''
+
+for token in tokenize(statements):
+	print(token)

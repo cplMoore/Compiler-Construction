@@ -17,13 +17,21 @@ def tokenize(code):
 	# Keywords taken from C documentation.
 	# Taken up to ISO C99.
 	keywords = {'AUTO', 'BREAK', 'CASE', 'CHAR' 'CONST', 'CONTINUE', 'DEFAULT', 'DO', 'DOUBLE', 'ELSE',
-			'ENUM', 'EXTERN', 'FLOAT', 'FOR', 'GOTO', 'IF', 'INT', 'LONG', 'REGISTER', 'RETURN', 
-			'SHORT', 'SIGNED', 'SIZEOF', 'STATIC', 'STRUCT', 'SWITCH', 'TYPEDEF', 'UNION', 
-			'UNSIGNED', 'VOID', 'VOLATILE', 'WHILE', 'INLINE', '_BOOL', '_COMPLEX', _IMAGINARY'}
+					'ENUM', 'EXTERN', 'FLOAT', 'FOR', 'GOTO', 'IF', 'INT', 'LONG', 'REGISTER', 'RETURN', 
+					'SHORT', 'SIGNED', 'SIZEOF', 'STATIC', 'STRUCT', 'SWITCH', 'TYPEDEF', 'UNION', 
+					'UNSIGNED', 'VOID', 'VOLATILE', 'WHILE', 'INLINE', '_BOOL', '_COMPLEX' '_Imaginary'}
+
+	# Some Tokens found and used from https://www.scaler.com/topics/c/tokens-in-c/
 
 	token_specs = [
 		('ID'		r'[A-Za-z_][A-Za-z0-9_]+'),	#Identifiers
-        	('NUMBER'       r'[0-9]+.[0-9]+'),		#Numbers
+        	('NUMBER'   	r'[0-9]+.[0-9]+'),			#Numbers
+		('EQREL'    	r'=='),				#Added the relational operators
+		('NOTEQ'    	r'!='),
+		('GRT'      	r'<'),
+		('LES'      	r'>'),
+		('GRTEQ'    	r'<='),
+		('LESEQ'    	r'>='),
 		('END'		r';'),				#Statement end
 		('NEWLINE' 	r'\n'),				#Moves to a new line
 		('TAB'		r'\t'),				#Tabs over right
@@ -67,6 +75,7 @@ def tokenize(code):
 
 
 statements = '''
+Math 8 + 8 / 2 = 4
 	
 '''
 

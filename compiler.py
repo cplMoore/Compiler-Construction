@@ -30,7 +30,7 @@ def tokenize(code):
 
 	token_specs = [
 		('ID',       r'[A-Za-z_][A-Za-z0-9_]+'),#Identifiers
-       	 	('NUMBER',   r'[0-9]+\.[0-9]+'),#Numbers
+        	('NUMBER',   r'\d+\.\d+|\d+'),#Numbers used chatgpt to figure out how to read number tokens
 		('EQREL',    r'=='),#Added the relational operators
 		('NOTEQ',    r'!='),
 		('GRT',      r'<'),
@@ -54,6 +54,7 @@ def tokenize(code):
 		('MISMATCH', r'\.'),				
 	]
 
+	#number tokens chatgpt message: "how to write a token that reads all numbers in python"
 	#Token recognizer was taken from https://docs.python.org/3/library/re.html?highlight=re#writing-a-tokenizer
 	tok_regex = '|'.join('(?P<%s>%s)' % pair for pair in token_specs)
 	line_num = 1

@@ -5,6 +5,11 @@
 from typing import NamedTuple
 import re
 
+# import a file
+with open ("test.py") as file:
+
+	file_content = file.read()
+
 # Recognize tokens print out tokens and put them in a tokenizer.py file.
 # Class and tokenize method was used from https://docs.python.org/3/library/re.html?highlight=regular%20expression.
 class Token(NamedTuple):
@@ -25,7 +30,7 @@ def tokenize(code):
 
 	token_specs = [
 		('ID',       r'[A-Za-z_][A-Za-z0-9_]+'),#Identifiers
-        ('NUMBER',   r'[0-9]+\.[0-9]+'),#Numbers
+       	 	('NUMBER',   r'[0-9]+\.[0-9]+'),#Numbers
 		('EQREL',    r'=='),#Added the relational operators
 		('NOTEQ',    r'!='),
 		('GRT',      r'<'),
@@ -73,13 +78,13 @@ def tokenize(code):
 				
 		yield Token(kind, value, line_num, column)
 
-statements = '''
-int main() {
-printf("Hello World");
-return 0;
-}
-'''
+#statements = '''
+#int main() {
+#printf("Hello World");
+#return 0;
+#}
+#'''
 
 
-for token in tokenize(statements):
+for token in tokenize(file_content):
 	print(token)

@@ -21,10 +21,10 @@ class Token(NamedTuple):
 def tokenize(code):
 	# Keywords taken from C documentation.
 	# Taken up to ISO C99.
-	keywords = {'AUTO', 'BREAK', 'CASE', 'CHAR' 'CONST', 'CONTINUE', 'DEFAULT', 'DO', 'DOUBLE', 'ELSE',
-					'ENUM', 'EXTERN', 'FLOAT', 'FOR', 'GOTO', 'IF', 'INT', 'LONG', 'REGISTER', 'RETURN', 
-					'SHORT', 'SIGNED', 'SIZEOF', 'STATIC', 'STRUCT', 'SWITCH', 'TYPEDEF', 'UNION', 
-					'UNSIGNED', 'VOID', 'VOLATILE', 'WHILE', 'INLINE', '_BOOL', '_COMPLEX' '_Imaginary'}
+	keywords = {'auto', 'break', 'case', 'char' 'const', 'continue', 'default', 'do', 'double', 'else',
+					'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 'long', 'register', 'return', 
+					'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'typedef', 'union', 
+					'unsigned', 'void', 'volatile', 'while', 'inline', '_bool', '_complex' '_imaginary'}
 
 	# Some Tokens found and used from https://www.scaler.com/topics/c/tokens-in-c/
 
@@ -32,7 +32,7 @@ def tokenize(code):
 		('ID',       r'[A-Za-z_][A-Za-z0-9_]+'),#Identifiers
         	('NUMBER',   r'\d+\.\d+|\d+'),#Numbers used chatgpt to figure out how to read number tokens
 		('EQREL',    r'=='),#Added the relational operators
-		('NOTEQ',    r'!='),
+		('NOTEQ',    r'\!='),
 		('GRT',      r'<'),
 		('LES',      r'>'),
 		('GRTEQ',    r'<\='),
@@ -48,7 +48,7 @@ def tokenize(code):
 		('RCB',      r'\}'),
 		('LOGICAND', r'\&\&'),#Logical and
 		('LOGICOR',  r'\|\|'),#Logical or
-		('NEGATE',   r'\!'),#Logical not
+		('NEGATE',   r'!'),#Logical not
 		('INCRMNT',  r'\+\+'),#Increments a value by one
 		('DECRMNT',  r'\-\-'),#Decrements a value by one
 		('MISMATCH', r'\.'),				

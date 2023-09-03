@@ -75,8 +75,10 @@ def tokenize(code):
 
 
 statements = '''
-Math 8 + 8 / 2 = 4
-	
+        int main() {
+           printf("Hello World");
+           return 0;
+        }
 '''
 
 for token in tokenize(statements):

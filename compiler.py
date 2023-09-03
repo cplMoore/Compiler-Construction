@@ -30,8 +30,8 @@ def tokenize(code):
 		('NOTEQ',    r'!='),
 		('GRT',      r'<'),
 		('LES',      r'>'),
-		('GRTEQ',    r'<='),
-		('LESEQ',    r'>='),
+		('GRTEQ',    r'<\='),
+		('LESEQ',    r'>\='),
 		('END',      r';'),#Statement end
 		('NEWLINE',  r'\n'),#Moves to a new line
 		('TAB',      r'\t'),#Tabs over right
@@ -41,8 +41,8 @@ def tokenize(code):
 		('RPAREN',   r'\)'),
 		('LCB',      r'\{'),
 		('RCB',      r'\}'),
-		('LOGICAND', r'&&'),#Logical and
-		('LOGICOR',  r'||'),#Logical or
+		('LOGICAND', r'\&\&'),#Logical and
+		('LOGICOR',  r'\|\|'),#Logical or
 		('NEGATE',   r'\!'),#Logical not
 		('INCRMNT',  r'\+\+'),#Increments a value by one
 		('DECRMNT',  r'\-\-'),#Decrements a value by one
@@ -73,13 +73,13 @@ def tokenize(code):
 				
 		yield Token(kind, value, line_num, column)
 
-
 statements = '''
-        int main() {
-           printf("Hello World");
-           return 0;
-        }
+    int main() {
+    printf("Hello World");
+    return 0;
+    }
 '''
+
 
 for token in tokenize(statements):
 	print(token)

@@ -24,29 +24,29 @@ def tokenize(code):
 	# Some Tokens found and used from https://www.scaler.com/topics/c/tokens-in-c/
 
 	token_specs = [
-		('ID',		    r'[A-Za-z_][A-Za-z0-9_]+'),	    #Identifiers
-        ('NUMBER',      r'[0-9]+\.[0-9]+'),			    #Numbers
-		('EQREL',       r'=='),				            #Added the relational operators
-		('NOTEQ',       r'!='),
-		('GRT',         r'<'),
-		('LES',         r'>'),
-		('GRTEQ',       r'<='),
-		('LESEQ',       r'>='),
-		('END',		    r';'),				            #Statement end
-		('NEWLINE', 	r'\n'),				            #Moves to a new line
-		('TAB',		    r'\t'),				            #Tabs over right
-		('ASSIGN',	    r'\='),				            #Used to assign values to variables
-		('OP',		    r'\+-*/'),			            #Math operators(not sure if I can list like that)
-		('LPAREN',	    r'\('),
-		('RPAREN',	    r'\)'),
-		('LCB',		    r'\{'),
-		('RCB',		    r'\}'),
-		('LOGICAND',	r'&&'),				            #Logical and
-		('LOGICOR',	    r'||'),				            #Logical or
-		('NEGATE',	    r'\!'),				            #Logical not
-		('INCRMNT',	    r'++'),				            #Increments a value by one
-		('DECRMNT',	    r'--'),				            #Decrements a value by one
-		('MISMATCH',	r'.'),				
+		('ID',       r'[A-Za-z_][A-Za-z0-9_]+'),#Identifiers
+        ('NUMBER',   r'[0-9]+\.[0-9]+'),#Numbers
+		('EQREL',    r'=='),#Added the relational operators
+		('NOTEQ',    r'!='),
+		('GRT',      r'<'),
+		('LES',      r'>'),
+		('GRTEQ',    r'<='),
+		('LESEQ',    r'>='),
+		('END',      r';'),#Statement end
+		('NEWLINE',  r'\n'),#Moves to a new line
+		('TAB',      r'\t'),#Tabs over right
+		('ASSIGN',   r'\='),#Used to assign values to variables
+		('OP',       r'\+-\*/'),#Math operators(not sure if I can list like that)
+		('LPAREN',   r'\('),
+		('RPAREN',   r'\)'),
+		('LCB',      r'\{'),
+		('RCB',      r'\}'),
+		('LOGICAND', r'&&'),#Logical and
+		('LOGICOR',  r'||'),#Logical or
+		('NEGATE',   r'\!'),#Logical not
+		('INCRMNT',  r'\+\+'),#Increments a value by one
+		('DECRMNT',  r'\-\-'),#Decrements a value by one
+		('MISMATCH', r'\.'),				
 	]
 
 	#Token recognizer was taken from https://docs.python.org/3/library/re.html?highlight=re#writing-a-tokenizer

@@ -29,9 +29,9 @@ def tokenize(code):
 	# Some Tokens found and used from https://www.scaler.com/topics/c/tokens-in-c/
 
 	token_specs = [
-		('ID',       r'[A-Za-z_][A-Za-z0-9_]+'),#Identifiers
+		('ID',       r'[A-Za-z_][A-Za-z0-9_]*'),#Identifiers
         	('NUMBER',   r'\d+\.\d+|\d+'),#Numbers used chatgpt to figure out how to read number tokens
-		('EQREL',    r'=='),#Added the relational operators
+		('EQREL',    r'\=\='),#Added the relational operators
 		('NOTEQ',    r'\!='),
 		('GRT',      r'<'),
 		('LES',      r'>'),

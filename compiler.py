@@ -29,7 +29,6 @@ def tokenize(code):
 	# Some Tokens found and used from https://www.scaler.com/topics/c/tokens-in-c/
 
 	token_specs = [
-		('STRING'    r'"[^"]"'),#String literals. Used chatgpt to learn how to identify them.
 		('ID',       r'[A-Za-z_][A-Za-z0-9_]*'),#Identifiers
         	('NUMBER',   r'\d+\.\d+|\d+'),#Numbers used chatgpt to figure out how to read number tokens
 		('EQREL',    r'\=\='),#Added the relational operators
@@ -77,8 +76,7 @@ def tokenize(code):
 		
 		elif kind == 'MISMATCH':
 			raise RuntimeError(f'{value!r} unexpected on line {line_num}')
-		elif kind == 'STRING':
-			value = value[1:-1]#Removes the double quotes from  the value.
+		
 		yield Token(kind, value, line_num, column)
 
 #statements = '''

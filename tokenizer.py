@@ -79,13 +79,6 @@ def tokenize(code):
 		
 		yield Token(kind, value, line_num, column)
 
-#statements = '''
-#int main() {
-#printf("Hello World");
-#return 0;
-#}
-#'''
 
-
-for token in tokenize(file_content):
-	print(token)
+with open("tokens.txt", 'a') as tokens:
+	tokens.write(str(Token))

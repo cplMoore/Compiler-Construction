@@ -1,35 +1,36 @@
-# compiler.py
+import Parser  # Import your parser.py
+import Tokenizer  # Import your tokenizer.py
 
-import parser  # Import your parser module
-import tokenizer  # Import your tokenizer module
-
+#used chat gpt for basic layout
 def main():
-    print("Welcome to our Compiler Project!")
+    print("Compiler Construction")
     while True:
-        print("Choose an option:")
-        print("1. Tokenize")
-        print("2. Parse")
-        print("3. Exit")
+        print("Options:")
+        print("A. Tokenizer")
+        print("B. Parser")
+        print("C. Exit")
 
-        choice = input("Enter your choice: ")
+        choice = input("Select an option:")
 
-        if choice == "1":
-            source_code = input("Enter the source code to tokenize: ")
-            tokens = tokenizer.tokenize(source_code)
-            print("Tokens:")
-            for token in tokens:
-                print(token)
-        elif choice == "2":
-            source_code = input("Enter the source code to parse: ")
+        if choice == "A":
+            with open ("test.py") as file:
+	            file_content = file.read()
+            with open("tokens.txt", 'a') as tokens:
+	            tokens.write(str(Token))
+                
+        #Still working on below this
+        elif choice == "B":
+            source_code = input("Enter code to Parse: ")
             ast = parser.parse(source_code)
-            print("Abstract Syntax Tree (AST):")
-            print(ast)
-        elif choice == "3":
-            print("Goodbye!")
+            
+        #Choose C to close program
+        elif choice == "C":
+            print("Thanks!")
             break
+            
+        #If an invalid option was inputed
         else:
-            print("Invalid choice. Please select a valid option.")
+            print("Error Choose doesn't exist")
 
 if __name__ == "__main__":
     main()
-

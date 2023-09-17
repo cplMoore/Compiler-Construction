@@ -1,4 +1,4 @@
-# COMP 5210 Compiler Construction project.
+# COMP 5210 Tokenizer for Compiler Construction project.
 # Author: Jacob Moore jwm0083.
 # Author: Ben Hulsey bph0022.
 
@@ -27,32 +27,59 @@ def tokenize(code):
 					'unsigned', 'void', 'volatile', 'while', 'inline', '_bool', '_complex' '_imaginary'}
 
 	# Some Tokens found and used from https://www.scaler.com/topics/c/tokens-in-c/
+	tokens = (
+		'ID',
+    		'NUMBER',
+		'EQREL',
+		'NOTEQ',
+		'GRT',
+		'LES',
+		'GRTEQ',
+		'LESEQ',
+		'END',
+		'NEWLINE',
+		'TAB',
+		'ASSIGN',
+		'OP',
+		'LPAREN',
+		'RPAREN',
+		'LCB',
+		'RCB',
+		'LOGICAND',
+		'LOGICOR',
+		'NEGATE',
+		'INCRMNT',
+		'DECRMNT',
+		'MISMATCH'		
+	)
 
-	token_specs = [
-		('ID',       r'[A-Za-z_][A-Za-z0-9_]*'),#Identifiers
-        	('NUMBER',   r'\d+\.\d+|\d+'),#Numbers used chatgpt to figure out how to read number tokens
-		('EQREL',    r'\=\='),#Added the relational operators
-		('NOTEQ',    r'\!='),
-		('GRT',      r'<'),
-		('LES',      r'>'),
-		('GRTEQ',    r'<\='),
-		('LESEQ',    r'>\='),
-		('END',      r';'),#Statement end
-		('NEWLINE',  r'\n'),#Moves to a new line
-		('TAB',      r'\t'),#Tabs over right
-		('ASSIGN',   r'\='),#Used to assign values to variables
-		('OP',       r'\+-\*/'),#Math operators(not sure if I can list like that)
-		('LPAREN',   r'\('),
-		('RPAREN',   r'\)'),
-		('LCB',      r'\{'),
-		('RCB',      r'\}'),
-		('LOGICAND', r'\&\&'),#Logical and
-		('LOGICOR',  r'\|\|'),#Logical or
-		('NEGATE',   r'!'),#Logical not
-		('INCRMNT',  r'\+\+'),#Increments a value by one
-		('DECRMNT',  r'\-\-'),#Decrements a value by one
-		('MISMATCH', r'\.'),				
-	]
+	#Regular expressions rules for simple tokens.
+	# Token definitions
+		t_ID = r'[A-Za-z_][A-Za-z0-9_]+',#Identifiers
+    		t_NUMBER = r'\d+\.\d+|\d+',#Numbers used chatgpt to figure out how to read number tokens
+		t_EQREL = r'==',#Added the relational operators
+		t_NOTEQ = r'!=',
+		t_GRT = r'<',
+		t_LES = r'>',
+		t_GRTEQ = r'<\=',
+		t_LESEQ = r'>\=',
+		t_END = r';',#Statement end
+		t_NEWLINE = r'\n',#Moves to a new line
+		t_TAB = r'\t',#Tabs over right
+		t_ASSIGN = r'\=',#Used to assign values to variables
+		t_OP = r'\+-\*/',#Math operators(not sure if I can list like that)
+		t_LPAREN = r'\(',
+		t_RPAREN = r'\)',
+		t_LCB = r'\{',
+		t_RCB = r'\}',
+		t_LOGICAND = r'\&\&',#Logical and
+		t_LOGICOR = r'\|\|',#Logical or
+		t_NEGATE = r'\!',#Logical not
+		t_INCRMNT = r'\+\+',#Increments a value by one
+		t_DECRMNT = r'\-\-',#Decrements a value by one
+		t_MISMATCH = r'\.',				
+	)
+
 
 	#number tokens chatgpt message: "how to write a token that reads all numbers in python"
 	#Token recognizer was taken from https://docs.python.org/3/library/re.html?highlight=re#writing-a-tokenizer

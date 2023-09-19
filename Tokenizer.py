@@ -22,14 +22,14 @@ def tokenize(code):
 	# Keywords taken from C documentation.
 	# Taken up to ISO C99.
 	keywords = {'auto', 'break', 'case', 'char' 'const', 'continue', 'default', 'do', 'double', 'else',
-				'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 'long', 'register', 'return', 
-				'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'typedef', 'union', 
-				'unsigned', 'void', 'volatile', 'while', 'inline', '_bool', '_complex' '_imaginary'}
+		    'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 'long', 'register', 'return', 
+		    'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'typedef', 'union', 
+		    'unsigned', 'void', 'volatile', 'while', 'inline', '_bool', '_complex' '_imaginary'}
                 
 	# Some Tokens found and used from https://www.scaler.com/topics/c/tokens-in-c/
 	tokens = ('ID', 'NUMBER', 'EQREL', 'NOTEQ', 'GRT', 'LES', 'GRTEQ', 'LESEQ', 'END', 'NEWLINE',
-		      'TAB', 'ASSIGN', 'OP', 'LPAREN', 'RPAREN', 'LCB', 'RCB', 'LOGICAND', 'LOGICOR',
-              'NEGATE', 'INCRMNT', 'DECRMNT', 'MISMATCH')
+		  'TAB', 'ASSIGN', 'OP', 'LPAREN', 'RPAREN', 'LCB', 'RCB', 'LOGICAND', 'LOGICOR',
+                  'NEGATE', 'INCRMNT', 'DECRMNT', 'MISMATCH')
 
     #Regular expressions rules for simple tokens.
     # Token definitions

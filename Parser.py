@@ -5,22 +5,12 @@
 
 import ply.lex as lex
 import ply.yacc as yacc
-import importlib.util
-import sys
+import Tokenizer
 
 # import a file
 with open ("test.py", 'r') as file:
 	file_content = file.read()
 
-# Call tokenizer used from 
-# https://docs.python.org/3/library/importlib.html?highlight=import%20lib#module-importlib.util
-file_path = 'C:\Users\Jacob\OneDrive - Auburn University\Comp 5210\Compiler-Construction\Tokenizer.py'
-module_name = 'Tokenizer' 
-
-spec = importlib.util.spec_from_file_location(module_name, file_path)
-module = importlib.util.module_from_spec(spec)
-sys.modules[module_name] = module
-spec.loader.exec_module(module)
  
 # Error handling for unknown characters
 def ERROR(token):
@@ -28,7 +18,7 @@ def ERROR(token):
    token.lexer.skip(1)
 
 # Build the lexer
-lexer = lex.lex()# This needs to pass some kind of parameter
+lexer = lex.lex(Tokenizer)# This needs to pass some kind of parameter
 
 # Grammar rules
 def Expr(p):

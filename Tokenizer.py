@@ -11,7 +11,7 @@ import ply.lex as lex
 keywords = {'auto', 'break', 'case', 'char' 'const', 'continue', 'default', 'do', 'double', 'else',
 		    'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 'long', 'register', 'return', 
 		    'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'typedef', 'union', 
-		    'unsigned', 'void', 'volatile', 'while', 'inline', '_bool', '_complex' '_imaginary'}
+		    'unsigned', 'void', 'volatile', 'while', 'inline', '_Bool', '_Complex' '_Imaginary'}
                 
 # Some Tokens found and used from https://www.scaler.com/topics/c/tokens-in-c/
 tokens = ('ID', 'NUMBER', 'EQREL', 'NOTEQ', 'GRT', 'LES', 'GRTEQ', 'LESEQ', 'END', 'NEWLINE',
@@ -24,8 +24,7 @@ tokens = ('ID', 'NUMBER', 'EQREL', 'NOTEQ', 'GRT', 'LES', 'GRTEQ', 'LESEQ', 'END
 
 def t_ID(t):
     r'[A-Za-z_][A-Za-z0-9_]+'
-    if t.value in keywords:
-        t.type = t.value.upper()
+    t.type = t.value.upper()
     return t
 
 
@@ -81,7 +80,7 @@ def t_ASSIGN(t):
 
 
 def t_OP(t):
-    r'\+-\*/'
+    r'[+\-*/]'
     return t
 
 
@@ -144,6 +143,11 @@ def t_ERROR(t):
 
 # Create lexer
 lexer = lex.lex()
+
+with open("test.c", 'r') as input_file:
+    input_code = input_file.read()
+
+lexer.input(input_code)
 
 # Write the tokens to a text file
 with open("tokens.txt", 'w') as token_file:

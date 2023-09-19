@@ -6,25 +6,25 @@ def main():
     print("Compiler Construction")
     while True:
         print("Options:")
-        print("A. Tokenizer")
-        print("B. Parser")
-        print("C. Exit")
+        print("-t Tokenizer")
+        print("-p Parser")
+        print("-q Exit")
 
         choice = input("Select an option:")
 
-        if choice == "A":
+        if choice == "-t":
             with open ("test.py") as file:
 	            file_content = file.read()
             with open("tokens.txt", 'a') as tokens:
 	            tokens.write(str(Token))
                 
         #Still working on below this
-        elif choice == "B":
+        elif choice == "-p":
             source_code = input("Enter code to Parse: ")
             ast = parser.parse(source_code)
             
         #Choose C to close program
-        elif choice == "C":
+        elif choice == "-q":
             print("Thanks!")
             break
             

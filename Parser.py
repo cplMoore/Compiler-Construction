@@ -1,15 +1,11 @@
-# https://www.dabeaz.com/ply/ply.html
+# Parser for COMP 5210 Compiler.py project.
+# Author: Ben Hulsey
+# Author: Jacob Moore
 # https://stackoverflow.com/questions/25712334/ply-lex-and-yacc-issues
 # need to fix how the lexer = lex.lex reads in the tokens
 
 
-import ply.lex as lex
-import ply.yacc as yacc
 import Tokenizer
-
-# import a file
-with open ("test.py", 'r') as file:
-	file_content = file.read()
 
  
 # Error handling for unknown characters

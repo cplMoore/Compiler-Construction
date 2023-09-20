@@ -4,7 +4,7 @@
 # https://stackoverflow.com/questions/25712334/ply-lex-and-yacc-issues
 # need to fix how the lexer = lex.lex reads in the tokens
 
-
+from sly import Parser
 import Tokenizer
 
  
@@ -14,7 +14,7 @@ def ERROR(token):
    token.lexer.skip(1)
 
 # Build the lexer
-lexer = lex.lex(Tokenizer)# This needs to pass some kind of parameter
+lexer = lex.lex()# This needs to pass some kind of parameter
 
 # Grammar rules
 def Expr(p):
@@ -27,8 +27,8 @@ def Expr(p):
       p[0] = (p[2], p[1], p[3])
 
 def Term(p):
-   '''Term : Term TIMES Factor
-           | Term DIVIDE Factor
+   '''Term : Factor TIMES Term
+           | Factor DIVIDE Term
            | Factor'''
    if len(p) == 2:
       p[0] = p[1]

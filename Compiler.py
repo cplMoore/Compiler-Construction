@@ -28,7 +28,7 @@ def main():
             source_code = input("Enter code to Parse: ")
             ast = parser.parse(source_code)
             
-        #Choose C to close program
+        #Choose Exit to close program
         elif choice == "-q":
             print("Thanks!")
             break

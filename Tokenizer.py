@@ -21,11 +21,6 @@ class Tokenizer(Lexer):
     # The main purpose of ignore is to look over whitespace and other padding between the tokens.
     ignore = ' \t'
     
-     # Rule to keep track of line numbers.
-    @_(r'\n+')
-    def ignore_newline(self, t):
-        self.linenum += len(t.value)
-    
     # Regular expression rules for tokens.
     ID          = r'[A-Za-z_][A-Za-z0-9_]*'# changed + to * finally worked. Look into re library.
     NUMBER      = r'\d+'
@@ -52,7 +47,10 @@ class Tokenizer(Lexer):
             t.type = 'KEYWORD'
         return t
     
-    
+    # Rule to keep track of line numbers.
+    @_(r'\n+')
+    def ignore_newline(self, t):
+        self.lineno += len(t.value)
     
 if __name__ == '__main__':
     data = 'x = 3 + 42 * (s - t)'
@@ -60,5 +58,5 @@ if __name__ == '__main__':
     tokens = []
     for tok in lexer.tokenize(data):
         tokens.append((tok.type, tok.value))
-
+        #print(tok)
 

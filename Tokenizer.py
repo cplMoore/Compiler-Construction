@@ -21,6 +21,10 @@ class Tokenizer(Lexer):
     # The main purpose of ignore is to look over whitespace and other padding between the tokens.
     ignore = ' \t'
     
+     # Rule to keep track of line numbers.
+    @_(r'\n+')
+    def ignore_newline(self, t):
+        self.linenum += len(t.value)
     
     # Regular expression rules for tokens.
     ID          = r'[A-Za-z_][A-Za-z0-9_]*'# changed + to * finally worked. Look into re library.
@@ -41,12 +45,14 @@ class Tokenizer(Lexer):
     LCB         = r'\{'
     RCB         = r'\}'
 
-# Match action looking for keywords in Identifiers.
-@_(r'[A-Za-z_][A-Za-z0-9_]*')
-def ID(self, t):
-    if t.value in self.keywords:
-        t.type = 'KEYWORD'
-    return t
+    # Match action looking for keywords in Identifiers.
+    @_(r'[A-Za-z_][A-Za-z0-9_]*')
+    def ID(self, t):
+        if t.value in self.keyword:
+            t.type = 'KEYWORD'
+        return t
+    
+    
     
 if __name__ == '__main__':
     data = 'x = 3 + 42 * (s - t)'

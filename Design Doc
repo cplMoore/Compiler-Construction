@@ -1,6 +1,10 @@
 Symbols:
 
-Grammar:
+Grammar:    Expr -> Expr + Term  | Expr - Term  | Term
+
+            Term -> Term * Factor  | Term / Factor  | Factor
+
+            Factor -> ( Expr )  | num  | ID
 
 Tree:
 

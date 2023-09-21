@@ -16,17 +16,18 @@ def main():
         print("-q Exit")
 
         choice = input("Select an option:")
-
+	
+	#if you choose tokenizer
         if choice == "-t":
             with open ("test.c") as file:
 	            file_content = file.read()
             with open("tokens.txt", 'a') as tokens:
 	            tokens.write(str(Token))
                 
-        #Still working on below this
+        #if you select parser
         elif choice == "-p":
-            source_code = input("Enter code to Parse: ")
-            ast = parser.parse(source_code)
+            result = parser.parse(file_content)
+		print(result)
             
         #Choose Exit to close program
         elif choice == "-q":

@@ -12,4 +12,4 @@ Usage:-t enters Tokenizer
       -p enters Parser
       -q qutes the program
 
-Caveats
+Caveats: used SLY (Sly Lex Yacc) for the Tokenizer and Parser

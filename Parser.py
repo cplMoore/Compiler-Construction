@@ -4,6 +4,9 @@
 # https://stackoverflow.com/questions/25712334/ply-lex-and-yacc-issues
 # need to fix how the lexer = lex.lex reads in the tokens
 
+# https://docs.python.org/3/library/symtable.html#module-symtable
+#for symbol table
+
 from sly import Parser
 import Tokenizer
 

@@ -20,7 +20,7 @@ def main():
 	#if you choose tokenizer
         if choice == "-t":
             for tok in lexer.tokenize(data):
-	    tokens.append((tok.type, tok.value))
+	   	tokens.append((tok.type, tok.value))
                 
         #if you select parser
         elif choice == "-p":

@@ -21,8 +21,8 @@ lexer = lex.lex()# This needs to pass some kind of parameter
 
 # Grammar rules
 def Expr(p):
-   '''Expr : Term PLUS Expr
-           | Term MINUS Expr
+   '''Expr : Expr PLUS Term
+           | Expr MINUS Term
            | Term'''
    if len(p) == 2:
       p[0] = p[1]

@@ -19,10 +19,8 @@ def main():
 	
 	#if you choose tokenizer
         if choice == "-t":
-            with open ("test.c") as file:
-	            file_content = file.read()
-            with open("tokens.txt", 'a') as tokens:
-	            tokens.write(str(Token))
+            for tok in lexer.tokenize(data):
+	    tokens.append((tok.type, tok.value))
                 
         #if you select parser
         elif choice == "-p":

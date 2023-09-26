@@ -1,0 +1,9 @@
+notes 9/26/23
+
+need to read in int, can also do type float if want
+
+creat an ast (Abstract Syntax Tree) https://sly.readthedocs.io/en/latest/sly.html - more for after first check in but fine to try and do for first check in
+
+creat a 3-addres code (due after first check in) 
+
+get everyhting in a format we want, eg output look like tree or list

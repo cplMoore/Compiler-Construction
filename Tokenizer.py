@@ -1,13 +1,15 @@
-# COMP 5210 Tokenizer for Compiler.py
+# Parser for COMP 5210 Compiler.py project.
+# Author: Ben Hulsey
+# Author: Jacob Moore
 # https://sly.readthedocs.io/en/latest/sly.html#introduction
-# Author: Jacob Moore jwm0083.
 
+from os import times
 from sly import Lexer
 
 class Tokenizer(Lexer):
 
-    tokens = { ID, NUMBER, EQREL, NOTEQ, GRT, LES, GRTEQ, LESEQ, ERROR, 
-               END, NEWLINE, ASSIGN, OP, LPAREN, RPAREN, LCB, RCB, KEYWORD,
+    tokens = { ID, NUM, EQREL, NOTEQ, GRT, LES, GRTEQ, LESEQ, ERROR, 
+               END, NEWLINE, ASSIGN, PLUS, MINUS, DIVIDE, TIMES, LPAREN, RPAREN, LCB, RCB, KEYWORD,
                LOGICAND, LOGICOR, NEGATE, INCRMNT, DECREMNT, COMMENT
     } 
         
@@ -23,8 +25,11 @@ class Tokenizer(Lexer):
     
     # Regular expression rules for tokens.
     ID          = r'[A-Za-z_][A-Za-z0-9_]*'# changed + to * finally worked. Look into re library.
-    NUMBER      = r'\d+'
-    OP          = r'[+\-*/]'
+    NUM         = r'\d+'
+    PLUS        = r'\+'
+    MINUS       = r'\-'
+    TIMES       = r'\*'
+    DIVIDE      = r'\/'
     EQREL       = r'\=\='
     NOTEQ       = r'!\='
     GRTEQ       = r'>\='
@@ -55,8 +60,10 @@ class Tokenizer(Lexer):
 if __name__ == '__main__':
     data = 'x = 3 + 42 * (s - t)'
     lexer = Tokenizer()
-    tokens = []
-    for tok in lexer.tokenize(data):
-        tokens.append((tok.type, tok.value))
-        #print(tok)
+    tokens = list(lexer.tokenize(data))  # Convert tokens to a list
+    
+    for token in tokens:
+        print(token)
+
+
 

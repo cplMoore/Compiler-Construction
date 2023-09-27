@@ -2,11 +2,9 @@
 #Author Ben Hulsey
 #Author Jacob Moore
 
+import tokenizer
+import parser
 
-import Parser  # Import your parser.py
-import Tokenizer  # Import your Tokenizer.py
-
-#used chat gpt for basic layout
 def main():
     print("Compiler Construction")
     while True:
@@ -15,26 +13,29 @@ def main():
         print("-p Parser")
         print("-q Exit")
 
-        choice = input("Select an option:")
-	
-	#if you choose tokenizer
+        choice = input("Select an option: ")
+
         if choice == "-t":
+            data = "1 + 2 * (3 - 4)"  # Replace with your code to tokenize
+            lexer = tokenizer.Tokenizer()
+            tokens = []
             for tok in lexer.tokenize(data):
-	   	tokens.append((tok.type, tok.value))
-                
-        #if you select parser
+                tokens.append((tok.type, tok.value))
+            print(tokens)
+
         elif choice == "-p":
-            result = parser.parse(file_content)
-		print(result)
-            
-        #Choose Exit to close program
+            data = "1 + 2 * (3 - 4)"  # Replace with your code to parse
+            lexer = tokenizer.Tokenizer()
+            parsers = parser.MyParser() 
+            result = parsers.parse(lexer.tokenize(data))
+            print(result)
+
         elif choice == "-q":
             print("Thanks!")
             break
-            
-        #If an invalid option was inputed
+
         else:
-            print("Error Choose doesn't exist")
+            print("Error: Invalid option")
 
 if __name__ == "__main__":
     main()

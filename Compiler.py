@@ -8,8 +8,8 @@ import parser
 def main():
     print("Compiler Construction")
     while True:
-        print("Options:")
-        print("-t Tokenizer")
+        print("Options:")       # ask you if you want to use the tokenizer and the or parser
+        print("-t Tokenizer") 
         print("-p Parser")
         print("-q Exit")
 
@@ -19,7 +19,7 @@ def main():
             data = "1 + 2 * (3 - 4)"  # Replace with your code to tokenize
             lexer = tokenizer.Tokenizer()
             tokens = []
-            for tok in lexer.tokenize(data):
+            for tok in lexer.tokenize(data):    #outputs the tokenizer
                 tokens.append((tok.type, tok.value))
             print(tokens)
 
@@ -27,8 +27,8 @@ def main():
             data = "1 + 2 * (3 - 4)"  # Replace with your code to parse
             lexer = tokenizer.Tokenizer()
             parsers = parser.MyParser() 
-            result = parsers.parse(lexer.tokenize(data))
-            print(result)
+            result = parsers.parse(lexer.tokenize(data))  
+            print(result)  # outputs the parser
 
         elif choice == "-q":
             print("Thanks!")
@@ -39,3 +39,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

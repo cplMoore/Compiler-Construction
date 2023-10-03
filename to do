@@ -7,3 +7,10 @@ creat an ast (Abstract Syntax Tree) https://sly.readthedocs.io/en/latest/sly.htm
 creat a 3-addres code (due after first check in) 
 
 get everyhting in a format we want, eg output look like tree or list
+
+checkpoint 4 (10/17) - needs a 3 address IR
+
+checkpoint 5 (10/31) - optimizations
+
+
+midterm (10/19) review on (10/17)

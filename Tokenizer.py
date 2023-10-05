@@ -13,7 +13,7 @@ class Tokenizer(Lexer):
 
     tokens = { ID, NUM, EQREL, NOTEQ, GRT, LES, GRTEQ, LESEQ, ERROR, 
                END, NEWLINE, ASSIGN, PLUS, MINUS, DIVIDE, TIMES, LPAREN, RPAREN, LCB, RCB, KEYWORD,
-               LOGICAND, LOGICOR, NEGATE, INCRMNT, DECREMNT, COMMENT
+               LOGICAND, LOGICOR, NEGATE, INCRMNT, DECREMNT, COMMENT, INT
     } 
         
     # Keywords taken from C docs up to ISO C99

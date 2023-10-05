@@ -7,14 +7,18 @@
 # https://docs.python.org/3/library/symtable.html#module-symtable
 # for symbol table
 
-from sly import Parser # import SLY
-import tokenizer #import tokenizer file
+from sly import Parser
+import tokenizer
+
+file_path = "test.py" #read in a file 
+with open(file_path, "r") as file:
+        file_contents = file.read()
 
 class MyParser(Parser):
     tokens = tokenizer.Tokenizer.tokens
 
     def __init__(self):
-        self.names = {}  # Symbol table
+        self.names = {}  # Symbol table to store variable names and their values
 
     @_('Expr')
     def statement(self, p):
@@ -56,11 +60,23 @@ class MyParser(Parser):
     def Factor(self, p):
         return p.ID
 
+
     def error(self, p):
-        raise SyntaxError(f"Syntax error at token {p.type}")
+        print("Syntax Error at token", p.type)
+        if not p:
+            print("End of File!")
+            return
+
+        # Read ahead looking for a closing '}'
+        while True:
+            tok = next(self.tokens, None)
+            if not tok or tok.type == 'RBRACE':
+                break
+        self.restart()
 
 if __name__ == '__main__':
-    data = "1 + 2 * (3 - 4)"
+    data = file_contents
+    file_contents 
     lexer = tokenizer.Tokenizer()
     parser = MyParser()
 

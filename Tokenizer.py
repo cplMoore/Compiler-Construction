@@ -1,10 +1,13 @@
-# Parser for COMP 5210 Compiler.py project.
-# Author: Ben Hulsey
-# Author: Jacob Moore
+# COMP 5210 Tokenizer for Compiler.py
 # https://sly.readthedocs.io/en/latest/sly.html#introduction
+# Author: Jacob Moore jwm0083.
 
 from os import times
 from sly import Lexer
+
+file_path = "test.py" #read in a file 
+with open(file_path, "r") as file:
+        file_contents = file.read()
 
 class Tokenizer(Lexer):
 
@@ -57,13 +60,16 @@ class Tokenizer(Lexer):
     def ignore_newline(self, t):
         self.lineno += len(t.value)
     
+    def error(self, t):
+        print("Illegal character '%s'" % t.value[0])
+        self.index += 1
+
+
 if __name__ == '__main__':
-    data = 'x = 3 + 42 * (s - t)'
+    data = file_contents
     lexer = Tokenizer()
     tokens = list(lexer.tokenize(data))  # Convert tokens to a list
     
     for token in tokens:
         print(token)
-
-
 

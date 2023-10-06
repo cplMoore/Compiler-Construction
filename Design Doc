@@ -13,13 +13,16 @@ Tree: Parser is a list, AST tree is in the works
 
 Usage:-t enters Tokenizer
       -p enters Parser
-      -q qutes the program
+      -q quites the program
 
 Caveats:    used SLY (Sly Lex Yacc) for the Tokenizer and Parser
             Parser is still being worked on to Solve INT problems
+	    Paser runs int a SYNTAX ERROR 'KEYWORD" with int keyword statments
 
 Language used : Expr -> Expr + Term  | Expr - Term  | Term
 
                 Term -> Term * Factor  | Term / Factor  | Factor
 
                 Factor -> ( Expr )  | num  | ID
+
+		Assignment -> some keyword ASSIGN expression

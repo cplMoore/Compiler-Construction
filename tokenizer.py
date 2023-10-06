@@ -7,16 +7,26 @@ from os import times
 from sly import Lexer
 from pprint import pprint
 
+<<<<<<< HEAD
 file_path = "test.c" #read in a file TODO: make dynamic 
+=======
+file_path = "test.c" #read in a file 
+>>>>>>> 01ba55ae30b7f3d5b945ad9d662f30856f0121a1
 with open(file_path, "r") as file:
         file_contents = file.read()
 
 class Tokenizer(Lexer):
 
 
+<<<<<<< HEAD
     tokens = { ID, NUM, EQREL, NOTEQ, GRT, LES, GRTEQ, LESEQ, ERROR, END, NEWLINE, ASSIGN,
                PLUS, MINUS, DIVIDE, TIMES, LPAREN, RPAREN, LCB, RCB, KEYWORD,
                LOGICAND, LOGICOR, NEGATE, INCRMNT, DECREMNT, COMMENT, INT, SEMICOLON, STR
+=======
+    tokens = { ID, NUM, EQREL, NOTEQ, GRT, LES, GRTEQ, LESEQ, ERROR, 
+               END, NEWLINE, ASSIGN, PLUS, MINUS, DIVIDE, TIMES, LPAREN, RPAREN, LCB, RCB, KEYWORD,
+               LOGICAND, LOGICOR, NEGATE, INCRMNT, DECREMNT, COMMENT, EOF, STR
+>>>>>>> 01ba55ae30b7f3d5b945ad9d662f30856f0121a1
     } 
         
     # Keywords taken from C docs up to ISO C99
@@ -35,6 +45,10 @@ class Tokenizer(Lexer):
     # Doubles must come first (ex: '==' must be identified before '=')
     ID          = r'[A-Za-z_][A-Za-z0-9_]*'
     STR         = r'"\t"'
+<<<<<<< HEAD
+=======
+    COMMENT     = r'\/\/'
+>>>>>>> 01ba55ae30b7f3d5b945ad9d662f30856f0121a1
     LOGICAND    = r'\&\&'
     LOGICOR     = r'\|\|'
     INCRMNT     = r'\+\+'   
@@ -43,7 +57,10 @@ class Tokenizer(Lexer):
     NOTEQ       = r'!\='
     GRTEQ       = r'>\='
     LESEQ       = r'<\='
+<<<<<<< HEAD
     COMMENT     = r'\/\/'
+=======
+>>>>>>> 01ba55ae30b7f3d5b945ad9d662f30856f0121a1
     NUM         = r'\d+'
     PLUS        = r'\+'
     MINUS       = r'\-'
@@ -55,7 +72,11 @@ class Tokenizer(Lexer):
     ASSIGN      = r'='
     LCB         = r'\{'
     RCB         = r'\}'
+<<<<<<< HEAD
     SEMICOLON   = r';'
+=======
+    EOF         = r';'
+>>>>>>> 01ba55ae30b7f3d5b945ad9d662f30856f0121a1
     
 
     # Match action looking for keywords in Identifiers.
@@ -83,4 +104,3 @@ if __name__ == '__main__':
 
     for token in tokens:
         print(token)
-

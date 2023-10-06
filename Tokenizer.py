@@ -1,20 +1,22 @@
 # COMP 5210 Tokenizer for Compiler.py
 # https://sly.readthedocs.io/en/latest/sly.html#introduction
-# Author: Jacob Moore jwm0083.
-#         Ben Hulsey, bph0022
+# Author: Jacob Moore
+# Author: Ben Hulsey
 
 from os import times
 from sly import Lexer
+from pprint import pprint
 
-file_path = "test.py" #read in a file 
+file_path = "test.c" #read in a file 
 with open(file_path, "r") as file:
         file_contents = file.read()
 
 class Tokenizer(Lexer):
 
+
     tokens = { ID, NUM, EQREL, NOTEQ, GRT, LES, GRTEQ, LESEQ, ERROR, 
                END, NEWLINE, ASSIGN, PLUS, MINUS, DIVIDE, TIMES, LPAREN, RPAREN, LCB, RCB, KEYWORD,
-               LOGICAND, LOGICOR, NEGATE, INCRMNT, DECREMNT, COMMENT, INT
+               LOGICAND, LOGICOR, NEGATE, INCRMNT, DECREMNT, COMMENT, INT, EOF, STR
     } 
         
     # Keywords taken from C docs up to ISO C99
@@ -28,26 +30,30 @@ class Tokenizer(Lexer):
     ignore = ' \t'
     
     # Regular expression rules for tokens.
-    ID          = r'[A-Za-z_][A-Za-z0-9_]*'# changed + to * finally worked. Look into re library.
+    # Doubles must come first (ex: '==' must be identified before '=')
+    ID          = r'[A-Za-z_][A-Za-z0-9_]*'
+    STR         = r'"\t"'
+    LOGICAND    = r'\&\&'
+    LOGICOR     = r'\|\|'
+    INCRMNT     = r'\+\+'   
+    DECREMNT    = r'--'
+    EQREL       = r'\=\='
+    NOTEQ       = r'!\='
+    GRTEQ       = r'>\='
+    LESEQ       = r'<\='
     NUM         = r'\d+'
     PLUS        = r'\+'
     MINUS       = r'\-'
     TIMES       = r'\*'
     DIVIDE      = r'\/'
-    EQREL       = r'\=\='
-    NOTEQ       = r'!\='
-    GRTEQ       = r'>\='
-    LESEQ       = r'<\='
-    LOGICAND    = r'\&\&'
-    LOGICOR     = r'\|\|'
-    INCRMNT     = r'\+\+'
-    DECREMNT    = r'--'
     NEGATE      = r'\!'
     LPAREN      = r'\('
     RPAREN      = r'\)'
     ASSIGN      = r'='
     LCB         = r'\{'
     RCB         = r'\}'
+    EOF         = r';'
+    
 
     # Match action looking for keywords in Identifiers.
     @_(r'[A-Za-z_][A-Za-z0-9_]*')
@@ -71,6 +77,6 @@ if __name__ == '__main__':
     lexer = Tokenizer()
     tokens = list(lexer.tokenize(data))  # Convert tokens to a list
     
+
     for token in tokens:
         print(token)
-

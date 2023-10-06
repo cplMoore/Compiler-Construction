@@ -17,6 +17,7 @@ Usage:-t enters Tokenizer
 
 Caveats:    used SLY (Sly Lex Yacc) for the Tokenizer and Parser
             Parser is still being worked on to Solve INT problems
+	    Paser runs int a SYNTAX ERROR 'KEYWORD" with int keyword statments
 
 Language used : Expr -> Expr + Term  | Expr - Term  | Term
 
@@ -24,4 +25,4 @@ Language used : Expr -> Expr + Term  | Expr - Term  | Term
 
                 Factor -> ( Expr )  | num  | ID
 
-		     Assignment -> some keyword ASSIGN expression
+		Assignment -> some keyword ASSIGN expression

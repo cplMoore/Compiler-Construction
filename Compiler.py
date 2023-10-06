@@ -1,3 +1,7 @@
+# Compiler main for COMP 5210 compiler project.
+# Author: Ben Hulsey
+# Author: Jacob Moore
+
 import tokenizer
 import parser
 

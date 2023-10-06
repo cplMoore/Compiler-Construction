@@ -1,23 +1,25 @@
-# Compiler main for COMP 5210 compiler project.
-# Author: Ben Hulsey
-# Author: Jacob Moore
+#Compiler with different flag options for output
+#Author Ben Hulsey
+#Author Jacob Moore
 
 import tokenizer
 import parser
+from pprint import pprint
 
-file_path = "test.py" #read in a file 
+file_path = "test.c" #read in a file 
 with open(file_path, "r") as file:
         file_contents = file.read()
 
 def main():
     print("Compiler Construction")
     while True:
-        print("Options:")       # ask you if you want to use the tokenizer and the or parser
+        print("Options:")       # ask you if you want to use the tokenizer or parser
         print("-t Tokenizer") 
         print("-p Parser")
-        print("-q Exit")
+        print("-q Quit")
 
         choice = input("Select an option: ")
+
 
         if choice == "-t":
             data = file_contents
@@ -25,7 +27,7 @@ def main():
             tokens = []
             for tok in lexer.tokenize(data):    #outputs the tokenizer
                 tokens.append((tok.type, tok.value))
-            print(tokens)
+            pprint(tokens)
 
         elif choice == "-p":
             data = file_contents

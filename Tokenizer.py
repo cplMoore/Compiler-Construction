@@ -1,6 +1,7 @@
 # COMP 5210 Tokenizer for Compiler.py
 # https://sly.readthedocs.io/en/latest/sly.html#introduction
 # Author: Jacob Moore jwm0083.
+#         Ben Hulsey, bph0022
 
 from os import times
 from sly import Lexer

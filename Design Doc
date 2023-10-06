@@ -1,15 +1,25 @@
-Symbols:
+Symbols:  keyword = {'auto', 'break', 'case', 'char' 'const', 'continue', 'default', 'do', 'double', 'else',
+                     'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 'long', 'register', 'return',
+                     'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'typedef', 'union',
+                     'unsigned', 'void', 'volatile', 'while', 'inline', '_Bool', '_Complex' '_Imaginary'
 
-Grammar:    Expr -> Expr + Term  | Expr - Term  | Term
+Grammar:    Can do math problems
+            Tokenizer can do Int main problems
+            Parser is throwing an Error at "Keywords" for Int problems
+            
+            
 
-            Term -> Term * Factor  | Term / Factor  | Factor
-
-            Factor -> ( Expr )  | num  | ID
-
-Tree:
+Tree: Parser is a list, AST tree is in the works
 
 Usage:-t enters Tokenizer
       -p enters Parser
       -q qutes the program
 
-Caveats: used SLY (Sly Lex Yacc) for the Tokenizer and Parser
+Caveats:    used SLY (Sly Lex Yacc) for the Tokenizer and Parser
+            Parser is still being worked on to Solve INT problems
+
+Language used : Expr -> Expr + Term  | Expr - Term  | Term
+
+                Term -> Term * Factor  | Term / Factor  | Factor
+
+                Factor -> ( Expr )  | num  | ID

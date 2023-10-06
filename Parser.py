@@ -1,4 +1,4 @@
-# Parser for COMP 5210 Compiler.py project.
+# Parser for COMP 5210 compiler.py project.
 # Author: Ben Hulsey
 # Author: Jacob Moore
 
@@ -8,14 +8,14 @@
 # for symbol table
 
 from sly import Parser
-import tokenizer
+from tokenizer import Tokenizer
 
-file_path = "test.py" #read in a file 
+file_path = "tokenizer.py" #read in a file 
 with open(file_path, "r") as file:
         file_contents = file.read()
 
 class MyParser(Parser):
-    tokens = tokenizer.Tokenizer.tokens
+    tokens = Tokenizer.tokens
 
     def __init__(self):
         self.names = {}  # Symbol table to store variable names and their values
@@ -77,7 +77,7 @@ class MyParser(Parser):
 if __name__ == '__main__':
     data = file_contents
     file_contents 
-    lexer = tokenizer.Tokenizer()
+    lexer = Tokenizer()
     parser = MyParser()
 
     try:

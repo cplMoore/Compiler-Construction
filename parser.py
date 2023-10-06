@@ -10,7 +10,7 @@
 from sly import Parser
 from tokenizer import Tokenizer
 
-file_path = "tokenizer.py" #read in a file 
+file_path = "test.c" #read in a file 
 with open(file_path, "r") as file:
         file_contents = file.read()
 

@@ -16,7 +16,7 @@ class Tokenizer(Lexer):
 
     tokens = { ID, NUM, EQREL, NOTEQ, GRT, LES, GRTEQ, LESEQ, ERROR, 
                END, NEWLINE, ASSIGN, PLUS, MINUS, DIVIDE, TIMES, LPAREN, RPAREN, LCB, RCB, KEYWORD,
-               LOGICAND, LOGICOR, NEGATE, INCRMNT, DECREMNT, COMMENT, INT, EOF, STR
+               LOGICAND, LOGICOR, NEGATE, INCRMNT, DECREMNT, COMMENT, EOF, STR
     } 
         
     # Keywords taken from C docs up to ISO C99
@@ -33,6 +33,7 @@ class Tokenizer(Lexer):
     # Doubles must come first (ex: '==' must be identified before '=')
     ID          = r'[A-Za-z_][A-Za-z0-9_]*'
     STR         = r'"\t"'
+    COMMENT     = r'\/\/'
     LOGICAND    = r'\&\&'
     LOGICOR     = r'\|\|'
     INCRMNT     = r'\+\+'   

@@ -71,6 +71,18 @@ class MyParser(Parser):
         self.restart()
 
 if __name__ == '__main__':
+
+    # Checks if a c file is provided.
+    if len(sys.argv) != 2:
+        print("Usage: python3 parser.py <input_file>")
+        sys.exit(1)
+        
+    # Takes the c file passed with compiler.py    
+    input_file = sys.argv[1]
+    
+    # Open and read c file
+    with open(input_file, 'r') as file:
+        c_code = file.read(
     lexer = Tokenizer()
     parser = MyParser()
 

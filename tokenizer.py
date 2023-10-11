@@ -76,9 +76,10 @@ class Tokenizer(Lexer):
 if __name__ == '__main__':
     # Checks if a c file is provided.
     if len(sys.argv) != 2:
-        print("Usage: python tokenizer.py <input_file>")
+        print("Usage: python3 tokenizer.py <input_file>")
         sys.exit(1)
         
+    # Takes the c file passed with compiler.py    
     input_file = sys.argv[1]
     
     # Open and read c file

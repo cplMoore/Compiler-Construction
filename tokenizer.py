@@ -5,12 +5,8 @@
 
 from os import times
 from sly import Lexer
-from pprint import pprint
+import sys
 
-
-file_path = "test.c" #read in a file TODO: make dynamic 
-with open(file_path, "r") as file:
-        file_contents = file.read()
 
 class Tokenizer(Lexer):
 
@@ -19,7 +15,6 @@ class Tokenizer(Lexer):
     tokens = { ID, NUM, EQREL, NOTEQ, GRT, LES, GRTEQ, LESEQ, ERROR, END, NEWLINE, ASSIGN,
                PLUS, MINUS, DIVIDE, TIMES, LPAREN, RPAREN, LCB, RCB, KEYWORD,
                LOGICAND, LOGICOR, NEGATE, INCRMNT, DECREMNT, COMMENT, SEMICOLON, STR
-
     } 
         
     # Keywords taken from C docs up to ISO C99
@@ -38,7 +33,6 @@ class Tokenizer(Lexer):
     # Doubles must come first (ex: '==' must be identified before '=')
     ID          = r'[A-Za-z_][A-Za-z0-9_]*'
     STR         = r'"\t"'
-    COMMENT     = r'\/\/'
     LOGICAND    = r'\&\&'
     LOGICOR     = r'\|\|'
     INCRMNT     = r'\+\+'   
@@ -80,9 +74,20 @@ class Tokenizer(Lexer):
 
 
 if __name__ == '__main__':
-    data = file_contents
+    # Checks if a c file is provided.
+    if len(sys.argv) != 2:
+        print("Usage: python tokenizer.py <input_file>")
+        sys.exit(1)
+        
+    input_file = sys.argv[1]
+    
+    # Open and read c file
+    with open(input_file, 'r') as file:
+        c_code = file.read()
+        
+        
     lexer = Tokenizer()
-    tokens = list(lexer.tokenize(data))  # Convert tokens to a list
+    tokens = list(lexer.tokenize(c_code))  # Convert tokens to a list
     
 
     for token in tokens:

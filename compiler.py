@@ -5,65 +5,33 @@
 #new  compiler source code with args parse.
 
 import argparse
+import subprocess
 
 
-parser = argparse.ArgumentParser(description='Comand line interface for compiler.py')
-
-parser.add_argument('-t', '--tokenizer', nargs='?', type=argparse.FileType('tokenizer.py'), help='tokenizer program')
-parser.add_argument('-p', '--parser', nargs='?', type=argparse.FileType('parser.py'), help='parser program')
+if __name__ == "__main__":
 
 
-parser.print_usage()
+    parser = argparse.ArgumentParser(description='Comand line interface for compiler.py')
+    
+    # Positional Arguments.
+    # Must intake a .c file.
+    parser.add_argument('input_file', help='Input a .c file')
+
+    # Optional Arguments
+    # Flags for command line interface and what they will do.
+    parser.add_argument('-t', '--tokenizer', action='store_true', default='tokenizer.py', help='tokenizer program')
+    parser.add_argument('-p', '--parser', action='store_true', default='parser.py',help='parser program')
+    
 
 
 
-#old compiler source code.
-
-#import tokenizer
-#import parser
-#from pprint import pprint
-#
-#file_path = "test.c" #read in a file needs to be dynamic
-#with open(file_path, "r") as file:
-#        file_contents = file.read()
-#
-#def main():
-#    print("Compiler Construction")
-#    while True:
-#        print("Options:")       # ask you if you want to use the tokenizer or parser
-#        print("-t Tokenizer") 
-#        print("-p Parser")
-#        print("-q Quit")
-#
-#        choice = input("Select an option: ")
-#
-#
-#        if choice == "-t":
-#            data = file_contents
-#            lexer = tokenizer.Tokenizer()
-#            tokens = []
-#            for tok in lexer.tokenize(data):    #outputs the tokenizer
-#                tokens.append((tok.type, tok.value))
-#            pprint(tokens)
-#
-#        elif choice == "-p":
-#            data = file_contents
-#            file_contents 
-#            lexer = tokenizer.Tokenizer()
-#            parsers = parser.MyParser()
-#
-#            try:
-#                result = parsers.parse(lexer.tokenize(data))
-#                print(result)
-#            except SyntaxError as e:
-#                print(e)
-#
-#        elif choice == "-q":
-#            print("Thanks!")
-#            break
-#
-#        else:
-#            print("Error: Invalid option")
-#
-#if __name__ == "__main__":
-#    main()
+    args = parser.parse_args()
+    if args.tokenizer:
+        #Call tokenizer.py and outputs tokens.
+        subprocess.run(['python3', 'tokenizer.py', args.input_file], check=True)
+    
+    elif args.parser:
+        # Call parser.py
+        subprocess.run(['python3', 'parser.py', args.input_file], check=True)
+    
+  

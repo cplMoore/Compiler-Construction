@@ -13,27 +13,22 @@ class Tokenizer(Lexer):
 
 
     tokens = { ID, NUM, EQREL, NOTEQ, GRT, LES, GRTEQ, LESEQ, ERROR, END, NEWLINE, ASSIGN,
-               PLUS, MINUS, DIVIDE, TIMES, LPAREN, RPAREN, LCB, RCB, KEYWORD,
-               LOGICAND, LOGICOR, NEGATE, INCRMNT, DECREMNT, COMMENT, SEMICOLON, STR
+               PLUS, MINUS, DIVIDE, TIMES, LPAREN, RPAREN, LCB, RCB, KEYWORD, PRD, IF, INT,
+               LOGICAND, LOGICOR, NEGATE, INCRMNT, DECREMNT, COMMENT, SEMICOLON, LIB
     } 
         
-    # Keywords taken from C docs up to ISO C99
-    keyword = {'auto', 'break', 'case', 'char' 'const', 'continue', 'default', 'do', 'double', 'else',
-               'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 'long', 'register', 'return',
-               'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'typedef', 'union',
-               'unsigned', 'void', 'volatile', 'while', 'inline', '_Bool', '_Complex' '_Imaginary'
-    }
-    
+
     # String with ignored characters between tokens.
+    # Characters in ignore are not ignored when such characters are part of other RE patterns.
     # The main purpose of ignore is to look over whitespace and other padding between the tokens.
     ignore = ' \t'
     
     
     
+    
     # Regular expression rules for tokens.
-    # Doubles must come first (ex: '==' must be identified before '=')
-    ID          = r'[A-Za-z_][A-Za-z0-9_]*'
-    STR         = r'"\t"'
+    # Longer tokens must come first (ex: '==' must be identified before '=')
+    
     LOGICAND    = r'\&\&'
     LOGICOR     = r'\|\|'
     INCRMNT     = r'\+\+'   
@@ -55,15 +50,70 @@ class Tokenizer(Lexer):
     LCB         = r'\{'
     RCB         = r'\}'
     SEMICOLON   = r';'
+    LIB         = r'\#'
+    PRD         = r'\.'
     
+    # Identifies base rule 
+    ID          = r'[A-Za-z_][A-Za-z0-9_]*'
+    
+    # keywords
+    ID['auto']  = AUTO
+    ID['if']    = IF
+    ID['int']   = INT
+    ID['else']  = ELSE
+    ID['while'] = WHILE
+    
+    
+    
+    
+    
+    
+    
+    #    # Keywords taken from C docs up to ISO C99
+#    keyword = {, 'break', 'case', 'char' 'const', 'continue', 'default', 'do', 'double', 'else',
+#               'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 'long', 'register', 'return',
+#               'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'typedef', 'union',
+#               'unsigned', 'void', 'volatile', 'while', 'inline', '_Bool', '_Complex' '_Imaginary'
+#    }
 
-    # Match action looking for keywords in Identifiers.
-    @_(r'[A-Za-z_][A-Za-z0-9_]*')
-    def ID(self, t):
-        if t.value in self.keyword:
-            t.type = 'KEYWORD'
-        return t
+
     
+    # Literal characters
+    # Single character that is returned "as is" when encountered.
+    literals = {'{', '}', '(', ')', ';', '=', '+' }
+    
+    # A way to keep track of open () or {}
+    def __init__(self):
+        self.nesting_level = 0
+    
+    # Open bracket   
+    @_(r'\{')
+    def lbrace(self, t):
+        t.type = '{'
+        self.nesting_level += 1
+    
+    # Close bracket    
+    @_(r'\{')
+    def rbrace(self, t):
+        t.type = '}'
+        self.nesting_level -= 1
+        
+    # Checks to makes sure there isn't an open statement.
+    # If the level isn't 0 then an error is thrown.
+    def validate_nesting(self):
+        if self.nesting_level != 0:
+            raise SyntaxError(f"Unmatched {self.nesting_level} open statement somewhere.")
+            
+    def on_eof(self):
+        self.validate_nesting()
+    
+#    # Match action looking for keywords in Identifiers.
+#    @_(r'[A-Za-z_][A-Za-z0-9_]*')
+#    def ID(self, t):
+#        if t.value in self.keyword:
+#            t.type = 'KEYWORD'
+#        return t
+
     # Rule to keep track of line numbers.
     @_(r'\n+')
     def ignore_newline(self, t):

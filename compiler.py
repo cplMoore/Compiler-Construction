@@ -11,7 +11,7 @@ import subprocess
 if __name__ == "__main__":
 
 
-    parser = argparse.ArgumentParser(description='Comand line interface for compiler.py')
+    parser = argparse.ArgumentParser(description='Comand line interface for compiler.py. Intakes .c files.')
     
     # Positional Arguments.
     # Must intake a .c file.

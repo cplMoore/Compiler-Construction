@@ -7,14 +7,17 @@ from os import times
 from sly import Lexer
 import sys
 
-
 class Tokenizer(Lexer):
 
 
 
     tokens = { ID, NUM, EQREL, NOTEQ, GRT, LES, GRTEQ, LESEQ, ERROR, END, NEWLINE, ASSIGN,
                PLUS, MINUS, DIVIDE, TIMES, LPAREN, RPAREN, LCB, RCB, KEYWORD, PRD, IF, INT,
-               LOGICAND, LOGICOR, NEGATE, INCRMNT, DECREMNT, COMMENT, SEMICOLON, LIB
+               LOGICAND, LOGICOR, NEGATE, INCRMNT, DECREMNT, COMMENT, SEMICOLON, LIB, AUTO,
+               ELSE, WHILE, AUTO, BREAK, CASE, CHAR, CONST, CONTINUE, DEFAULT, DO, DOUBLE,
+               ENUM, EXTERN, FLOAT, FOR, GOTO, LONG,  REGISTER, RETURN, SHORT, SIGNED, SIZEOF,
+               STATIC, STRUCT, SWITCH, TYPEDEF, UNION, UNSIGNED, VOID, VOLATILE, INLINE, BOOL,
+               COMPLEX, IMAGINARY
     } 
         
 
@@ -37,7 +40,6 @@ class Tokenizer(Lexer):
     NOTEQ       = r'!\='
     GRTEQ       = r'>\='
     LESEQ       = r'<\='
-    COMMENT     = r'\/\/'
     NUM         = r'\d+'
     PLUS        = r'\+'
     MINUS       = r'\-'
@@ -54,30 +56,51 @@ class Tokenizer(Lexer):
     PRD         = r'\.'
     
     # Identifies base rule 
-    ID          = r'[A-Za-z_][A-Za-z0-9_]*'
+    ID = r'[A-Za-z_][A-Za-z0-9_]*'
     
     # keywords
-    ID['auto']  = AUTO
-    ID['if']    = IF
-    ID['int']   = INT
-    ID['else']  = ELSE
-    ID['while'] = WHILE
-    
-    
-    
-    
-    
-    
-    
-    #    # Keywords taken from C docs up to ISO C99
-#    keyword = {, 'break', 'case', 'char' 'const', 'continue', 'default', 'do', 'double', 'else',
-#               'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 'long', 'register', 'return',
-#               'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'typedef', 'union',
-#               'unsigned', 'void', 'volatile', 'while', 'inline', '_Bool', '_Complex' '_Imaginary'
-#    }
+    ID['auto']       = AUTO
+    ID['break']      = BREAK
+    ID['case']       = CASE
+    ID['char']       = CHAR
+    ID['const']      = CONST
+    ID['continue']   = CONTINUE
+    ID['default']    = DEFAULT
+    ID['do']         = DO
+    ID['double']     = DOUBLE
+    ID['else']       = ELSE
+    ID['enum']       = ENUM
+    ID['extern']     = EXTERN
+    ID['float']      = FLOAT
+    ID['for']        = FOR
+    ID['goto']       = GOTO
+    ID['if']         = IF
+    ID['int']        = INT
+    ID['long']       = LONG
+    ID['register']   = REGISTER
+    ID['return']     = RETURN
+    ID['short']      = SHORT
+    ID['signed']     = SIGNED
+    ID['sizeof']     = SIZEOF
+    ID['static']     = STATIC
+    ID['struct']     = STRUCT
+    ID['switch']     = SWITCH
+    ID['typedef']    = TYPEDEF
+    ID['union']      = UNION
+    ID['unsigned']   = UNSIGNED
+    ID['void']       = VOID
+    ID['volatile']   = VOLATILE
+    ID['while']      = WHILE
+    ID['inline']     = INLINE
+    ID['_Bool']      = BOOL
+    ID['_Complex']   = COMPLEX
+    ID['_Imaginary'] = IMAGINARY
 
+    # A way to ignore comments
+    @_(r'\/\/[^\n]*')
+    def ignore_comment(self, t):
+        pass
 
-    
     # Literal characters
     # Single character that is returned "as is" when encountered.
     literals = {'{', '}', '(', ')', ';', '=', '+' }
@@ -88,15 +111,27 @@ class Tokenizer(Lexer):
     
     # Open bracket   
     @_(r'\{')
-    def lbrace(self, t):
+    def LCB(self, t):
         t.type = '{'
         self.nesting_level += 1
     
     # Close bracket    
-    @_(r'\{')
-    def rbrace(self, t):
+    @_(r'\}')
+    def RCB(self, t):
         t.type = '}'
         self.nesting_level -= 1
+        
+#    # Open parentheses   
+#    @_(r'\(')
+#    def lbrace(self, t):
+#        t.type = '('
+#        self.nesting_level += 1
+#    
+#    # Close parentheses    
+#    @_(r'\)')
+#    def rbrace(self, t):
+#        t.type = ')'
+#        self.nesting_level -= 1
         
     # Checks to makes sure there isn't an open statement.
     # If the level isn't 0 then an error is thrown.
@@ -107,12 +142,6 @@ class Tokenizer(Lexer):
     def on_eof(self):
         self.validate_nesting()
     
-#    # Match action looking for keywords in Identifiers.
-#    @_(r'[A-Za-z_][A-Za-z0-9_]*')
-#    def ID(self, t):
-#        if t.value in self.keyword:
-#            t.type = 'KEYWORD'
-#        return t
 
     # Rule to keep track of line numbers.
     @_(r'\n+')
@@ -144,3 +173,5 @@ if __name__ == '__main__':
 
     for token in tokens:
         print(token)
+        
+    

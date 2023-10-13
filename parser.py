@@ -17,28 +17,22 @@ class MyParser(Parser):
         self.names = {}  # Symbol table to store variable names and their values
 
     @_('Expr')
-    def statement(self, p):
+    def Expr(self, p):
         return p.Expr
 
-    @_('Expr PLUS Term')
+    @_('Expr PLUS Term',
+       'Expr MINUS Term')
     def Expr(self, p):
-        return ('+', p.Expr, p.Term)
-
-    @_('Expr MINUS Term')
-    def Expr(self, p):
-        return ('-', p.Expr, p.Term)
+        return (p[1], p.Expr, p.Term)
 
     @_('Term')
     def Expr(self, p):
         return p.Term
 
-    @_('Term TIMES Factor')
+    @_('Term TIMES Factor',
+       'Term DIVIDE Factor')
     def Term(self, p):
-        return ('*', p.Term, p.Factor)
-
-    @_('Term DIVIDE Factor')
-    def Term(self, p):
-        return ('/', p.Term, p.Factor)
+        return (p[1], p.Term, p.Factor)
 
     @_('Factor')
     def Term(self, p):
@@ -82,8 +76,8 @@ if __name__ == '__main__':
     
     # Open and read c file
     with open(input_file, 'r') as file:
-        c_code = file.read(
-    lexer = Tokenizer()
+        c_code = file.read()
+    lexer = tokenizer.Tokenizer()
     parser = MyParser()
 
     try:

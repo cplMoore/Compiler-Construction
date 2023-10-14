@@ -41,19 +41,19 @@ class Tokenizer(Lexer):
     GRTEQ       = r'>\='
     LESEQ       = r'<\='
     NUM         = r'\d+'
-    PLUS        = r'\+'
-    MINUS       = r'\-'
-    TIMES       = r'\*'
-    DIVIDE      = r'\/'
-    NEGATE      = r'\!'
-    LPAREN      = r'\('
-    RPAREN      = r'\)'
-    ASSIGN      = r'='
-    LCB         = r'\{'
-    RCB         = r'\}'
-    SEMICOLON   = r';'
-    LIB         = r'\#'
-    PRD         = r'\.'
+#    PLUS        = r'\+'
+#    MINUS       = r'\-'
+#    TIMES       = r'\*'
+#    DIVIDE      = r'\/'
+#    NEGATE      = r'\!'
+#    LPAREN      = r'\('
+#    RPAREN      = r'\)'
+#    ASSIGN      = r'='
+#    LCB         = r'\{'
+#    RCB         = r'\}'
+#    SEMICOLON   = r';'
+#    LIB         = r'\#'
+#    PRD         = r'\.'
     
     # Identifies base rule 
     ID = r'[A-Za-z_][A-Za-z0-9_]*'
@@ -103,7 +103,8 @@ class Tokenizer(Lexer):
 
     # Literal characters
     # Single character that is returned "as is" when encountered.
-    literals = {'{', '}', '(', ')', ';', '=', '+' }
+    literals = {'{', '}', '(', ')', ';', '=', '+', '-', '*', '/',
+                '#', '.' }
     
     # A way to keep track of open () or {}
     def __init__(self):
@@ -111,27 +112,31 @@ class Tokenizer(Lexer):
     
     # Open bracket   
     @_(r'\{')
-    def LCB(self, t):
+    def lbrace(self, t):
         t.type = '{'
         self.nesting_level += 1
+        return t
     
     # Close bracket    
     @_(r'\}')
-    def RCB(self, t):
+    def rbrace(self, t):
         t.type = '}'
         self.nesting_level -= 1
+        return t
         
-#    # Open parentheses   
-#    @_(r'\(')
-#    def lbrace(self, t):
-#        t.type = '('
-#        self.nesting_level += 1
-#    
-#    # Close parentheses    
-#    @_(r'\)')
-#    def rbrace(self, t):
-#        t.type = ')'
-#        self.nesting_level -= 1
+    # Open parentheses   
+    @_(r'\(')
+    def lparen(self, t):
+        t.type = '('
+        self.nesting_level += 1
+        return t
+    
+    # Close parentheses    
+    @_(r'\)')
+    def rparen(self, t):
+        t.type = ')'
+        self.nesting_level -= 1
+        return t
         
     # Checks to makes sure there isn't an open statement.
     # If the level isn't 0 then an error is thrown.

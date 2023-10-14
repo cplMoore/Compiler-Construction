@@ -17,8 +17,7 @@ class Tokenizer(Lexer):
                ELSE, WHILE, AUTO, BREAK, CASE, CHAR, CONST, CONTINUE, DEFAULT, DO, DOUBLE,
                ENUM, EXTERN, FLOAT, FOR, GOTO, LONG,  REGISTER, RETURN, SHORT, SIGNED, SIZEOF,
                STATIC, STRUCT, SWITCH, TYPEDEF, UNION, UNSIGNED, VOID, VOLATILE, INLINE, BOOL,
-               COMPLEX, IMAGINARY
-    } 
+               COMPLEX, IMAGINARY} 
         
 
     # String with ignored characters between tokens.
@@ -105,8 +104,8 @@ class Tokenizer(Lexer):
     # Single character that is returned "as is" when encountered.
     literals = {'{', '}', '(', ')', ';', '=', '+', '-', '*', '/',
                 '#', '.' }
-    
-    # A way to keep track of open () or {}
+                
+    # ChatGPT gave me the idea to inc and dec to keep track of ()/{}
     def __init__(self):
         self.nesting_level = 0
     
@@ -140,6 +139,7 @@ class Tokenizer(Lexer):
         
     # Checks to makes sure there isn't an open statement.
     # If the level isn't 0 then an error is thrown.
+    # Not working need to look into.
     def validate_nesting(self):
         if self.nesting_level != 0:
             raise SyntaxError(f"Unmatched {self.nesting_level} open statement somewhere.")

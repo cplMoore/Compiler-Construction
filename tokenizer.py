@@ -40,19 +40,6 @@ class Tokenizer(Lexer):
     GRTEQ       = r'>\='
     LESEQ       = r'<\='
     NUM         = r'\d+'
-#    PLUS        = r'\+'
-#    MINUS       = r'\-'
-#    TIMES       = r'\*'
-#    DIVIDE      = r'\/'
-#    NEGATE      = r'\!'
-#    LPAREN      = r'\('
-#    RPAREN      = r'\)'
-#    ASSIGN      = r'='
-#    LCB         = r'\{'
-#    RCB         = r'\}'
-#    SEMICOLON   = r';'
-#    LIB         = r'\#'
-#    PRD         = r'\.'
     
     # Identifies base rule 
     ID = r'[A-Za-z_][A-Za-z0-9_]*'
@@ -104,38 +91,38 @@ class Tokenizer(Lexer):
     # Single character that is returned "as is" when encountered.
     literals = {'{', '}', '(', ')', ';', '=', '+', '-', '*', '/',
                 '#', '.' }
-                
-    # ChatGPT gave me the idea to inc and dec to keep track of ()/{}
-    def __init__(self):
-        self.nesting_level = 0
-    
-    # Open bracket   
-    @_(r'\{')
-    def lbrace(self, t):
-        t.type = '{'
-        self.nesting_level += 1
-        return t
-    
-    # Close bracket    
-    @_(r'\}')
-    def rbrace(self, t):
-        t.type = '}'
-        self.nesting_level -= 1
-        return t
-        
-    # Open parentheses   
-    @_(r'\(')
-    def lparen(self, t):
-        t.type = '('
-        self.nesting_level += 1
-        return t
-    
-    # Close parentheses    
-    @_(r'\)')
-    def rparen(self, t):
-        t.type = ')'
-        self.nesting_level -= 1
-        return t
+#                
+#    # ChatGPT gave me the idea to inc and dec to keep track of ()/{}
+#    def __init__(self):
+#        self.nesting_level = 0
+#    
+#    # Open bracket   
+#    @_(r'\{')
+#    def lbrace(self, t):
+#        t.type = '{'
+#        self.nesting_level += 1
+#        return t
+#    
+#    # Close bracket    
+#    @_(r'\}')
+#    def rbrace(self, t):
+#        t.type = '}'
+#        self.nesting_level -= 1
+#        return t
+#        
+#    # Open parentheses   
+#    @_(r'\(')
+#    def lparen(self, t):
+#        t.type = '('
+#        self.nesting_level += 1
+#        return t
+#    
+#    # Close parentheses    
+#    @_(r'\)')
+#    def rparen(self, t):
+#        t.type = ')'
+#        self.nesting_level -= 1
+#        return t
         
     # Checks to makes sure there isn't an open statement.
     # If the level isn't 0 then an error is thrown.
@@ -143,9 +130,6 @@ class Tokenizer(Lexer):
     def validate_nesting(self):
         if self.nesting_level != 0:
             raise SyntaxError(f"Unmatched {self.nesting_level} open statement somewhere.")
-            
-    def on_eof(self):
-        self.validate_nesting()
     
 
     # Rule to keep track of line numbers.

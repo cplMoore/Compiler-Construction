@@ -9,47 +9,93 @@
 
 from sly import Parser
 from tokenizer import Tokenizer
+import sys
+from pprint import pprint
+import ast
+
 
 class MyParser(Parser):
+
+    # Debugging help from SLY
+    debugfile = 'parser.out'
+
+    # Brings in the token list.
     tokens = Tokenizer.tokens
+    
+    # Sets the Precedence for mathematical operations.
+    # PLUS/MINUS have  the same precedence and are  left-associative.
+    # TIMES/DIVIDE have higher precedence since they apprear later in the list.
+    precedence = (
+        ('left', "+", "-"),
+        ('left', "*", "/"),
+        ('right', UMINUS)
+    )
+    
+    # Starts the parsing at Expr not Empty.
+    start = 'Expr'
 
-    def __init__(self):
-        self.names = {}  # Symbol table to store variable names and their values
+#    def __init__(self):
+#        self.names = {}  # Symbol table to store variable names and their values
+#
+#    @_('Expr')
+#    def Expr(self, p):
+#        pass
 
-    @_('Expr')
+    # This will act as an epsilon for escaping.
+    @_('')
+    def Empty(self, p):
+        pass
+        
+        
+    # Parsing starts here        
+    @_('Expr "+" Term',
+       'Expr "-" Term'
+       'Expr "*" Term'
+       'Expr "/" Term')
     def Expr(self, p):
-        return p.Expr
+        line = p.lineno
+        index = p.index
+        return (p[1], p.Expr, p.Term, line, index)
 
-    @_('Expr PLUS Term',
-       'Expr MINUS Term')
+
+    # This is a way to handle negative numbers.
+    @_('"-" Expr %prec UMINUS')
+    def Expr(p):
+        return  -p.Expr
+    
+    # Expr escape.
+    @_('Empty')
     def Expr(self, p):
-        return (p[1], p.Expr, p.Term)
+        pass
 
-    @_('Term')
-    def Expr(self, p):
-        return p.Term
-
-    @_('Term TIMES Factor',
-       'Term DIVIDE Factor')
+    
+    @_('Term "*" Factor',
+       'Term "/" Factor'
+       'Term "+" Factor'
+       'Term "-" Factor')
     def Term(self, p):
-        return (p[1], p.Term, p.Factor)
+        line = p.lineno
+        index = p.index
+        return (p[1], p.Term, p.Factor, line, index)
 
-    @_('Factor')
+    # Term escape
+    @_('Empty')
     def Term(self, p):
-        return p.Factor
+        pass
 
-    @_('LPAREN Expr RPAREN')
+    @_("(" 'Expr' ")")
     def Factor(self, p):
-        return p.Expr
+        return ('group-expression', p.Expr)
 
     @_('NUM')
     def Factor(self, p):
         return int(p.NUM)
+        
 
-    @_('ID')
-    def Factor(self, p):
-        return p.ID
 
+#    @_('ID')
+#    def Factor(self, p):
+#        pass
 
     def error(self, p):
         print("Syntax Error at token", p.type)
@@ -57,12 +103,14 @@ class MyParser(Parser):
             print("End of File!")
             return
 
-        # Read ahead looking for a closing '}'
-        while True:
-            tok = next(self.tokens, None)
-            if not tok or tok.type == 'RBRACE':
-                break
-        self.restart()
+
+
+#        # Read ahead looking for a closing '}'
+#        while True:
+#            tokens = next(self.tokens, None)
+#            if not tokens or tokens.type == '}':
+#                break
+#        self.restart()
 
 if __name__ == '__main__':
 
@@ -77,11 +125,16 @@ if __name__ == '__main__':
     # Open and read c file
     with open(input_file, 'r') as file:
         c_code = file.read()
-    lexer = tokenizer.Tokenizer()
+    lexer = Tokenizer()
     parser = MyParser()
-
-    try:
-        result = parser.parse(lexer.tokenize())
-        print(result)
-    except SyntaxError as e:
+    
+    while True:
+        try:
+            result = parser.parse(lexer.tokenize(c_code))
+        
+            print(ast.dump(ast.parse(result), indent=4))
+        
+        
+        
+        except SyntaxError as e:
         print(e)

@@ -10,9 +10,22 @@
 from sly import Parser
 from tokenizer import Tokenizer
 import sys
-from pprint import pprint
 import ast
 
+
+class Expr:
+    pass
+    
+class binOp(Expr):
+    def __init__(self, op, left, right):
+        self.op = op
+        self.left = left
+        self.right = right
+        
+        
+class num(Expr):
+    def __init__(self, value):
+        self.value = value
 
 class MyParser(Parser):
 
@@ -23,16 +36,15 @@ class MyParser(Parser):
     tokens = Tokenizer.tokens
     
     # Sets the Precedence for mathematical operations.
-    # PLUS/MINUS have  the same precedence and are  left-associative.
+    # PLUS/MINUS have the same precedence and are  left-associative.
     # TIMES/DIVIDE have higher precedence since they apprear later in the list.
     precedence = (
         ('left', "+", "-"),
         ('left', "*", "/"),
-        ('right', UMINUS)
     )
     
     # Starts the parsing at Expr not Empty.
-    start = 'Expr'
+    start = 'expr'
 
 #    def __init__(self):
 #        self.names = {}  # Symbol table to store variable names and their values
@@ -43,75 +55,75 @@ class MyParser(Parser):
 
     # This will act as an epsilon for escaping.
     @_('')
-    def Empty(self, p):
+    def empty(self, p):
         pass
         
         
     # Parsing starts here        
-    @_('Expr "+" Term',
-       'Expr "-" Term'
-       'Expr "*" Term'
-       'Expr "/" Term')
-    def Expr(self, p):
+    @_('value "+" expr',
+       'value "-" expr',
+       'value "*" expr',
+       'value "/" expr')
+    def expr(self, p):
         line = p.lineno
         index = p.index
-        return (p[1], p.Expr, p.Term, line, index)
+        return binOp(p[1], p.value, p.expr, line, index)
 
 
-    # This is a way to handle negative numbers.
-    @_('"-" Expr %prec UMINUS')
-    def Expr(p):
-        return  -p.Expr
+#    # This is a way to handle negative numbers.
+#    @_('"-" Expr %prec UMINUS')
+#    def expr(p):
+#        return  -p.expr
     
     # Expr escape.
-    @_('Empty')
-    def Expr(self, p):
+    @_('empty')
+    def expr(self, p):
         pass
 
     
-    @_('Term "*" Factor',
-       'Term "/" Factor'
-       'Term "+" Factor'
-       'Term "-" Factor')
-    def Term(self, p):
+    @_('factor "*" value',
+       'factor "/" value',
+       'factor "+" value',
+       'factor "-" value')
+    def value(self, p):
         line = p.lineno
         index = p.index
-        return (p[1], p.Term, p.Factor, line, index)
-
-    # Term escape
-    @_('Empty')
-    def Term(self, p):
-        pass
-
-    @_("(" 'Expr' ")")
-    def Factor(self, p):
-        return ('group-expression', p.Expr)
+        return binOp(p[1], p.factor, p.value, line, index)
 
     @_('NUM')
-    def Factor(self, p):
+    def value(self, p):
         return int(p.NUM)
         
+        
+    # value escape
+    @_('empty')
+    def value(self, p):
+        pass
+#
+#    @_("(" 'expr' ")")
+#    def factor(self, p):
+#        return p.factor
+     
 
+    @_('ID')
+    def factor(self, p):
+        pass
 
-#    @_('ID')
-#    def Factor(self, p):
-#        pass
-
-    def error(self, p):
-        print("Syntax Error at token", p.type)
-        if not p:
-            print("End of File!")
-            return
-
-
-
+#    def error(self, p):
+#        print("Syntax Error at token", p.type)
+#        if not p:
+#            print("End of File!")
+#            return
+#
+#
+#
 #        # Read ahead looking for a closing '}'
 #        while True:
 #            tokens = next(self.tokens, None)
 #            if not tokens or tokens.type == '}':
 #                break
 #        self.restart()
-
+#
 if __name__ == '__main__':
 
     # Checks if a c file is provided.
@@ -128,13 +140,13 @@ if __name__ == '__main__':
     lexer = Tokenizer()
     parser = MyParser()
     
-    while True:
-        try:
-            result = parser.parse(lexer.tokenize(c_code))
+#    while True:
+    result = parser.parse(lexer.tokenize(c_code))
+         
+       
+    print(result)
         
-            print(ast.dump(ast.parse(result), indent=4))
         
         
-        
-        except SyntaxError as e:
-        print(e)
+#        except SyntaxError as e:
+#            print(e)

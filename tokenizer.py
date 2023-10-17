@@ -91,46 +91,6 @@ class Tokenizer(Lexer):
     # Single character that is returned "as is" when encountered.
     literals = {'{', '}', '(', ')', ';', '=', '+', '-', '*', '/',
                 '#', '.' }
-#                
-#    # ChatGPT gave me the idea to inc and dec to keep track of ()/{}
-#    def __init__(self):
-#        self.nesting_level = 0
-#    
-#    # Open bracket   
-#    @_(r'\{')
-#    def lbrace(self, t):
-#        t.type = '{'
-#        self.nesting_level += 1
-#        return t
-#    
-#    # Close bracket    
-#    @_(r'\}')
-#    def rbrace(self, t):
-#        t.type = '}'
-#        self.nesting_level -= 1
-#        return t
-#        
-#    # Open parentheses   
-#    @_(r'\(')
-#    def lparen(self, t):
-#        t.type = '('
-#        self.nesting_level += 1
-#        return t
-#    
-#    # Close parentheses    
-#    @_(r'\)')
-#    def rparen(self, t):
-#        t.type = ')'
-#        self.nesting_level -= 1
-#        return t
-        
-    # Checks to makes sure there isn't an open statement.
-    # If the level isn't 0 then an error is thrown.
-    # Not working need to look into.
-    def validate_nesting(self):
-        if self.nesting_level != 0:
-            raise SyntaxError(f"Unmatched {self.nesting_level} open statement somewhere.")
-    
 
     # Rule to keep track of line numbers.
     @_(r'\n+')

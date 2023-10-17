@@ -1,5 +1,3 @@
-Expr -> Expr + Term  | Expr - Term  | Term
+Expr -> Value * Expr | Value / Expr | Value + Expr | Value - Expr | Value
 
-Term -> Term * Factor  | Term / Factor  | Factor
-
-Factor -> ( Expr )  | num  | ID
+Value -> NUM | '(' Expr ')' | 

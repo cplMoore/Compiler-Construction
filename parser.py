@@ -107,7 +107,7 @@ class MyParser(Parser):
 
     @_('ID')
     def factor(self, p):
-        pass
+        return p.factor
 
 #    def error(self, p):
 #        print("Syntax Error at token", p.type)
@@ -137,16 +137,13 @@ if __name__ == '__main__':
     # Open and read c file
     with open(input_file, 'r') as file:
         c_code = file.read()
+        
     lexer = Tokenizer()
     parser = MyParser()
     
-#    while True:
     result = parser.parse(lexer.tokenize(c_code))
          
        
     print(result)
         
-        
-        
-#        except SyntaxError as e:
-#            print(e)
+

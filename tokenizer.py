@@ -11,13 +11,12 @@ class Tokenizer(Lexer):
 
 
 
-    tokens = { ID, NUM, EQREL, NOTEQ, GRT, LES, GRTEQ, LESEQ, ERROR, END, NEWLINE, ASSIGN,
-               PLUS, MINUS, DIVIDE, TIMES, LPAREN, RPAREN, LCB, RCB, KEYWORD, PRD, IF, INT,
-               LOGICAND, LOGICOR, NEGATE, INCRMNT, DECREMNT, COMMENT, SEMICOLON, LIB, AUTO,
-               ELSE, WHILE, AUTO, BREAK, CASE, CHAR, CONST, CONTINUE, DEFAULT, DO, DOUBLE,
-               ENUM, EXTERN, FLOAT, FOR, GOTO, LONG,  REGISTER, RETURN, SHORT, SIGNED, SIZEOF,
-               STATIC, STRUCT, SWITCH, TYPEDEF, UNION, UNSIGNED, VOID, VOLATILE, INLINE, BOOL,
-               COMPLEX, IMAGINARY} 
+    tokens = { LOGICAND, LOGICOR, INCRMNT, DECREMNT, EQREL, ASSIGN, NOTEQ, NEGATE, GRTEQ, LESEQ, 
+               GTR, LTR, SIMICOLON, LCB, RCB, LPAREN, RPAREN, NUM, ID, AUTO, BREAK, CASE, CHAR, CONST,
+               CONTINUE, DEFAULT, DO, DOUBLE, ELSE, ENUM, EXTERN, FLOAT, FOR, GOTO, IF, INT, LONG, 
+               REGISTER, RETURN, SHORT, SIGNED, SIZEOF, STATIC, STRUCT, SWITCH, TYPEDEF, UNION,
+               UNSIGNED, VOID, VOLATILE, WHILE, INLINE, BOOL, COMPLEX, IMAGINARY
+             } 
         
 
     # String with ignored characters between tokens.
@@ -36,15 +35,24 @@ class Tokenizer(Lexer):
     INCRMNT     = r'\+\+'   
     DECREMNT    = r'--'
     EQREL       = r'\=\='
+    ASSIGN      = r'\='
     NOTEQ       = r'!\='
+    NEGATE      = r'!'
     GRTEQ       = r'>\='
     LESEQ       = r'<\='
+    GTR         = r'\>'
+    LTR         = r'\<'
+    SIMICOLON   = r'\;'
+    LCB         = r'\{'
+    RCB         = r'\}'
+    LPAREN      = r'\('
+    RPAREN      = r'\)'
     NUM         = r'\d+'
     
     # Identifies base rule 
     ID = r'[A-Za-z_][A-Za-z0-9_]*'
     
-    # keywords
+    # token remapping to keywords
     ID['auto']       = AUTO
     ID['break']      = BREAK
     ID['case']       = CASE
@@ -81,16 +89,26 @@ class Tokenizer(Lexer):
     ID['_Bool']      = BOOL
     ID['_Complex']   = COMPLEX
     ID['_Imaginary'] = IMAGINARY
+    
+    
+#    # A match action for Hex and Decimal numbers
+#    @_(r'0x[0-9a-fA-F]+',
+#       r'\d+')
+#    def NUM(self, t):
+#        if t.value.startswith('0x'):
+#            t.value = int(t.value[2:], 16)
+#        else:
+#            t.value = int(t.value)
+#        return t
 
     # A way to ignore comments
-    @_(r'\/\/[^\n]*')
+    @_(r'\/\/[^\n]*',)
     def ignore_comment(self, t):
         pass
 
     # Literal characters
     # Single character that is returned "as is" when encountered.
-    literals = {'{', '}', '(', ')', ';', '=', '+', '-', '*', '/',
-                '#', '.' }
+    literals = {'+', '-', '*', '/', '#', '.' }
 
     # Rule to keep track of line numbers.
     @_(r'\n+')

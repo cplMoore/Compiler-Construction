@@ -20,8 +20,43 @@ class MyParser(Parser):
     
     # Brings in the token list.
     tokens = Tokenizer.tokens
-
+    
+    # Keeps order of operations.
+    # + and - have the same precedence.
+    # * and / have the same precedence, 
+    # but have a higher level of precedence than + or - since they come later in the list per SLY.
+    precedence = (
+        ('left', "+", "-"),
+        ('left', "*", "/")
+    
+    )
+    
+    def __init__(self):
+        self.symbol_table = { }
+        
+        
     # Grammar rules and actions
+    
+    @_('INT ID LPAREN RPAREN LCB stmt RCB')
+    def program(self, p):
+        print(f"Function definition: {p.INT} {p.ID}")
+        
+    @_('INT ID ASSIGN NUM SEMI')
+    def stmt(self, p):
+        print("Variable assignment: {p.ID} {p.NUM}")
+    
+    
+    @_('RETURN NUM SEMI',
+       'RETURN ID SEMI')
+    def stmt(self, p):
+        print(f"Return statement: {p.NUM}")
+        
+    
+    @_('expr')
+    def stmt(self, p):
+        print(p.expr)    
+        
+
     @_('expr "+" term',
        'expr "-" term')
     def expr(self, p):
@@ -47,6 +82,14 @@ class MyParser(Parser):
     @_('LPAREN expr RPAREN')
     def factor(self, p):
         return p.expr
+        
+    @_('ID')
+    def factor(self, p):
+        try:
+            return self.symbol_table[p.ID]
+        except LookupError:
+            print(f'Undefined name {p.names!r}')
+            return 0
 
 
 if __name__ == '__main__':

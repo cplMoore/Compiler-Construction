@@ -12,7 +12,7 @@ class Tokenizer(Lexer):
 
 
     tokens = { LOGICAND, LOGICOR, INCRMNT, DECREMNT, EQREL, ASSIGN, NOTEQ, NEGATE, GRTEQ, LESEQ, 
-               GTR, LTR, SIMICOLON, LCB, RCB, LPAREN, RPAREN, NUM, ID, AUTO, BREAK, CASE, CHAR, CONST,
+               GTR, LTR, SEMI, LCB, RCB, LPAREN, RPAREN, NUM, ID, AUTO, BREAK, CASE, CHAR, CONST,
                CONTINUE, DEFAULT, DO, DOUBLE, ELSE, ENUM, EXTERN, FLOAT, FOR, GOTO, IF, INT, LONG, 
                REGISTER, RETURN, SHORT, SIGNED, SIZEOF, STATIC, STRUCT, SWITCH, TYPEDEF, UNION,
                UNSIGNED, VOID, VOLATILE, WHILE, INLINE, BOOL, COMPLEX, IMAGINARY
@@ -42,15 +42,13 @@ class Tokenizer(Lexer):
     LESEQ       = r'<\='
     GTR         = r'\>'
     LTR         = r'\<'
-    SIMICOLON   = r'\;'
+    SEMI        = r'\;'
     LCB         = r'\{'
     RCB         = r'\}'
     LPAREN      = r'\('
     RPAREN      = r'\)'
-    NUM         = r'\d+'
     
-    # Identifies base rule 
-    ID = r'[A-Za-z_][A-Za-z0-9_]*'
+
     
     # token remapping to keywords
     ID['auto']       = AUTO
@@ -90,16 +88,18 @@ class Tokenizer(Lexer):
     ID['_Complex']   = COMPLEX
     ID['_Imaginary'] = IMAGINARY
     
+    # Identifies base rule 
+    ID = r'[A-Za-z_][A-Za-z0-9_]*'
     
-#    # A match action for Hex and Decimal numbers
-#    @_(r'0x[0-9a-fA-F]+',
-#       r'\d+')
-#    def NUM(self, t):
-#        if t.value.startswith('0x'):
-#            t.value = int(t.value[2:], 16)
-#        else:
-#            t.value = int(t.value)
-#        return t
+    # A match action for Hex and Decimal numbers
+    @_(r'0x[0-9a-fA-F]+',
+       r'\d+')
+    def NUM(self, t):
+        if t.value.startswith('0x'):
+            t.value = int(t.value[2:], 16)
+        else:
+            t.value = int(t.value)
+        return t
 
     # A way to ignore comments
     @_(r'\/\/[^\n]*',)

@@ -11,119 +11,87 @@ from sly import Parser
 from tokenizer import Tokenizer
 import sys
 import ast
-
-
-class Expr:
-    pass
     
-class binOp(Expr):
-    def __init__(self, op, left, right):
-        self.op = op
-        self.left = left
-        self.right = right
-        
-        
-class num(Expr):
-    def __init__(self, value):
-        self.value = value
+
 
 class MyParser(Parser):
 
     # Debugging help from SLY
     debugfile = 'parser.out'
-
+    
     # Brings in the token list.
     tokens = Tokenizer.tokens
     
-    # Sets the Precedence for mathematical operations.
-    # PLUS/MINUS have the same precedence and are  left-associative.
-    # TIMES/DIVIDE have higher precedence since they apprear later in the list.
+    # Keeps order of operations.
+    # + and - have the same precedence.
+    # * and / have the same precedence, 
+    # but have a higher level of precedence than + or - since they come later in the list per SLY.
     precedence = (
         ('left', "+", "-"),
-        ('left', "*", "/"),
+        ('left', "*", "/")
+    
     )
     
-    # Starts the parsing at Expr not Empty.
-    start = 'expr'
-
-#    def __init__(self):
-#        self.names = {}  # Symbol table to store variable names and their values
-#
-#    @_('Expr')
-#    def Expr(self, p):
-#        pass
-
-    # This will act as an epsilon for escaping.
-    @_('')
-    def empty(self, p):
-        pass
+    def __init__(self):
+        self.symbol_table = { }
         
         
-    # Parsing starts here        
-    @_('value "+" expr',
-       'value "-" expr',
-       'value "*" expr',
-       'value "/" expr')
-    def expr(self, p):
-        line = p.lineno
-        index = p.index
-        return binOp(p[1], p.value, p.expr, line, index)
-
-
-#    # This is a way to handle negative numbers.
-#    @_('"-" Expr %prec UMINUS')
-#    def expr(p):
-#        return  -p.expr
+    # Grammar rules and actions
     
-    # Expr escape.
-    @_('empty')
-    def expr(self, p):
-        pass
-
+    @_('INT ID LPAREN RPAREN LCB stmt RCB')
+    def program(self, p):
+        print(f"Function definition: {p.INT} {p.ID}")
+        
+    @_('INT ID ASSIGN NUM SEMI return_stmt')
+    def stmt(self, p):
+        print(f"Statement definition: ")
     
-    @_('factor "*" value',
-       'factor "/" value',
-       'factor "+" value',
-       'factor "-" value')
-    def value(self, p):
-        line = p.lineno
-        index = p.index
-        return binOp(p[1], p.factor, p.value, line, index)
-
-    @_('NUM')
-    def value(self, p):
-        return int(p.NUM)
+    
+    @_('RETURN NUM SEMI',
+       'RETURN ID SEMI')
+    def return_stmt(self, p):
+        print(f"Return value: {p.NUM}")
         
+    
+    @_('expr')
+    def stmt(self, p):
+        print(p.expr)    
         
-    # value escape
-    @_('empty')
-    def value(self, p):
-        pass
-#
-#    @_("(" 'expr' ")")
-#    def factor(self, p):
-#        return p.factor
-     
 
-    @_('ID')
-    def factor(self, p):
+    @_('expr "+" term',
+       'expr "-" term')
+    def expr(self, p):
+        return (p[1], p.expr, p.term)
+
+    @_('term')
+    def expr(self, p):
+        return p.term
+
+    @_('term "*" factor',
+       'term "/" factor')
+    def term(self, p):
+        return (p[1], p.term, p.factor)
+
+    @_('factor')
+    def term(self, p):
         return p.factor
 
-#    def error(self, p):
-#        print("Syntax Error at token", p.type)
-#        if not p:
-#            print("End of File!")
-#            return
-#
-#
-#
-#        # Read ahead looking for a closing '}'
-#        while True:
-#            tokens = next(self.tokens, None)
-#            if not tokens or tokens.type == '}':
-#                break
-#        self.restart()
-#
+    @_('NUM')
+    def factor(self, p):
+        return p.NUM
+
+    @_('LPAREN expr RPAREN')
+    def factor(self, p):
+        return p.expr
+        
+    @_('ID')
+    def factor(self, p):
+        try:
+            return self.symbol_table[p.ID]
+        except LookupError:
+            print(f'Undefined name {p.names!r}')
+            return 0
+
 if __name__ == '__main__':
 
     # Checks if a c file is provided.
@@ -145,5 +113,6 @@ if __name__ == '__main__':
          
        
     print(result)
+
         
 

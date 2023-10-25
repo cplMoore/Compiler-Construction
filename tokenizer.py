@@ -11,13 +11,12 @@ class Tokenizer(Lexer):
 
 
 
-    tokens = { ID, NUM, EQREL, NOTEQ, GRT, LES, GRTEQ, LESEQ, ERROR, END, NEWLINE, ASSIGN,
-               PLUS, MINUS, DIVIDE, TIMES, LPAREN, RPAREN, LCB, RCB, KEYWORD, PRD, IF, INT,
-               LOGICAND, LOGICOR, NEGATE, INCRMNT, DECREMNT, COMMENT, SEMICOLON, LIB, AUTO,
-               ELSE, WHILE, AUTO, BREAK, CASE, CHAR, CONST, CONTINUE, DEFAULT, DO, DOUBLE,
-               ENUM, EXTERN, FLOAT, FOR, GOTO, LONG,  REGISTER, RETURN, SHORT, SIGNED, SIZEOF,
-               STATIC, STRUCT, SWITCH, TYPEDEF, UNION, UNSIGNED, VOID, VOLATILE, INLINE, BOOL,
-               COMPLEX, IMAGINARY} 
+    tokens = { LOGICAND, LOGICOR, INCRMNT, DECREMNT, EQREL, ASSIGN, NOTEQ, NEGATE, GRTEQ, LESEQ, 
+               GTR, LTR, SEMI, LCB, RCB, LPAREN, RPAREN, NUM, ID, AUTO, BREAK, CASE, CHAR, CONST,
+               CONTINUE, DEFAULT, DO, DOUBLE, ELSE, ENUM, EXTERN, FLOAT, FOR, GOTO, IF, INT, LONG, 
+               REGISTER, RETURN, SHORT, SIGNED, SIZEOF, STATIC, STRUCT, SWITCH, TYPEDEF, UNION,
+               UNSIGNED, VOID, VOLATILE, WHILE, INLINE, BOOL, COMPLEX, IMAGINARY
+             } 
         
 
     # String with ignored characters between tokens.
@@ -36,61 +35,80 @@ class Tokenizer(Lexer):
     INCRMNT     = r'\+\+'   
     DECREMNT    = r'--'
     EQREL       = r'\=\='
+    ASSIGN      = r'\='
     NOTEQ       = r'!\='
+    NEGATE      = r'!'
     GRTEQ       = r'>\='
     LESEQ       = r'<\='
-    NUM         = r'\d+'
+    GTR         = r'\>'
+    LTR         = r'\<'
+    SEMI        = r'\;'
+    LCB         = r'\{'
+    RCB         = r'\}'
+    LPAREN      = r'\('
+    RPAREN      = r'\)'
+    
+
+    # token remapping to keywords
+    ID['auto']       = AUTO
+    ID['break']      = BREAK
+    ID['case']       = CASE
+    ID['char']       = CHAR
+    ID['const']      = CONST
+    ID['continue']   = CONTINUE
+    ID['default']    = DEFAULT
+    ID['do']         = DO
+    ID['double']     = DOUBLE
+    ID['else']       = ELSE
+    ID['enum']       = ENUM
+    ID['extern']     = EXTERN
+    ID['float']      = FLOAT
+    ID['for']        = FOR
+    ID['goto']       = GOTO
+    ID['if']         = IF
+    ID['int']        = INT
+    ID['long']       = LONG
+    ID['register']   = REGISTER
+    ID['return']     = RETURN
+    ID['short']      = SHORT
+    ID['signed']     = SIGNED
+    ID['sizeof']     = SIZEOF
+    ID['static']     = STATIC
+    ID['struct']     = STRUCT
+    ID['switch']     = SWITCH
+    ID['typedef']    = TYPEDEF
+    ID['union']      = UNION
+    ID['unsigned']   = UNSIGNED
+    ID['void']       = VOID
+    ID['volatile']   = VOLATILE
+    ID['while']      = WHILE
+    ID['inline']     = INLINE
+    ID['_Bool']      = BOOL
+    ID['_Complex']   = COMPLEX
+    ID['_Imaginary'] = IMAGINARY
     
     # Identifies base rule 
     ID = r'[A-Za-z_][A-Za-z0-9_]*'
     
-    # keywords
-    # ID['auto']       = AUTO
-    # ID['break']      = BREAK
-    # ID['case']       = CASE
-    # ID['char']       = CHAR
-    # ID['const']      = CONST
-    # ID['continue']   = CONTINUE
-    # ID['default']    = DEFAULT
-    # ID['do']         = DO
-    # ID['double']     = DOUBLE
-    # ID['else']       = ELSE
-    # ID['enum']       = ENUM
-    # ID['extern']     = EXTERN
-    # ID['float']      = FLOAT
-    # ID['for']        = FOR
-    # ID['goto']       = GOTO
-    # ID['if']         = IF
-    # ID['int']        = INT
-    # ID['long']       = LONG
-    # ID['register']   = REGISTER
-    # ID['return']     = RETURN
-    # ID['short']      = SHORT
-    # ID['signed']     = SIGNED
-    # ID['sizeof']     = SIZEOF
-    # ID['static']     = STATIC
-    # ID['struct']     = STRUCT
-    # ID['switch']     = SWITCH
-    # ID['typedef']    = TYPEDEF
-    # ID['union']      = UNION
-    # ID['unsigned']   = UNSIGNED
-    # ID['void']       = VOID
-    # ID['volatile']   = VOLATILE
-    # ID['while']      = WHILE
-    # ID['inline']     = INLINE
-    # ID['_Bool']      = BOOL
-    # ID['_Complex']   = COMPLEX
-    # ID['_Imaginary'] = IMAGINARY
+    # A match action for Hex and Decimal numbers
+    @_(r'0x[0-9a-fA-F]+',
+       r'\d+')
+    def NUM(self, t):
+        if t.value.startswith('0x'):
+            t.value = int(t.value[2:], 16)
+        else:
+            t.value = int(t.value)
+        return t
+
 
     # A way to ignore comments
-    @_(r'\/\/[^\n]*')
+    @_(r'\/\/[^\n]*',)
     def ignore_comment(self, t):
         pass
 
     # Literal characters
     # Single character that is returned "as is" when encountered.
-    literals = {'{', '}', '(', ')', ';', '=', '+', '-', '*', '/',
-                '#', '.' }
+    literals = {'+', '-', '*', '/', '#', '.' }
 
     # Rule to keep track of line numbers.
     @_(r'\n+')

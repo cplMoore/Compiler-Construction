@@ -10,15 +10,21 @@
 from sly import Parser
 from tokenizer import Tokenizer
 import sys
-<<<<<<< HEAD
 import ast
-    
-=======
 import pprint
->>>>>>> 9a1ffc783381e19e591b7b45ae141f68149d756b
+
 
 
 class MyParser(Parser):
+
+ super().__init__()
+        self.symbol_table = {}
+        self.ast = None
+        self.three_address_code = []
+
+    def error(self, t):
+        print(f"Syntax error at line {t.lineno}, position {t.index}: Unexpected token '{t.value}'")
+        sys.exit(1)
 
     # Debugging help from SLY
     debugfile = 'parser.out'
@@ -45,8 +51,7 @@ class MyParser(Parser):
     
     @_('INT ID LPAREN RPAREN LCB stmt return_stmt RCB')
     def program(self, p):
-<<<<<<< HEAD
-        print(f"Function definition: {p.INT} {p.ID}")
+        return self.ast
         
     @_('INT ID ASSIGN NUM SEMI return_stmt')
     def stmt(self, p):
@@ -58,9 +63,7 @@ class MyParser(Parser):
     def return_stmt(self, p):
         print(f"Return value: {p.NUM}")
         
-=======
         return p.program
->>>>>>> 9a1ffc783381e19e591b7b45ae141f68149d756b
     
     @_('expr')
     def stmt(self, p):
@@ -89,8 +92,12 @@ class MyParser(Parser):
     def factor(self, p):
         try:
             return self.symbol_table[p.ID]
+            value = self.symbol_table[p.ID]
+            self.ast = ('Variable', p.ID)
+            return self.ast
         except LookupError:
             print(f'Undefined name {p.names!r}')
+            print(f'Undefined name {p.ID!r}')
             return 0
     
     @_('NUM')
@@ -123,13 +130,23 @@ if __name__ == '__main__':
     
     result = parser.parse(lexer.tokenize(c_code))
          
-<<<<<<< HEAD
-       
-    print(result)
-
-=======
-# A list inside of a list can be a way to keep track of a tree.       
-    pprint.pprint(result, width=30)
->>>>>>> 9a1ffc783381e19e591b7b45ae141f68149d756b
+if parser.ast:
+        print("Abstract Syntax Tree:")
+        print(parser.ast)
         
+def generate_3_address_code(ast):
+        if ast:
+            if isinstance(ast, tuple):
+                if ast[0] in ['Function Definition', 'Variable Assignment', 'Return Statement']:
+                    print(ast[0], ast[1])
+                    generate_3_address_code(ast[2])
+                else:
+                    print(ast[0], ast[1], ast[2], ast[3])
+                    generate_3_address_code(ast[1])
+                    generate_3_address_code(ast[2])
+            elif isinstance(ast, int):
+                print(ast)
 
+    if parser.ast:
+        print("3-Address Code:")
+        generate_3_address_code(parser.ast)

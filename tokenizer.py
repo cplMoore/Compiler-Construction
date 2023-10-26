@@ -3,7 +3,7 @@
 # Author: Jacob Moore
 # Author: Ben Hulsey
 
-from os import times
+
 from sly import Lexer
 import sys
 

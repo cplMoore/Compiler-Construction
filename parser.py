@@ -10,7 +10,7 @@
 from sly import Parser
 from tokenizer import Tokenizer
 import sys
-    
+import pprint
 
 
 class MyParser(Parser):
@@ -36,45 +36,43 @@ class MyParser(Parser):
         
         
     # Grammar rules and actions
+    # The last match action for a non-terminal token is the first rule assigned.
     
-    @_('INT ID LPAREN RPAREN LCB stmt RCB')
+    @_('INT ID LPAREN RPAREN LCB stmt return_stmt RCB')
     def program(self, p):
-        print(f"Function definition: {p.INT} {p.ID}")
-        
-    @_('INT ID ASSIGN NUM SEMI')
-    def stmt(self, p):
-        print("Variable assignment: {p.ID} {p.NUM}")
-    
-    
-    @_('RETURN NUM SEMI',
-       'RETURN ID SEMI')
-    def stmt(self, p):
-        print(f"Return statement: {p.NUM}")
-        
+        return p.program
     
     @_('expr')
     def stmt(self, p):
-        print(p.expr)    
+        return p.stmt  
+    
+    @_('INT factor ASSIGN NUM SEMI')
+    def stmt(self, p):
+        return p.stmt
+    
+    @_('RETURN factor SEMI')
+    def return_stmt(self, p):
+        return p.return_stmt
         
-
-    @_('expr "+" term',
-       'expr "-" term')
+    @_('factor "-" expr',
+       'factor "+" expr',
+       'factor "/" expr',
+       'factor "*" expr')
     def expr(self, p):
-        return (p[1], p.expr, p.term)
-
-    @_('term')
-    def expr(self, p):
-        return p.term
-
-    @_('term "*" factor',
-       'term "/" factor')
-    def term(self, p):
-        return (p[1], p.term, p.factor)
+        return (p[1], p.expr, p.factor)
 
     @_('factor')
-    def term(self, p):
+    def expr(self, p):
         return p.factor
 
+    @_('ID')
+    def factor(self, p):
+        try:
+            return self.symbol_table[p.ID]
+        except LookupError:
+            print(f'Undefined name {p.names!r}')
+            return 0
+    
     @_('NUM')
     def factor(self, p):
         return p.NUM
@@ -83,13 +81,6 @@ class MyParser(Parser):
     def factor(self, p):
         return p.expr
         
-    @_('ID')
-    def factor(self, p):
-        try:
-            return self.symbol_table[p.ID]
-        except LookupError:
-            print(f'Undefined name {p.names!r}')
-            return 0
 
 
 if __name__ == '__main__':
@@ -107,11 +98,13 @@ if __name__ == '__main__':
         c_code = file.read()
         
     lexer = Tokenizer()
+ #   if # TODO have an if stmt to check for the -t flag
     parser = MyParser()
+    
     
     result = parser.parse(lexer.tokenize(c_code))
          
-       
-    print(result)
+# A list inside of a list can be a way to keep track of a tree.       
+    pprint.pprint(result, width=30)
         
 

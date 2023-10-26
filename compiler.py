@@ -2,8 +2,7 @@
 #Author Ben Hulsey
 #Author Jacob Moore
 
-#new  compiler source code with args parse.
-
+from parser.py 
 import argparse
 import subprocess
 

@@ -17,15 +17,6 @@ import pprint
 
 class MyParser(Parser):
 
- super().__init__()
-        self.symbol_table = {}
-        self.ast = None
-        self.three_address_code = []
-
-    def error(self, t):
-        print(f"Syntax error at line {t.lineno}, position {t.index}: Unexpected token '{t.value}'")
-        sys.exit(1)
-
     # Debugging help from SLY
     debugfile = 'parser.out'
     
@@ -42,47 +33,47 @@ class MyParser(Parser):
     
     )
     
-    def __init__(self):
-        self.symbol_table = { }
-        
+    def __init__(self):        
+        super().__init__()
+        self.symbol_table = {}
+        self.ast = None
+        self.three_address_code = []
+
+    def error(self, t):
+        print(f"Syntax error at line {t.lineno}, position {t.index}: Unexpected token '{t.value}'")
+        sys.exit(1)
         
     # Grammar rules and actions
     # The last match action for a non-terminal token is the first rule assigned.
     
     @_('INT ID LPAREN RPAREN LCB stmt return_stmt RCB')
     def program(self, p):
+        self.ast = ('Function Definition', p.ID, p.stmt)
         return self.ast
         
-    @_('INT ID ASSIGN NUM SEMI return_stmt')
+    @_('INT ID ASSIGN NUM SEMI')
     def stmt(self, p):
-        print(f"Statement definition: ")
-    
-    
+        self.ast = ('Variable Assignment', p.ID, p.NUM)
+        return self.ast
+      
+    @_('expr')
+    def stmt(self, p):
+        return p.expr
+        
     @_('RETURN NUM SEMI',
        'RETURN ID SEMI')
     def return_stmt(self, p):
-        print(f"Return value: {p.NUM}")
-        
-        return p.program
-    
-    @_('expr')
-    def stmt(self, p):
-        return p.stmt  
-    
-    @_('INT factor ASSIGN NUM SEMI')
-    def stmt(self, p):
-        return p.stmt
-    
-    @_('RETURN factor SEMI')
-    def return_stmt(self, p):
-        return p.return_stmt
+        self.ast = ('Return Statement', p.NUM)
+        return self.ast
+
         
     @_('factor "-" expr',
        'factor "+" expr',
        'factor "/" expr',
        'factor "*" expr')
     def expr(self, p):
-        return (p[1], p.expr, p.factor)
+        self.ast = (p[1], p.factor, p.expr)
+        return self.ast
 
     @_('factor')
     def expr(self, p):
@@ -124,17 +115,15 @@ if __name__ == '__main__':
         c_code = file.read()
         
     lexer = Tokenizer()
- #   if # TODO have an if stmt to check for the -t flag
     parser = MyParser()
-    
-    
     result = parser.parse(lexer.tokenize(c_code))
          
-if parser.ast:
+    if parser.ast:
         print("Abstract Syntax Tree:")
         print(parser.ast)
         
-def generate_3_address_code(ast):
+        
+    def generate_3_address_code(ast):
         if ast:
             if isinstance(ast, tuple):
                 if ast[0] in ['Function Definition', 'Variable Assignment', 'Return Statement']:

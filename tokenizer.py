@@ -49,7 +49,6 @@ class Tokenizer(Lexer):
     RPAREN      = r'\)'
     
 
-    
     # token remapping to keywords
     ID['auto']       = AUTO
     ID['break']      = BREAK
@@ -100,6 +99,7 @@ class Tokenizer(Lexer):
         else:
             t.value = int(t.value)
         return t
+
 
     # A way to ignore comments
     @_(r'\/\/[^\n]*',)

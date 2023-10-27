@@ -95,7 +95,7 @@ class MyParser(Parser):
             print(f'Undefined name {p.ID!r}')
             return 0
 
-if __name__ == '__main':
+if __name__ == '__main__':
     if len(sys.argv) != 2:
         print("Usage: python3 parser.py <input_file>")
         sys.exit(1)

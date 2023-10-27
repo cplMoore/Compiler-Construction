@@ -2,7 +2,7 @@
 #Author Ben Hulsey
 #Author Jacob Moore
 
-from parser.py 
+import parser 
 import argparse
 import subprocess
 

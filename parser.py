@@ -10,12 +10,9 @@
 from sly import Parser
 from tokenizer import Tokenizer
 import sys
-import pprint
-
 
 class MyParser(Parser):
-
-    # Debugging help from SLY
+     # Debugging help from SLY
     debugfile = 'parser.out'
     
     # Brings in the token list.
@@ -30,49 +27,56 @@ class MyParser(Parser):
         ('left', "*", "/")
     
     )
-    
+
     def __init__(self):
-        self.symbol_table = { }
-        
-        
+        super().__init__()
+        self.symbol_table = {}
+        self.ast = None
+        self.three_address_code = []
+
+    def error(self, t):
+        print(f"Syntax error at line {t.lineno}, position {t.index}: Unexpected token '{t.value}'")
+        sys.exit(1)
+
     # Grammar rules and actions
-    # The last match action for a non-terminal token is the first rule assigned.
-    
+    # The last match action is the first grammar rule.
+    # i.e. stmt -> expr | INT ID ASSIGN NUM SEMI.
+
     @_('INT ID LPAREN RPAREN LCB stmt return_stmt RCB')
     def program(self, p):
-        return p.program
-    
+        self.ast = ('Function Definition', p.ID, p.stmt)
+        return self.ast
+
+    @_('INT ID ASSIGN NUM SEMI')
+    def stmt(self, p):
+        self.ast = ('Variable Assignment', p.ID, p.NUM)
+        return self.ast
+        
     @_('expr')
     def stmt(self, p):
-        return p.stmt  
-    
-    @_('INT factor ASSIGN NUM SEMI')
-    def stmt(self, p):
-        return p.stmt
-    
-    @_('RETURN factor SEMI')
+        return p.expr
+
+    @_('RETURN NUM SEMI')
     def return_stmt(self, p):
-        return p.return_stmt
-        
-    @_('factor "-" expr',
-       'factor "+" expr',
-       'factor "/" expr',
-       'factor "*" expr')
+        self.ast = ('Return Statement', p.NUM)
+        return self.ast
+
+    @_('term "+" expr',
+       'term "-" expr',
+       'term "*" expr', 
+       'term "/" expr')
     def expr(self, p):
-        return (p[1], p.expr, p.factor)
+        self.ast = (p[1], p.term, p.expr)
+        return self.ast
+
+    @_('term')
+    def expr(self, p):
+        return p.term
 
     @_('factor')
-    def expr(self, p):
+    def term(self, p):
         return p.factor
 
-    @_('ID')
-    def factor(self, p):
-        try:
-            return self.symbol_table[p.ID]
-        except LookupError:
-            print(f'Undefined name {p.names!r}')
-            return 0
-    
     @_('NUM')
     def factor(self, p):
         return p.NUM
@@ -80,31 +84,53 @@ class MyParser(Parser):
     @_('LPAREN expr RPAREN')
     def factor(self, p):
         return p.expr
-        
 
+    @_('ID')
+    def factor(self, p):
+        try:
+            value = self.symbol_table[p.ID]
+            self.ast = ('Variable', p.ID)
+            return self.ast
+        except LookupError:
+            print(f'Undefined name {p.ID!r}')
+            return 0
 
-if __name__ == '__main__':
-
-    # Checks if a c file is provided.
+if __name__ == '__main':
     if len(sys.argv) != 2:
         print("Usage: python3 parser.py <input_file>")
         sys.exit(1)
-        
-    # Takes the c file passed with compiler.py    
+
     input_file = sys.argv[1]
-    
-    # Open and read c file
+
     with open(input_file, 'r') as file:
         c_code = file.read()
-        
+
     lexer = Tokenizer()
- #   if # TODO have an if stmt to check for the -t flag
     parser = MyParser()
-    
-    
+
     result = parser.parse(lexer.tokenize(c_code))
-         
-# A list inside of a list can be a way to keep track of a tree.       
-    pprint.pprint(result, width=30)
-        
+
+    if parser.ast:
+        print("Abstract Syntax Tree:")
+        print(parser.ast)
+
+    print(result)
+
+    def generate_3_address_code(ast):
+        if ast:
+            if isinstance(ast, tuple):
+                if ast[0] in ['Function Definition', 'Variable Assignment', 'Return Statement']:
+                    print(ast[0], ast[1])
+                    generate_3_address_code(ast[2])
+                else:
+                    print(ast[0], ast[1], ast[2], ast[3])
+                    generate_3_address_code(ast[1])
+                    generate_3_address_code(ast[2])
+            elif isinstance(ast, int):
+                print(ast)
+
+    if parser.ast:
+        print("3-Address Code:")
+        generate_3_address_code(parser.ast)
+
 

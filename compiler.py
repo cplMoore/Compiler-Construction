@@ -31,3 +31,8 @@ if __name__ == "__main__":
     elif args.parser:
         # Call parser.py
         subprocess.run(['python3', 'parser.py', args.input_file], check=True, capture_output=False)
+        
+    elif args.optimizer:
+        # Call optimizer.py
+        subprocess.run(['python3', 'optimizer.py', args.input_file], check=True, capture_output=False)
+        

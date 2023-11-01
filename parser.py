@@ -14,6 +14,9 @@ from sly import Parser
 from tokenizer import Tokenizer
 import sys
 
+
+
+
 class MyParser(Parser):
      # Debugging help from SLY
     debugfile = 'parser.out'
@@ -44,11 +47,18 @@ class MyParser(Parser):
     # Grammar rules and actions
     # The last match action is the first grammar rule.
     # i.e. stmt -> expr | INT ID ASSIGN NUM SEMI.
-
-    @_('INT ID LPAREN RPAREN LCB stmt return_stmt RCB')
+    @_('INT ID LPAREN RPAREN LCB stmt_list return_stmt RCB')
     def program(self, p):
-        self.ast = ('Function Definition', p.ID, p.stmt)
+        self.ast = ('Function Definition', p.ID, p.stmt_list, p.return_stmt)
         return self.ast
+        
+    @_('stmt stmt_list')
+    def stmt_list(self, p):
+        return [p.stmt] + p.stmt_list
+        
+    @_('stmt')
+    def stmt_list(self, p):
+        return [p.stmt]
 
     @_('INT ID ASSIGN NUM SEMI')
     def stmt(self, p):
@@ -59,25 +69,21 @@ class MyParser(Parser):
     def stmt(self, p):
         return p.expr
 
-    @_('RETURN NUM SEMI')
+    @_('RETURN factor SEMI')
     def return_stmt(self, p):
-        self.ast = ('Return Statement', p.NUM)
+        self.ast = ('Return Statement', p.factor)
         return self.ast
 
-    @_('term "+" expr',
-       'term "-" expr',
-       'term "*" expr', 
-       'term "/" expr')
+    @_('factor "+" expr',
+       'factor "-" expr',
+       'factor "*" expr', 
+       'factor "/" expr')
     def expr(self, p):
-        self.ast = (p[1], p.term, p.expr)
+        self.ast = (p[1], p.factor, p.expr)
         return self.ast
-
-    @_('term')
-    def expr(self, p):
-        return p.term
 
     @_('factor')
-    def term(self, p):
+    def expr(self, p):
         return p.factor
 
     @_('NUM')

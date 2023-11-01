@@ -4,6 +4,9 @@
 
 #https://sly.readthedocs.io/en/latest/sly.html#introduction
 
+# https://stackoverflow.com/questions/62983856/in-lr-parsing-is-it-possible-to-construct-a-non-binary-ast
+# Used stackoverflow to walk through AST uses with SLY to get a AST and TAC built
+
 # https://docs.python.org/3/library/symtable.html#module-symtable
 # for symbol table
 

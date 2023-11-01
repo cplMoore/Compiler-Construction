@@ -114,7 +114,6 @@ if __name__ == '__main__':
         print("Abstract Syntax Tree:")
         print(parser.ast)
 
-    print(result)
 
     def generate_3_address_code(ast):
         if ast:

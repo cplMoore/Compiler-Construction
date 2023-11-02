@@ -10,11 +10,11 @@ import sys
 class Tokenizer(Lexer):
 
 
-
+    
     tokens = { LOGICAND, LOGICOR, INCRMNT, DECREMNT, EQREL, ASSIGN, NOTEQ, NEGATE, GRTEQ, LESEQ, 
                GTR, LTR, SEMI, LCB, RCB, LPAREN, RPAREN, NUM, ID, AUTO, BREAK, CASE, CHAR, CONST,
                CONTINUE, DEFAULT, DO, DOUBLE, ELSE, ENUM, EXTERN, FLOAT, FOR, GOTO, IF, INT, LONG, 
-               REGISTER, RETURN, SHORT, SIGNED, SIZEOF, STATIC, STRUCT, SWITCH, TYPEDEF, UNION,
+               MAIN, REGISTER, RETURN, SHORT, SIGNED, SIZEOF, STATIC, STRUCT, SWITCH, TYPEDEF, UNION,
                UNSIGNED, VOID, VOLATILE, WHILE, INLINE, BOOL, COMPLEX, IMAGINARY
              } 
         
@@ -68,6 +68,7 @@ class Tokenizer(Lexer):
     ID['if']         = IF
     ID['int']        = INT
     ID['long']       = LONG
+    ID['main']       = MAIN
     ID['register']   = REGISTER
     ID['return']     = RETURN
     ID['short']      = SHORT

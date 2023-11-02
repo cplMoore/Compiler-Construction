@@ -18,6 +18,8 @@ import sys
 
 
 class MyParser(Parser):
+
+
      # Debugging help from SLY
     debugfile = 'parser.out'
     
@@ -31,7 +33,6 @@ class MyParser(Parser):
     precedence = (
         ('left', "+", "-"),
         ('left', "*", "/")
-    
     )
 
     def __init__(self):
@@ -47,9 +48,9 @@ class MyParser(Parser):
     # Grammar rules and actions
     # The last match action is the first grammar rule.
     # i.e. stmt -> expr | INT ID ASSIGN NUM SEMI.
-    @_('INT ID LPAREN RPAREN LCB stmt_list return_stmt RCB')
+    @_('INT MAIN LPAREN RPAREN LCB stmt_list return_stmt RCB')
     def program(self, p):
-        self.ast = ('Function Definition', p.ID, p.stmt_list, p.return_stmt)
+        self.ast = ('Function Definition', p.MAIN, p.LCB, p.RCB)
         return self.ast
         
     @_('stmt stmt_list')
@@ -60,9 +61,12 @@ class MyParser(Parser):
     def stmt_list(self, p):
         return [p.stmt]
 
-    @_('INT ID ASSIGN NUM SEMI')
+    @_('INT ID ASSIGN expr SEMI')
     def stmt(self, p):
-        self.ast = ('Variable Assignment', p.ID, p.NUM)
+        variable_name = p.ID
+        value = p.expr
+        self.symbol_table[variable_name] = value
+        self.ast = ('Variable Assignment', variable_name, value)
         return self.ast
         
     @_('expr')
@@ -123,6 +127,9 @@ if __name__ == '__main__':
         print("Abstract Syntax Tree:")
         print(parser.ast)
 
+    print("Symbol Table:")
+    for variable, value in parser.symbol_table.items():
+        print(f"{variable}: {value}")
 
     def generate_3_address_code(ast):
         if ast:

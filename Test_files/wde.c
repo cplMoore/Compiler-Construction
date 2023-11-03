@@ -1,7 +1,7 @@
 int main() {
-    w = 3;
-    d = w + 9;
-    e = e;
+    int w = 3;
+    int d = w + 9;
+    int e = e;
     return d;
 
 }

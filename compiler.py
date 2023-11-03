@@ -2,6 +2,7 @@
 # Author Ben Hulsey
 # Author Jacob Moore
  
+
 import argparse
 import subprocess
 
@@ -21,7 +22,8 @@ if __name__ == "__main__":
     # Flags for command line interface and what they will do.
     parser.add_argument('-t', '--tokenizer', action='store_true', help='tokenizer program')
     parser.add_argument('-p', '--parser', action='store_true', help='parser program')
-    parser.add_argument('-o', '--optimize', action='store_true', help='optimizer program')
+    parser.add_argument('-o', '--optimizer', action='store_true', help='optimizer program')
+    
     args = parser.parse_args()
     
     if args.tokenizer:
@@ -30,7 +32,7 @@ if __name__ == "__main__":
     
     elif args.parser:
         # Call parser.py
-        subprocess.run(['python3', 'parser.py', args.input_file], check=True, capture_output=False)
+        subprocess.run(['python3', 'my_parser.py', args.input_file], check=True, capture_output=False)
         
     elif args.optimizer:
         # Call optimizer.py

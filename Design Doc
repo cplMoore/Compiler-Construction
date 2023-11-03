@@ -4,20 +4,20 @@ Symbols:  keyword = {'auto', 'break', 'case', 'char' 'const', 'continue', 'defau
                      'unsigned', 'void', 'volatile', 'while', 'inline', '_Bool', '_Complex' '_Imaginary'
 
 Grammar:    Can do math problems
-            Tokenizer can do Int main problems
-            Parser is throwing an Error at "Keywords" for Int problems
+            Can do int and return 
+            Working on if and while loops
             
             
 
-Tree: Parser is a list, AST tree is in the works
+Tree: Parser is a list, AST tree is a table
 
 Usage:-t enters Tokenizer
       -p enters Parser
-      -q quites the program
 
 Caveats:    used SLY (Sly Lex Yacc) for the Tokenizer and Parser
-            Parser is still being worked on to Solve INT problems
-	    Paser runs int a SYNTAX ERROR 'KEYWORD" with int keyword statments
+            Still working on if and while loops
+            
+	    
 
 Language used : Expr -> Expr + Term  | Expr - Term  | Term
 
@@ -26,3 +26,6 @@ Language used : Expr -> Expr + Term  | Expr - Term  | Term
                 Factor -> ( Expr )  | num  | ID
 
 		Assignment -> some keyword ASSIGN expression
+
+
+3-address-code : Optomizes via Constant Propogation, Constant Folding, and Deadcode Elimination. 

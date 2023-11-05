@@ -12,8 +12,6 @@
 
 from sly import Parser
 from tokenizer import Tokenizer
-import sys
-import pprint
 
 
 
@@ -40,8 +38,6 @@ class MyParser(Parser):
         super().__init__()
         self.symbol_table = {}
         self.ast = None
-        self.three_address_code = []
-        self.basic_blocks = []
 
     def error(self, t):
         print(f"Syntax error at line {t.lineno}, position {t.index}: Unexpected token '{t.value}'")
@@ -111,23 +107,18 @@ class MyParser(Parser):
             print(f'Undefined name {p.ID!r}')
             sys.exit(1)
 
-    def generate_3_address_code(self, ast):  
-        ir = []
-                    
+    def ast(self, ast):              
         if ast: 
             if isinstance(ast, tuple):
                 if ast[0] in ['Function Definition', 'Variable Assignment', 'Return Statement']:
-                    ir.append((ast[1], ':', ast[2]))
-                    ir.extend(self.generate_3_address_code(ast[2]))
+                    print(ast[1], ':', ast[2])
+                    self.generate_3_address_code(ast[2])
                 else:
-                    ir.append((ast[1], '=', ast[2]))
-                    ir.extend(self.generate_3_address_code(ast[1]))
-                    ir.extend(self.generate_3_address_code(ast[2]))
+                    print(ast[1], '=', ast[2])
+                    self.generate_3_address_code(ast[1])
+                    self.generate_3_address_code(ast[2])
             elif isinstance(ast, int):
-                ir.append(ast)
-
-        return ir
-        print(ast)
+                print(ast)
 #
 #    def is_jump_instruction(self, instruction):
 #        return instruction[0] in ("IF", "GOTO")
@@ -166,33 +157,33 @@ class MyParser(Parser):
 #
 #         return basic_blocks        
 #    
-if __name__ == '__main__':
-
-    if len(sys.argv) != 2:
-        print("Usage: python3 my_parser.py <input_file>")
-        sys.exit(1)
-
-    input_file = sys.argv[1]
-
-    with open(input_file, 'r') as file:
-        c_code = file.read()
-
-    lexer = Tokenizer()
-    my_parser = MyParser()
-    
-    
-    result = my_parser.parse(lexer.tokenize(c_code))
-
-    if my_parser.ast:
-        print("Abstract Syntax Tree:")
-        pprint.pprint(my_parser.ast, indent=4)
-        
-        print("\nSymbol Table:")
-        for variable, value in my_parser.symbol_table.items():
-            print(f"{variable} = {value}")
-            
-        print("\n3-Address Code:")
-        my_parser.generate_3_address_code(my_parser.ast)
+#if __name__ == '__main__':
+#
+#    if len(sys.argv) != 2:
+#        print("Usage: python3 my_parser.py <input_file>")
+#        sys.exit(1)
+#
+#    input_file = sys.argv[1]
+#
+#    with open(input_file, 'r') as file:
+#        c_code = file.read()
+#
+#    lexer = Tokenizer()
+#    my_parser = MyParser()
+#    
+#    
+#    result = my_parser.parse(lexer.tokenize(c_code))
+#
+#    if my_parser.ast:
+#        print("Abstract Syntax Tree:")
+#        pprint.pprint(my_parser.ast, indent=4)
+#        
+#        print("\nSymbol Table:")
+#        for variable, value in my_parser.symbol_table.items():
+#            print(f"{variable} = {value}")
+#            
+#        print("\n3-Address Code:")
+#        my_parser.generate_3_address_code(my_parser.ast)
         
 #    tac_instructions = [
 #        ("=", "x", 1),

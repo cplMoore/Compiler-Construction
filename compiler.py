@@ -4,37 +4,49 @@
  
 
 import argparse
-import subprocess
+from tokenizer import Tokenizer
+from my_parser import MyParser
+import optimizer
+import pprint
 
-# JM: had a hard time with trying to call the programs with argparse. 
-# ChatGPT recommended using the subprocess module to run the programs.
-if __name__ == "__main__":
+lexer = Tokenizer()
+my_parser = MyParser()
+
+parser = argparse.ArgumentParser(prog='compiler.py',
+                                 description='Command line interface for compiler.py that will intake a .c file.',
+                                 epilog='War Eagle!')
+    
+# Positional Arguments.
+# Must intake a .c file.
+parser.add_argument('input_file', metavar='input.c', nargs='?', type=argparse.FileType('r'),
+                    help='Input a .c file')
+
+# Optional Arguments
+# Flags for command line interface and what they will do.
+parser.add_argument('-t', '--tokenizer', action='store_true', help='tokenizer program')
+parser.add_argument('-p', '--parser', action='store_true', help='parser program')
+parser.add_argument('-a', '--tac', action='store_true', help='This flag should print out the Three Address Code.')
+parser.add_argument('-o', '--optimizer', action='store_true', help='optimizer program')
+    
+args = parser.parse_args()
+
+c_code = args.input_file.read()
 
 
-    parser = argparse.ArgumentParser(description='Command line interface for compiler.py. Intakes .c files.',
-                                     epilog='War Eagle!')
-    
-    # Positional Arguments.
-    # Must intake a .c file.
-    parser.add_argument('input_file', help='Input a .c file')
+tokens = (lexer.tokenize(c_code))
 
-    # Optional Arguments
-    # Flags for command line interface and what they will do.
-    parser.add_argument('-t', '--tokenizer', action='store_true', help='tokenizer program')
-    parser.add_argument('-p', '--parser', action='store_true', help='parser program')
-    parser.add_argument('-o', '--optimizer', action='store_true', help='optimizer program')
+
+
+if args.tokenizer:
+    for token in iter(tokens):
+        print(token)  
+      
+ast = my_parser.parse(tokens)
+  
+
+     
     
-    args = parser.parse_args()
-    
-    if args.tokenizer:
-        #Call tokenizer.py and outputs tokens.
-        subprocess.run(['python3', 'tokenizer.py', args.input_file], check=True, capture_output=False)
-    
-    elif args.parser:
-        # Call parser.py
-        subprocess.run(['python3', 'my_parser.py', args.input_file], check=True, capture_output=False)
-        
-    elif args.optimizer:
-        # Call optimizer.py
-        subprocess.run(['python3', 'optimizer.py', args.input_file], check=True, capture_output=False)
-        
+ir = generate_3_address_code(ast)
+
+
+

@@ -25,8 +25,6 @@ class Tokenizer(Lexer):
     ignore = ' \t'
     
     
-    
-    
     # Regular expression rules for tokens.
     # Longer tokens must come first (ex: '==' must be identified before '=')
     
@@ -71,8 +69,8 @@ class Tokenizer(Lexer):
     ID['main']       = MAIN
     ID['register']   = REGISTER
     ID['return']     = RETURN
-    ID['short']      = SHORT
     ID['signed']     = SIGNED
+    ID['short']      = SHORT
     ID['sizeof']     = SIZEOF
     ID['static']     = STATIC
     ID['struct']     = STRUCT
@@ -119,27 +117,7 @@ class Tokenizer(Lexer):
     def error(self, t):
         print("Illegal character '%s'" % t.value[0])
         self.index += 1
+        
+        
 
-
-if __name__ == '__main__':
-    # Checks if a c file is provided.
-    if len(sys.argv) != 2:
-        print("Usage: python3 tokenizer.py <input_file>")
-        sys.exit(1)
-        
-    # Takes the c file passed with compiler.py    
-    input_file = sys.argv[1]
-    
-    # Open and read c file
-    with open(input_file, 'r') as file:
-        c_code = file.read()
-        
-        
-    lexer = Tokenizer()
-    tokens = list(lexer.tokenize(c_code))  # Convert tokens to a list
-    
-
-    for token in tokens:
-        print(token)
-        
     

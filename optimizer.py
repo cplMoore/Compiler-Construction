@@ -1,9 +1,6 @@
 # Optimizer for compiler.py
 # Author: Jacob Moore
 
-import sys
-from my_parser import MyParser
-from tokenizer import Tokenizer
 
 def const_prop(ir):
 
@@ -60,35 +57,34 @@ def dead_code_removal(ir):
             return('=', lop, rop)
     return ir
         
-if __name__ == '__main__':
-
-    if len(sys.argv) != 2:
-        print("Usage: python3 optimizer.py <input_file>")
-        sys.exit(1)
-
-    input_file = sys.argv[1]
-
-    with open(input_file, 'r') as file:
-        c_code = file.read()
-
-    tokens = Tokenizer()
-    my_parser = MyParser()
-    tok_stream = tokens.tokenize(c_code)
-    
-    ast = my_parser.parse(tok_stream) 
-    
-    # Intermediate representation brought in from the parser
-    ir = my_parser.generate_3_address_code(ast)   
-
-    optimized_ir = ir
-    optimized_ir = const_prop(optimized_ir)
-    optimized_ir = const_fold(optimized_ir)
-    optimized_ir = copy_prop(optimized_ir)
-    optimized_ir = dead_code_removal(optimized_ir)
-
-    print("Optimized IR:")
-    print(optimized_ir)
-
+#if __name__ == '__main__':
+#
+#    if len(sys.argv) != 2:
+#        print("Usage: python3 optimizer.py <input_file>")
+#        sys.exit(1)
+#
+#    input_file = sys.argv[1]
+#
+#    
+#
+#    tokens = Tokenizer()
+#    my_parser = MyParser()
+#    tok_stream = tokens.tokenize(c_code)
+#    
+#    ast = my_parser.parse(tok_stream) 
+#    
+#    # Intermediate representation brought in from the parser
+#    ir = my_parser.generate_3_address_code(ast)   
+#
+#    optimized_ir = ir
+#    optimized_ir = const_prop(optimized_ir)
+#    optimized_ir = const_fold(optimized_ir)
+#    optimized_ir = copy_prop(optimized_ir)
+#    optimized_ir = dead_code_removal(optimized_ir)
+#
+#    print("Optimized IR:")
+#    print(optimized_ir)
+#
 
     
 

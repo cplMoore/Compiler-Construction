@@ -11,6 +11,7 @@ import pprint
 
 lexer = Tokenizer()
 my_parser = MyParser()
+pp = pprint.PrettyPrinter(indent=4)
 
 parser = argparse.ArgumentParser(prog='compiler.py',
                                  description='Command line interface for compiler.py that will intake a .c file.',
@@ -42,11 +43,12 @@ if args.tokenizer:
         print(token)  
       
 ast = my_parser.parse(tokens)
-  
 
+if args.parser:
+    pp.pprint(ast)
      
     
-ir = generate_3_address_code(ast)
+#ir = generate_3_address_code(ast)
 
 
 

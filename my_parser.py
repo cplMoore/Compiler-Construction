@@ -12,7 +12,7 @@
 
 from sly import Parser
 from tokenizer import Tokenizer
-
+import sys
 
 
 
@@ -54,7 +54,6 @@ class MyParser(Parser):
     @_('expr')
     def program(self, p):
         return p.expr
-
        
     @_('stmt stmt_list')
     def stmt_list(self, p):
@@ -66,10 +65,7 @@ class MyParser(Parser):
 
     @_('INT ID ASSIGN expr SEMI')
     def stmt(self, p):
-        variable_name = p.ID
-        value = p.expr
-        self.symbol_table[variable_name] = value
-        self.ast = ('=', variable_name, value)
+        self.ast = ('=', p.ID, p.expr)
         return self.ast
         
     @_('LPAREN expr RPAREN')
@@ -112,96 +108,11 @@ class MyParser(Parser):
             if isinstance(ast, tuple):
                 if ast[0] in ['Function Definition', 'Variable Assignment', 'Return Statement']:
                     print(ast[1], ':', ast[2])
-                    self.generate_3_address_code(ast[2])
+                    self.ast[2]
                 else:
-                    print(ast[1], '=', ast[2])
-                    self.generate_3_address_code(ast[1])
-                    self.generate_3_address_code(ast[2])
+                    print('=', ast[1], ast[2])
+                    self.ast[1]
+                    self.ast[2]
             elif isinstance(ast, int):
-                print(ast)
-#
-#    def is_jump_instruction(self, instruction):
-#        return instruction[0] in ("IF", "GOTO")
-#
-#    def get_jump_target(self, instruction):
-#        if instruction[0] == "IF":
-#            return instruction[2]
-#        elif instruction[0] == "GOTO":
-#            return instruction[1]
-#        return None                
-#     
-#    # Had ChatGPT help me (JM) create basic blocks for the 3 address code.           
-#    def generate_basic_blocks(self, instructions):
-#         leaders = set()
-#         leader = 0
-#         leaders.add(leader)
-#         
-#         for i, _ in enumerate(instructions):
-#            if i < len(instructions) - 1 and self.is_jump_instruction(instructions[i]):
-#                target = self.get_jump_target(instructions[i])
-#                leaders.add(target)
-#         if i + 1 < len(instructions):
-#            leaders.add(i + 1)
-#         
-#         # Ensure the last instruction is also a leader
-#         if not self.is_jump_instruction(instructions[-1]):
-#            leaders.add(len(instructions))
-#
-#         basic_blocks = []
-#
-#         for i in range(len(leaders) - 1):
-#            start = leaders[i]
-#            end = leaders[i + 1]
-#            basic_block = instructions[start:end]
-#            basic_blocks.append(basic_block)
-#
-#         return basic_blocks        
-#    
-#if __name__ == '__main__':
-#
-#    if len(sys.argv) != 2:
-#        print("Usage: python3 my_parser.py <input_file>")
-#        sys.exit(1)
-#
-#    input_file = sys.argv[1]
-#
-#    with open(input_file, 'r') as file:
-#        c_code = file.read()
-#
-#    lexer = Tokenizer()
-#    my_parser = MyParser()
-#    
-#    
-#    result = my_parser.parse(lexer.tokenize(c_code))
-#
-#    if my_parser.ast:
-#        print("Abstract Syntax Tree:")
-#        pprint.pprint(my_parser.ast, indent=4)
-#        
-#        print("\nSymbol Table:")
-#        for variable, value in my_parser.symbol_table.items():
-#            print(f"{variable} = {value}")
-#            
-#        print("\n3-Address Code:")
-#        my_parser.generate_3_address_code(my_parser.ast)
-        
-#    tac_instructions = [
-#        ("=", "x", 1),
-#        ("+", "y", "x", 2),
-#        ("IF", "y", "L2"),
-#        ("=", "z", 3),
-#        ("GOTO", "L1"),
-#        ("LABEL", "L2"),
-#        ("=", "z", 4),
-#        ("LABEL", "L1"),
-#        ("return", "z")
-#    ]
-#
-#    for instruction in tac_instructions:
-#        if my_parser.is_jump_instruction(tac_instructions):
-#            target = my_parser.get_jump_target(tac_instructions)
-#            print(f"Jump instruction: {instruction[0]} Target: {target}")
-#            
-#    basic_blocks = my_parser.generate_basic_blocks(tac_instructions)
-#    for i, block in enumerate(basic_blocks):
-#        print(f"Basic Block {i}: {block}")
+                return ast
+

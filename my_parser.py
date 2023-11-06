@@ -12,9 +12,6 @@
 
 from sly import Parser
 from tokenizer import Tokenizer
-import sys
-
-
 
 class MyParser(Parser):
 
@@ -36,19 +33,18 @@ class MyParser(Parser):
 
     def __init__(self):
         super().__init__()
-        self.symbol_table = {}
         self.ast = None
 
-    def error(self, t):
-        print(f"Syntax error at line {t.lineno}, position {t.index}: Unexpected token '{t.value}'")
-        sys.exit(1)
+    # def error(self, t):
+        # print(f"Syntax error at line {t.lineno}, position {t.index}: Unexpected token '{t.value}'")
+        # sys.exit(1)
 
     # Grammar rules and actions
     # The last match action is the first grammar rule.
     # i.e. stmt -> expr | INT ID ASSIGN NUM SEMI.
     @_('INT MAIN LPAREN RPAREN LCB stmt_list return_stmt RCB')
     def program(self, p):
-        self.ast = ('Function Definition',p.MAIN, p.stmt_list, p.return_stmt)
+        self.ast = p.MAIN, p.stmt_list, p.return_stmt
         return self.ast
          
     @_('expr')
@@ -57,11 +53,11 @@ class MyParser(Parser):
        
     @_('stmt stmt_list')
     def stmt_list(self, p):
-        return [p.stmt] + p.stmt_list
+        return p.stmt
         
     @_('stmt')
     def stmt_list(self, p):
-        return [p.stmt]
+        return p.stmt
 
     @_('INT ID ASSIGN expr SEMI')
     def stmt(self, p):
@@ -95,24 +91,7 @@ class MyParser(Parser):
         
     @_('ID')
     def factor(self, p):
-        try:
-            value = self.symbol_table[p.ID]
-            self.ast = (value)
-            return self.ast
-        except LookupError:
-            print(f'Undefined name {p.ID!r}')
-            sys.exit(1)
+        return self.ast
 
-    def ast(self, ast):              
-        if ast: 
-            if isinstance(ast, tuple):
-                if ast[0] in ['Function Definition', 'Variable Assignment', 'Return Statement']:
-                    print(ast[1], ':', ast[2])
-                    self.ast[2]
-                else:
-                    print('=', ast[1], ast[2])
-                    self.ast[1]
-                    self.ast[2]
-            elif isinstance(ast, int):
-                return ast
+
 

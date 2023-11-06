@@ -18,51 +18,51 @@ Rule 14    factor -> NUM
 
 Unused terminals:
 
+    FLOAT
     VOID
-    CASE
-    SIGNED
-    TYPEDEF
-    STATIC
-    DO
+    BREAK
+    SIZEOF
+    BOOL
+    DOUBLE
+    WHILE
+    EQREL
+    NOTEQ
+    INCRMNT
+    LESEQ
+    STRUCT
+    UNSIGNED
+    DECREMNT
+    ENUM
+    IMAGINARY
     DEFAULT
     FOR
-    UNION
-    SWITCH
-    INLINE
-    UNSIGNED
-    LONG
-    REGISTER
-    NEGATE
-    GTR
-    WHILE
-    ENUM
-    NOTEQ
-    CONTINUE
-    EQREL
-    COMPLEX
-    CONST
-    LTR
-    BREAK
-    DOUBLE
-    ELSE
-    GOTO
-    SIZEOF
-    STRUCT
     SHORT
-    CHAR
     GRTEQ
-    FLOAT
-    LOGICAND
-    INCRMNT
-    BOOL
-    DECREMNT
+    INLINE
+    NEGATE
+    LONG
+    SWITCH
+    COMPLEX
     VOLATILE
-    IMAGINARY
-    LOGICOR
-    LESEQ
+    CHAR
     EXTERN
+    CONST
+    DO
     IF
+    LOGICAND
+    ELSE
+    REGISTER
+    SIGNED
+    CONTINUE
+    LTR
     AUTO
+    CASE
+    GOTO
+    TYPEDEF
+    UNION
+    STATIC
+    GTR
+    LOGICOR
 
 Terminals, with rules where they appear:
 

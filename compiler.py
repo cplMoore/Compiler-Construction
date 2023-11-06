@@ -6,6 +6,7 @@
 import argparse
 from tokenizer import Tokenizer
 from my_parser import MyParser
+from tac import TAC
 import optimizer
 import pprint
 
@@ -34,7 +35,7 @@ args = parser.parse_args()
 c_code = args.input_file.read()
 
 
-tokens = (lexer.tokenize(c_code))
+tokens = lexer.tokenize(c_code)
 
 
 
@@ -48,7 +49,8 @@ if args.parser:
     pp.pprint(ast)
      
     
-#ir = generate_3_address_code(ast)
-
+ir = generate_3_address_code(ast)
+if args.tac:
+    print(ir)
 
 

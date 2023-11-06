@@ -4,8 +4,7 @@
 
 #https://sly.readthedocs.io/en/latest/sly.html#introduction
 
-# https://stackoverflow.com/questions/62983856/in-lr-parsing-is-it-possible-to-construct-a-non-binary-ast
-# Used stackoverflow to walk through AST uses with SLY to get a AST and TAC built
+
 
 # https://docs.python.org/3/library/symtable.html#module-symtable
 # for symbol table
@@ -32,12 +31,11 @@ class MyParser(Parser):
     )
 
     def __init__(self):
-        super().__init__()
         self.ast = None
 
-    # def error(self, t):
-        # print(f"Syntax error at line {t.lineno}, position {t.index}: Unexpected token '{t.value}'")
-        # sys.exit(1)
+    def error(self, t):
+        print(f"Syntax error at line {t.lineno}, position {t.index}: Unexpected token '{t.value}'")
+
 
     # Grammar rules and actions
     # The last match action is the first grammar rule.
@@ -53,7 +51,7 @@ class MyParser(Parser):
        
     @_('stmt stmt_list')
     def stmt_list(self, p):
-        return p.stmt
+        return p.stmt, p.stmt_list
         
     @_('stmt')
     def stmt_list(self, p):

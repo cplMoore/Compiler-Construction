@@ -2,6 +2,9 @@
 # Author: Jacob Moore
 # Author: Ben Hulsey
 
+# https://stackoverflow.com/questions/62983856/in-lr-parsing-is-it-possible-to-construct-a-non-binary-ast
+# Used stackoverflow to walk through AST uses with SLY to get a AST and TAC built
+
 class TAC():
 
     def generate_3_address_code(self, ast):  

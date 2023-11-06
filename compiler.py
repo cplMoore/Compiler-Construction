@@ -48,9 +48,9 @@ ast = my_parser.parse(tokens)
 if args.parser:
     pp.pprint(ast)
      
-    
-ir = generate_3_address_code(ast)
-if args.tac:
-    print(ir)
+#    
+#ir = generate_3_address_code(ast)
+#if args.tac:
+#    print(ir)
 
 

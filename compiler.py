@@ -12,7 +12,7 @@ import pprint
 
 lexer = Tokenizer()
 my_parser = MyParser()
-pp = pprint.PrettyPrinter(indent=4)
+pp = pprint.PrettyPrinter(indent=4, width=45)
 
 parser = argparse.ArgumentParser(prog='compiler.py',
                                  description='Command line interface for compiler.py that will intake a .c file.',

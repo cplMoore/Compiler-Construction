@@ -59,8 +59,7 @@ class MyParser(Parser):
 
     @_('INT ID ASSIGN expr SEMI')
     def stmt(self, p):
-        self.ast = ('=', p.ID, p.expr)
-        return self.ast
+        return('=', p.ID, p.expr)
         
     @_('LPAREN expr RPAREN')
     def stmt(self, p):
@@ -76,8 +75,7 @@ class MyParser(Parser):
        'factor "*" expr', 
        'factor "/" expr')
     def expr(self, p):
-        self.ast = (p[1], p.factor, p.expr)
-        return self.ast
+        return (p[1], p.factor, p.expr)
 
     @_('factor')
     def expr(self, p):
@@ -89,7 +87,7 @@ class MyParser(Parser):
         
     @_('ID')
     def factor(self, p):
-        return self.ast
+        return p.ID
 
 
 

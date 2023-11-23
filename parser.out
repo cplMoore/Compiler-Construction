@@ -2,22 +2,31 @@ Grammar:
 
 Rule 0     S' -> program
 Rule 1     program -> expr
-Rule 2     program -> INT MAIN LPAREN RPAREN LCB stmt_list return_stmt RCB
-Rule 3     stmt_list -> stmt
-Rule 4     stmt_list -> stmt stmt_list
-Rule 5     stmt -> LPAREN expr RPAREN
-Rule 6     stmt -> INT ID ASSIGN expr SEMI
-Rule 7     return_stmt -> RETURN factor SEMI
-Rule 8     expr -> factor
-Rule 9     expr -> factor / expr  [precedence=left, level=2]
-Rule 10    expr -> factor * expr  [precedence=left, level=2]
-Rule 11    expr -> factor - expr  [precedence=left, level=1]
-Rule 12    expr -> factor + expr  [precedence=left, level=1]
-Rule 13    factor -> ID
-Rule 14    factor -> NUM
+Rule 2     program -> fun_decl main_method
+Rule 3     program -> main_method
+Rule 4     fun_decl -> keyword ID LPAREN RPAREN LCB stmt_list RCB
+Rule 5     main_method -> INT MAIN LPAREN RPAREN LCB stmt_list return_stmt RCB
+Rule 6     stmt_list -> stmt
+Rule 7     stmt_list -> stmt stmt_list
+Rule 8     stmt -> LPAREN expr RPAREN
+Rule 9     stmt -> INT ID ASSIGN expr SEMI
+Rule 10    return_stmt -> RETURN factor SEMI
+Rule 11    expr -> factor
+Rule 12    expr -> factor / expr  [precedence=left, level=2]
+Rule 13    expr -> factor * expr  [precedence=left, level=2]
+Rule 14    expr -> factor - expr  [precedence=left, level=1]
+Rule 15    expr -> factor + expr  [precedence=left, level=1]
+Rule 16    factor -> ID
+Rule 17    factor -> NUM
+Rule 18    keyword -> STATIC
+Rule 19    keyword -> VOID
+Rule 20    keyword -> ELSE
+Rule 21    keyword -> IF
+Rule 22    keyword -> INT
 
 Unused terminals:
 
+<<<<<<< HEAD
     INCRMNT
     REGISTER
     SHORT
@@ -38,6 +47,47 @@ Unused terminals:
     INLINE
     VOID
     UNSIGNED
+=======
+    FLOAT
+    SHORT
+    TYPEDEF
+    UNSIGNED
+    EXTERN
+    GTR
+    IMAGINARY
+    DEFAULT
+    WHILE
+    LOGICOR
+    UNION
+    AUTO
+    CONTINUE
+    NOTEQ
+    NEGATE
+    DOUBLE
+    SIGNED
+    LESEQ
+    LONG
+    BOOL
+    COMPLEX
+    INCRMNT
+    INLINE
+    SWITCH
+    CONST
+    REGISTER
+    VOLATILE
+    CHAR
+    GOTO
+    STRUCT
+    LOGICAND
+    CASE
+    ENUM
+    FOR
+    SIZEOF
+    EQREL
+    GRTEQ
+    BREAK
+    DECREMNT
+>>>>>>> 91feead5b16ff0a5709a24957b46e10aefcb43df
     DO
     GTR
     DOUBLE
@@ -47,6 +97,7 @@ Unused terminals:
     SWITCH
     COMPLEX
     LTR
+<<<<<<< HEAD
     EQREL
     DEFAULT
     LESEQ
@@ -63,14 +114,16 @@ Unused terminals:
     FOR
     SIZEOF
     VOLATILE
+=======
+>>>>>>> 91feead5b16ff0a5709a24957b46e10aefcb43df
 
 Terminals, with rules where they appear:
 
-*                    : 10
-+                    : 12
--                    : 11
-/                    : 9
-ASSIGN               : 6
+*                    : 13
++                    : 15
+-                    : 14
+/                    : 12
+ASSIGN               : 9
 AUTO                 : 
 BOOL                 : 
 BREAK                : 
@@ -83,7 +136,7 @@ DECREMNT             :
 DEFAULT              : 
 DO                   : 
 DOUBLE               : 
-ELSE                 : 
+ELSE                 : 20
 ENUM                 : 
 EQREL                : 
 EXTERN               : 
@@ -92,71 +145,89 @@ FOR                  :
 GOTO                 : 
 GRTEQ                : 
 GTR                  : 
-ID                   : 6 13
-IF                   : 
+ID                   : 4 9 16
+IF                   : 21
 IMAGINARY            : 
 INCRMNT              : 
 INLINE               : 
-INT                  : 2 6
-LCB                  : 2
+INT                  : 5 9 22
+LCB                  : 4 5
 LESEQ                : 
 LOGICAND             : 
 LOGICOR              : 
 LONG                 : 
-LPAREN               : 2 5
+LPAREN               : 4 5 8
 LTR                  : 
-MAIN                 : 2
+MAIN                 : 5
 NEGATE               : 
 NOTEQ                : 
-NUM                  : 14
-RCB                  : 2
+NUM                  : 17
+RCB                  : 4 5
 REGISTER             : 
-RETURN               : 7
-RPAREN               : 2 5
-SEMI                 : 6 7
+RETURN               : 10
+RPAREN               : 4 5 8
+SEMI                 : 9 10
 SHORT                : 
 SIGNED               : 
 SIZEOF               : 
-STATIC               : 
+STATIC               : 18
 STRUCT               : 
 SWITCH               : 
 TYPEDEF              : 
 UNION                : 
 UNSIGNED             : 
-VOID                 : 
+VOID                 : 19
 VOLATILE             : 
 WHILE                : 
 error                : 
 
 Nonterminals, with rules where they appear:
 
-expr                 : 1 5 6 9 10 11 12
-factor               : 7 8 9 10 11 12
+expr                 : 1 8 9 12 13 14 15
+factor               : 10 11 12 13 14 15
+fun_decl             : 2
+keyword              : 4
+main_method          : 2 3
 program              : 0
-return_stmt          : 2
-stmt                 : 3 4
-stmt_list            : 2 4
+return_stmt          : 5
+stmt                 : 6 7
+stmt_list            : 4 5 7
 
 
 state 0
 
     (0) S' -> . program
     (1) program -> . expr
-    (2) program -> . INT MAIN LPAREN RPAREN LCB stmt_list return_stmt RCB
-    (8) expr -> . factor
-    (9) expr -> . factor / expr
-    (10) expr -> . factor * expr
-    (11) expr -> . factor - expr
-    (12) expr -> . factor + expr
-    (13) factor -> . ID
-    (14) factor -> . NUM
-    INT             shift and go to state 3
-    ID              shift and go to state 5
-    NUM             shift and go to state 6
+    (2) program -> . fun_decl main_method
+    (3) program -> . main_method
+    (11) expr -> . factor
+    (12) expr -> . factor / expr
+    (13) expr -> . factor * expr
+    (14) expr -> . factor - expr
+    (15) expr -> . factor + expr
+    (4) fun_decl -> . keyword ID LPAREN RPAREN LCB stmt_list RCB
+    (5) main_method -> . INT MAIN LPAREN RPAREN LCB stmt_list return_stmt RCB
+    (16) factor -> . ID
+    (17) factor -> . NUM
+    (18) keyword -> . STATIC
+    (19) keyword -> . VOID
+    (20) keyword -> . ELSE
+    (21) keyword -> . IF
+    (22) keyword -> . INT
+    INT             shift and go to state 8
+    ID              shift and go to state 7
+    NUM             shift and go to state 9
+    STATIC          shift and go to state 10
+    VOID            shift and go to state 11
+    ELSE            shift and go to state 12
+    IF              shift and go to state 13
 
     program                        shift and go to state 1
     expr                           shift and go to state 2
-    factor                         shift and go to state 4
+    fun_decl                       shift and go to state 3
+    main_method                    shift and go to state 4
+    factor                         shift and go to state 5
+    keyword                        shift and go to state 6
 
 state 1
 
@@ -171,307 +242,412 @@ state 2
 
 state 3
 
-    (2) program -> INT . MAIN LPAREN RPAREN LCB stmt_list return_stmt RCB
-    MAIN            shift and go to state 7
+    (2) program -> fun_decl . main_method
+    (5) main_method -> . INT MAIN LPAREN RPAREN LCB stmt_list return_stmt RCB
+    INT             shift and go to state 15
 
+    main_method                    shift and go to state 14
 
 state 4
 
-    (8) expr -> factor .
-    (9) expr -> factor . / expr
-    (10) expr -> factor . * expr
-    (11) expr -> factor . - expr
-    (12) expr -> factor . + expr
-    $end            reduce using rule 8 (expr -> factor .)
-    RPAREN          reduce using rule 8 (expr -> factor .)
-    SEMI            reduce using rule 8 (expr -> factor .)
-    /               shift and go to state 8
-    *               shift and go to state 9
-    -               shift and go to state 10
-    +               shift and go to state 11
+    (3) program -> main_method .
+    $end            reduce using rule 3 (program -> main_method .)
 
 
 state 5
 
-    (13) factor -> ID .
-    /               reduce using rule 13 (factor -> ID .)
-    *               reduce using rule 13 (factor -> ID .)
-    -               reduce using rule 13 (factor -> ID .)
-    +               reduce using rule 13 (factor -> ID .)
-    $end            reduce using rule 13 (factor -> ID .)
-    RPAREN          reduce using rule 13 (factor -> ID .)
-    SEMI            reduce using rule 13 (factor -> ID .)
+    (11) expr -> factor .
+    (12) expr -> factor . / expr
+    (13) expr -> factor . * expr
+    (14) expr -> factor . - expr
+    (15) expr -> factor . + expr
+    $end            reduce using rule 11 (expr -> factor .)
+    RPAREN          reduce using rule 11 (expr -> factor .)
+    SEMI            reduce using rule 11 (expr -> factor .)
+    /               shift and go to state 16
+    *               shift and go to state 17
+    -               shift and go to state 18
+    +               shift and go to state 19
 
 
 state 6
 
-    (14) factor -> NUM .
-    /               reduce using rule 14 (factor -> NUM .)
-    *               reduce using rule 14 (factor -> NUM .)
-    -               reduce using rule 14 (factor -> NUM .)
-    +               reduce using rule 14 (factor -> NUM .)
-    $end            reduce using rule 14 (factor -> NUM .)
-    RPAREN          reduce using rule 14 (factor -> NUM .)
-    SEMI            reduce using rule 14 (factor -> NUM .)
+    (4) fun_decl -> keyword . ID LPAREN RPAREN LCB stmt_list RCB
+    ID              shift and go to state 20
 
 
 state 7
 
-    (2) program -> INT MAIN . LPAREN RPAREN LCB stmt_list return_stmt RCB
-    LPAREN          shift and go to state 12
+    (16) factor -> ID .
+    /               reduce using rule 16 (factor -> ID .)
+    *               reduce using rule 16 (factor -> ID .)
+    -               reduce using rule 16 (factor -> ID .)
+    +               reduce using rule 16 (factor -> ID .)
+    $end            reduce using rule 16 (factor -> ID .)
+    RPAREN          reduce using rule 16 (factor -> ID .)
+    SEMI            reduce using rule 16 (factor -> ID .)
 
 
 state 8
 
-    (9) expr -> factor / . expr
-    (8) expr -> . factor
-    (9) expr -> . factor / expr
-    (10) expr -> . factor * expr
-    (11) expr -> . factor - expr
-    (12) expr -> . factor + expr
-    (13) factor -> . ID
-    (14) factor -> . NUM
-    ID              shift and go to state 5
-    NUM             shift and go to state 6
+    (5) main_method -> INT . MAIN LPAREN RPAREN LCB stmt_list return_stmt RCB
+    (22) keyword -> INT .
+    MAIN            shift and go to state 21
+    ID              reduce using rule 22 (keyword -> INT .)
 
-    factor                         shift and go to state 4
-    expr                           shift and go to state 13
 
 state 9
 
-    (10) expr -> factor * . expr
-    (8) expr -> . factor
-    (9) expr -> . factor / expr
-    (10) expr -> . factor * expr
-    (11) expr -> . factor - expr
-    (12) expr -> . factor + expr
-    (13) factor -> . ID
-    (14) factor -> . NUM
-    ID              shift and go to state 5
-    NUM             shift and go to state 6
+    (17) factor -> NUM .
+    /               reduce using rule 17 (factor -> NUM .)
+    *               reduce using rule 17 (factor -> NUM .)
+    -               reduce using rule 17 (factor -> NUM .)
+    +               reduce using rule 17 (factor -> NUM .)
+    $end            reduce using rule 17 (factor -> NUM .)
+    RPAREN          reduce using rule 17 (factor -> NUM .)
+    SEMI            reduce using rule 17 (factor -> NUM .)
 
-    factor                         shift and go to state 4
-    expr                           shift and go to state 14
 
 state 10
 
-    (11) expr -> factor - . expr
-    (8) expr -> . factor
-    (9) expr -> . factor / expr
-    (10) expr -> . factor * expr
-    (11) expr -> . factor - expr
-    (12) expr -> . factor + expr
-    (13) factor -> . ID
-    (14) factor -> . NUM
-    ID              shift and go to state 5
-    NUM             shift and go to state 6
+    (18) keyword -> STATIC .
+    ID              reduce using rule 18 (keyword -> STATIC .)
 
-    factor                         shift and go to state 4
-    expr                           shift and go to state 15
 
 state 11
 
-    (12) expr -> factor + . expr
-    (8) expr -> . factor
-    (9) expr -> . factor / expr
-    (10) expr -> . factor * expr
-    (11) expr -> . factor - expr
-    (12) expr -> . factor + expr
-    (13) factor -> . ID
-    (14) factor -> . NUM
-    ID              shift and go to state 5
-    NUM             shift and go to state 6
+    (19) keyword -> VOID .
+    ID              reduce using rule 19 (keyword -> VOID .)
 
-    factor                         shift and go to state 4
-    expr                           shift and go to state 16
 
 state 12
 
-    (2) program -> INT MAIN LPAREN . RPAREN LCB stmt_list return_stmt RCB
-    RPAREN          shift and go to state 17
+    (20) keyword -> ELSE .
+    ID              reduce using rule 20 (keyword -> ELSE .)
 
 
 state 13
 
-    (9) expr -> factor / expr .
-    $end            reduce using rule 9 (expr -> factor / expr .)
-    RPAREN          reduce using rule 9 (expr -> factor / expr .)
-    SEMI            reduce using rule 9 (expr -> factor / expr .)
+    (21) keyword -> IF .
+    ID              reduce using rule 21 (keyword -> IF .)
 
 
 state 14
 
-    (10) expr -> factor * expr .
-    $end            reduce using rule 10 (expr -> factor * expr .)
-    RPAREN          reduce using rule 10 (expr -> factor * expr .)
-    SEMI            reduce using rule 10 (expr -> factor * expr .)
+    (2) program -> fun_decl main_method .
+    $end            reduce using rule 2 (program -> fun_decl main_method .)
 
 
 state 15
 
-    (11) expr -> factor - expr .
-    $end            reduce using rule 11 (expr -> factor - expr .)
-    RPAREN          reduce using rule 11 (expr -> factor - expr .)
-    SEMI            reduce using rule 11 (expr -> factor - expr .)
+    (5) main_method -> INT . MAIN LPAREN RPAREN LCB stmt_list return_stmt RCB
+    MAIN            shift and go to state 21
 
 
 state 16
 
-    (12) expr -> factor + expr .
-    $end            reduce using rule 12 (expr -> factor + expr .)
-    RPAREN          reduce using rule 12 (expr -> factor + expr .)
-    SEMI            reduce using rule 12 (expr -> factor + expr .)
+    (12) expr -> factor / . expr
+    (11) expr -> . factor
+    (12) expr -> . factor / expr
+    (13) expr -> . factor * expr
+    (14) expr -> . factor - expr
+    (15) expr -> . factor + expr
+    (16) factor -> . ID
+    (17) factor -> . NUM
+    ID              shift and go to state 7
+    NUM             shift and go to state 9
 
+    factor                         shift and go to state 5
+    expr                           shift and go to state 22
 
 state 17
 
-    (2) program -> INT MAIN LPAREN RPAREN . LCB stmt_list return_stmt RCB
-    LCB             shift and go to state 18
+    (13) expr -> factor * . expr
+    (11) expr -> . factor
+    (12) expr -> . factor / expr
+    (13) expr -> . factor * expr
+    (14) expr -> . factor - expr
+    (15) expr -> . factor + expr
+    (16) factor -> . ID
+    (17) factor -> . NUM
+    ID              shift and go to state 7
+    NUM             shift and go to state 9
 
+    factor                         shift and go to state 5
+    expr                           shift and go to state 23
 
 state 18
 
-    (2) program -> INT MAIN LPAREN RPAREN LCB . stmt_list return_stmt RCB
-    (3) stmt_list -> . stmt
-    (4) stmt_list -> . stmt stmt_list
-    (5) stmt -> . LPAREN expr RPAREN
-    (6) stmt -> . INT ID ASSIGN expr SEMI
-    LPAREN          shift and go to state 20
-    INT             shift and go to state 19
+    (14) expr -> factor - . expr
+    (11) expr -> . factor
+    (12) expr -> . factor / expr
+    (13) expr -> . factor * expr
+    (14) expr -> . factor - expr
+    (15) expr -> . factor + expr
+    (16) factor -> . ID
+    (17) factor -> . NUM
+    ID              shift and go to state 7
+    NUM             shift and go to state 9
 
-    stmt_list                      shift and go to state 21
-    stmt                           shift and go to state 22
+    factor                         shift and go to state 5
+    expr                           shift and go to state 24
 
 state 19
 
-    (6) stmt -> INT . ID ASSIGN expr SEMI
-    ID              shift and go to state 23
+    (15) expr -> factor + . expr
+    (11) expr -> . factor
+    (12) expr -> . factor / expr
+    (13) expr -> . factor * expr
+    (14) expr -> . factor - expr
+    (15) expr -> . factor + expr
+    (16) factor -> . ID
+    (17) factor -> . NUM
+    ID              shift and go to state 7
+    NUM             shift and go to state 9
 
+    factor                         shift and go to state 5
+    expr                           shift and go to state 25
 
 state 20
 
-    (5) stmt -> LPAREN . expr RPAREN
-    (8) expr -> . factor
-    (9) expr -> . factor / expr
-    (10) expr -> . factor * expr
-    (11) expr -> . factor - expr
-    (12) expr -> . factor + expr
-    (13) factor -> . ID
-    (14) factor -> . NUM
-    ID              shift and go to state 5
-    NUM             shift and go to state 6
+    (4) fun_decl -> keyword ID . LPAREN RPAREN LCB stmt_list RCB
+    LPAREN          shift and go to state 26
 
-    expr                           shift and go to state 24
-    factor                         shift and go to state 4
 
 state 21
 
-    (2) program -> INT MAIN LPAREN RPAREN LCB stmt_list . return_stmt RCB
-    (7) return_stmt -> . RETURN factor SEMI
-    RETURN          shift and go to state 26
+    (5) main_method -> INT MAIN . LPAREN RPAREN LCB stmt_list return_stmt RCB
+    LPAREN          shift and go to state 27
 
-    return_stmt                    shift and go to state 25
 
 state 22
 
-    (3) stmt_list -> stmt .
-    (4) stmt_list -> stmt . stmt_list
-    (3) stmt_list -> . stmt
-    (4) stmt_list -> . stmt stmt_list
-    (5) stmt -> . LPAREN expr RPAREN
-    (6) stmt -> . INT ID ASSIGN expr SEMI
-    RETURN          reduce using rule 3 (stmt_list -> stmt .)
-    LPAREN          shift and go to state 20
-    INT             shift and go to state 19
+    (12) expr -> factor / expr .
+    $end            reduce using rule 12 (expr -> factor / expr .)
+    RPAREN          reduce using rule 12 (expr -> factor / expr .)
+    SEMI            reduce using rule 12 (expr -> factor / expr .)
 
-    stmt                           shift and go to state 22
-    stmt_list                      shift and go to state 27
 
 state 23
 
-    (6) stmt -> INT ID . ASSIGN expr SEMI
-    ASSIGN          shift and go to state 28
+    (13) expr -> factor * expr .
+    $end            reduce using rule 13 (expr -> factor * expr .)
+    RPAREN          reduce using rule 13 (expr -> factor * expr .)
+    SEMI            reduce using rule 13 (expr -> factor * expr .)
 
 
 state 24
 
-    (5) stmt -> LPAREN expr . RPAREN
-    RPAREN          shift and go to state 29
+    (14) expr -> factor - expr .
+    $end            reduce using rule 14 (expr -> factor - expr .)
+    RPAREN          reduce using rule 14 (expr -> factor - expr .)
+    SEMI            reduce using rule 14 (expr -> factor - expr .)
 
 
 state 25
 
-    (2) program -> INT MAIN LPAREN RPAREN LCB stmt_list return_stmt . RCB
-    RCB             shift and go to state 30
+    (15) expr -> factor + expr .
+    $end            reduce using rule 15 (expr -> factor + expr .)
+    RPAREN          reduce using rule 15 (expr -> factor + expr .)
+    SEMI            reduce using rule 15 (expr -> factor + expr .)
 
 
 state 26
 
-    (7) return_stmt -> RETURN . factor SEMI
-    (13) factor -> . ID
-    (14) factor -> . NUM
-    ID              shift and go to state 5
-    NUM             shift and go to state 6
+    (4) fun_decl -> keyword ID LPAREN . RPAREN LCB stmt_list RCB
+    RPAREN          shift and go to state 28
 
-    factor                         shift and go to state 31
 
 state 27
 
-    (4) stmt_list -> stmt stmt_list .
-    RETURN          reduce using rule 4 (stmt_list -> stmt stmt_list .)
+    (5) main_method -> INT MAIN LPAREN . RPAREN LCB stmt_list return_stmt RCB
+    RPAREN          shift and go to state 29
 
 
 state 28
 
-    (6) stmt -> INT ID ASSIGN . expr SEMI
-    (8) expr -> . factor
-    (9) expr -> . factor / expr
-    (10) expr -> . factor * expr
-    (11) expr -> . factor - expr
-    (12) expr -> . factor + expr
-    (13) factor -> . ID
-    (14) factor -> . NUM
-    ID              shift and go to state 5
-    NUM             shift and go to state 6
+    (4) fun_decl -> keyword ID LPAREN RPAREN . LCB stmt_list RCB
+    LCB             shift and go to state 30
 
-    expr                           shift and go to state 32
-    factor                         shift and go to state 4
 
 state 29
 
-    (5) stmt -> LPAREN expr RPAREN .
-    LPAREN          reduce using rule 5 (stmt -> LPAREN expr RPAREN .)
-    INT             reduce using rule 5 (stmt -> LPAREN expr RPAREN .)
-    RETURN          reduce using rule 5 (stmt -> LPAREN expr RPAREN .)
+    (5) main_method -> INT MAIN LPAREN RPAREN . LCB stmt_list return_stmt RCB
+    LCB             shift and go to state 31
 
 
 state 30
 
-    (2) program -> INT MAIN LPAREN RPAREN LCB stmt_list return_stmt RCB .
-    $end            reduce using rule 2 (program -> INT MAIN LPAREN RPAREN LCB stmt_list return_stmt RCB .)
+    (4) fun_decl -> keyword ID LPAREN RPAREN LCB . stmt_list RCB
+    (6) stmt_list -> . stmt
+    (7) stmt_list -> . stmt stmt_list
+    (8) stmt -> . LPAREN expr RPAREN
+    (9) stmt -> . INT ID ASSIGN expr SEMI
+    LPAREN          shift and go to state 32
+    INT             shift and go to state 35
 
+    stmt_list                      shift and go to state 33
+    stmt                           shift and go to state 34
 
 state 31
 
-    (7) return_stmt -> RETURN factor . SEMI
-    SEMI            shift and go to state 33
+    (5) main_method -> INT MAIN LPAREN RPAREN LCB . stmt_list return_stmt RCB
+    (6) stmt_list -> . stmt
+    (7) stmt_list -> . stmt stmt_list
+    (8) stmt -> . LPAREN expr RPAREN
+    (9) stmt -> . INT ID ASSIGN expr SEMI
+    LPAREN          shift and go to state 32
+    INT             shift and go to state 35
 
+    stmt_list                      shift and go to state 36
+    stmt                           shift and go to state 34
 
 state 32
 
-    (6) stmt -> INT ID ASSIGN expr . SEMI
-    SEMI            shift and go to state 34
+    (8) stmt -> LPAREN . expr RPAREN
+    (11) expr -> . factor
+    (12) expr -> . factor / expr
+    (13) expr -> . factor * expr
+    (14) expr -> . factor - expr
+    (15) expr -> . factor + expr
+    (16) factor -> . ID
+    (17) factor -> . NUM
+    ID              shift and go to state 7
+    NUM             shift and go to state 9
 
+    expr                           shift and go to state 37
+    factor                         shift and go to state 5
 
 state 33
 
-    (7) return_stmt -> RETURN factor SEMI .
-    RCB             reduce using rule 7 (return_stmt -> RETURN factor SEMI .)
+    (4) fun_decl -> keyword ID LPAREN RPAREN LCB stmt_list . RCB
+    RCB             shift and go to state 38
 
 
 state 34
 
-    (6) stmt -> INT ID ASSIGN expr SEMI .
-    LPAREN          reduce using rule 6 (stmt -> INT ID ASSIGN expr SEMI .)
-    INT             reduce using rule 6 (stmt -> INT ID ASSIGN expr SEMI .)
-    RETURN          reduce using rule 6 (stmt -> INT ID ASSIGN expr SEMI .)
+    (6) stmt_list -> stmt .
+    (7) stmt_list -> stmt . stmt_list
+    (6) stmt_list -> . stmt
+    (7) stmt_list -> . stmt stmt_list
+    (8) stmt -> . LPAREN expr RPAREN
+    (9) stmt -> . INT ID ASSIGN expr SEMI
+    RCB             reduce using rule 6 (stmt_list -> stmt .)
+    RETURN          reduce using rule 6 (stmt_list -> stmt .)
+    LPAREN          shift and go to state 32
+    INT             shift and go to state 35
+
+    stmt                           shift and go to state 34
+    stmt_list                      shift and go to state 39
+
+state 35
+
+    (9) stmt -> INT . ID ASSIGN expr SEMI
+    ID              shift and go to state 40
+
+
+state 36
+
+    (5) main_method -> INT MAIN LPAREN RPAREN LCB stmt_list . return_stmt RCB
+    (10) return_stmt -> . RETURN factor SEMI
+    RETURN          shift and go to state 42
+
+    return_stmt                    shift and go to state 41
+
+state 37
+
+    (8) stmt -> LPAREN expr . RPAREN
+    RPAREN          shift and go to state 43
+
+
+state 38
+
+    (4) fun_decl -> keyword ID LPAREN RPAREN LCB stmt_list RCB .
+    INT             reduce using rule 4 (fun_decl -> keyword ID LPAREN RPAREN LCB stmt_list RCB .)
+
+
+state 39
+
+    (7) stmt_list -> stmt stmt_list .
+    RCB             reduce using rule 7 (stmt_list -> stmt stmt_list .)
+    RETURN          reduce using rule 7 (stmt_list -> stmt stmt_list .)
+
+
+state 40
+
+    (9) stmt -> INT ID . ASSIGN expr SEMI
+    ASSIGN          shift and go to state 44
+
+
+state 41
+
+    (5) main_method -> INT MAIN LPAREN RPAREN LCB stmt_list return_stmt . RCB
+    RCB             shift and go to state 45
+
+
+state 42
+
+    (10) return_stmt -> RETURN . factor SEMI
+    (16) factor -> . ID
+    (17) factor -> . NUM
+    ID              shift and go to state 7
+    NUM             shift and go to state 9
+
+    factor                         shift and go to state 46
+
+state 43
+
+    (8) stmt -> LPAREN expr RPAREN .
+    LPAREN          reduce using rule 8 (stmt -> LPAREN expr RPAREN .)
+    INT             reduce using rule 8 (stmt -> LPAREN expr RPAREN .)
+    RCB             reduce using rule 8 (stmt -> LPAREN expr RPAREN .)
+    RETURN          reduce using rule 8 (stmt -> LPAREN expr RPAREN .)
+
+
+state 44
+
+    (9) stmt -> INT ID ASSIGN . expr SEMI
+    (11) expr -> . factor
+    (12) expr -> . factor / expr
+    (13) expr -> . factor * expr
+    (14) expr -> . factor - expr
+    (15) expr -> . factor + expr
+    (16) factor -> . ID
+    (17) factor -> . NUM
+    ID              shift and go to state 7
+    NUM             shift and go to state 9
+
+    expr                           shift and go to state 47
+    factor                         shift and go to state 5
+
+state 45
+
+    (5) main_method -> INT MAIN LPAREN RPAREN LCB stmt_list return_stmt RCB .
+    $end            reduce using rule 5 (main_method -> INT MAIN LPAREN RPAREN LCB stmt_list return_stmt RCB .)
+
+
+state 46
+
+    (10) return_stmt -> RETURN factor . SEMI
+    SEMI            shift and go to state 48
+
+
+state 47
+
+    (9) stmt -> INT ID ASSIGN expr . SEMI
+    SEMI            shift and go to state 49
+
+
+state 48
+
+    (10) return_stmt -> RETURN factor SEMI .
+    RCB             reduce using rule 10 (return_stmt -> RETURN factor SEMI .)
+
+
+state 49
+
+    (9) stmt -> INT ID ASSIGN expr SEMI .
+    LPAREN          reduce using rule 9 (stmt -> INT ID ASSIGN expr SEMI .)
+    INT             reduce using rule 9 (stmt -> INT ID ASSIGN expr SEMI .)
+    RCB             reduce using rule 9 (stmt -> INT ID ASSIGN expr SEMI .)
+    RETURN          reduce using rule 9 (stmt -> INT ID ASSIGN expr SEMI .)

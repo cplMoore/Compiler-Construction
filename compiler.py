@@ -34,10 +34,7 @@ args = parser.parse_args()
 
 c_code = args.input_file.read()
 
-
 tokens = lexer.tokenize(c_code)
-
-
 
 if args.tokenizer:
     for token in iter(tokens):
@@ -48,9 +45,9 @@ ast = my_parser.parse(tokens)
 if args.parser:
     pp.pprint(ast)
      
-#    
-#ir = generate_3_address_code(ast)
-#if args.tac:
-#    print(ir)
+   
+# ir = generate_3_address_code(ast)
+# if args.tac:
+   # print(ir)
 
 

@@ -33,8 +33,8 @@ class MyParser(Parser):
     def __init__(self):
         self.ast = None
 
-    def error(self, t):
-        print(f"Syntax error at line {t.lineno}, position {t.index}: Unexpected token '{t.value}'")
+    # def error(self, t):
+        # print(f"Syntax error at line {t.lineno}, position {t.index}: Unexpected token '{t.value}'")
 
 
     # Grammar rules and actions

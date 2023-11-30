@@ -10,11 +10,11 @@ import sys
 class Tokenizer(Lexer):
 
 
-
+    
     tokens = { LOGICAND, LOGICOR, INCRMNT, DECREMNT, EQREL, ASSIGN, NOTEQ, NEGATE, GRTEQ, LESEQ, 
                GTR, LTR, SEMI, LCB, RCB, LPAREN, RPAREN, NUM, ID, AUTO, BREAK, CASE, CHAR, CONST,
                CONTINUE, DEFAULT, DO, DOUBLE, ELSE, ENUM, EXTERN, FLOAT, FOR, GOTO, IF, INT, LONG, 
-               REGISTER, RETURN, SHORT, SIGNED, SIZEOF, STATIC, STRUCT, SWITCH, TYPEDEF, UNION,
+               MAIN, REGISTER, RETURN, SHORT, SIGNED, SIZEOF, STATIC, STRUCT, SWITCH, TYPEDEF, UNION,
                UNSIGNED, VOID, VOLATILE, WHILE, INLINE, BOOL, COMPLEX, IMAGINARY
              } 
         
@@ -23,8 +23,6 @@ class Tokenizer(Lexer):
     # Characters in ignore are not ignored when such characters are part of other RE patterns.
     # The main purpose of ignore is to look over whitespace and other padding between the tokens.
     ignore = ' \t'
-    
-    
     
     
     # Regular expression rules for tokens.
@@ -49,7 +47,6 @@ class Tokenizer(Lexer):
     RPAREN      = r'\)'
     
 
-    
     # token remapping to keywords
     ID['auto']       = AUTO
     ID['break']      = BREAK
@@ -69,10 +66,11 @@ class Tokenizer(Lexer):
     ID['if']         = IF
     ID['int']        = INT
     ID['long']       = LONG
+    ID['main']       = MAIN
     ID['register']   = REGISTER
     ID['return']     = RETURN
-    ID['short']      = SHORT
     ID['signed']     = SIGNED
+    ID['short']      = SHORT
     ID['sizeof']     = SIZEOF
     ID['static']     = STATIC
     ID['struct']     = STRUCT
@@ -101,6 +99,7 @@ class Tokenizer(Lexer):
             t.value = int(t.value)
         return t
 
+
     # A way to ignore comments
     @_(r'\/\/[^\n]*',)
     def ignore_comment(self, t):
@@ -118,27 +117,7 @@ class Tokenizer(Lexer):
     def error(self, t):
         print("Illegal character '%s'" % t.value[0])
         self.index += 1
+        
+        
 
-
-if __name__ == '__main__':
-    # Checks if a c file is provided.
-    if len(sys.argv) != 2:
-        print("Usage: python3 tokenizer.py <input_file>")
-        sys.exit(1)
-        
-    # Takes the c file passed with compiler.py    
-    input_file = sys.argv[1]
-    
-    # Open and read c file
-    with open(input_file, 'r') as file:
-        c_code = file.read()
-        
-        
-    lexer = Tokenizer()
-    tokens = list(lexer.tokenize(c_code))  # Convert tokens to a list
-    
-
-    for token in tokens:
-        print(token)
-        
     

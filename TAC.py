@@ -1,9 +1,12 @@
+
 class TACGenerator:
+    breakpoint()
     def __init__(self):
         self.code = []  # To store the generated TAC
         self.temp_count = 0  # Counter for generating temporary variables
 
     def new_temp(self):
+        
         temp_var = f'T{self.temp_count}'
         self.temp_count += 1
         return temp_var
@@ -12,6 +15,7 @@ class TACGenerator:
         self.code = []  # Reset the code
         self.temp_count = 0  # Reset the temporary variable counter
         self.visit(ast)
+       
         return self.code
 
     def visit(self, node):
@@ -39,7 +43,7 @@ class TACGenerator:
             elif node[0] == '(':
                 return self.visit(node[1])
 
-    def visit_expr(self, node):
+    def visit_tuple(self, node):
         if isinstance(node, tuple):
             op, left, right = node
             if op in ('+', '-', '*', '/'):
@@ -47,9 +51,16 @@ class TACGenerator:
                 self.code.append(f'{temp_result} = {self.visit(left)} {op} {self.visit(right)}')
                 return temp_result
 
-    def visit_factor(self, node):
+    def visit_int(self, node):
         if isinstance(node, tuple):
-            return self.visit(node[1])  # Return the ID or NUM
+            return self.code.append(node)
+
+        # If it's a leaf node, return its value (ID or NUM)
+        return node
+        
+    def visit_id(self, node):
+        if isinstance(node, tuple):
+            return self.code.append(node)
 
         # If it's a leaf node, return its value (ID or NUM)
         return node
@@ -58,24 +69,3 @@ class TACGenerator:
         return_stmt = f'return {self.visit(node[1])}'
         self.code.append(return_stmt)
 
-
-if __name__ == '__main__':
-    from compiler import MyParser
-
-    # Example usage
-    parser = MyParser()
-    code = '''
-    INT MAIN LPAREN RPAREN LCB
-        INT x ASSIGN 5 SEMI
-        INT y ASSIGN 10 SEMI
-        RETURN x + y SEMI
-    RCB
-    '''
-    tokens = parser.tokenize(code)
-    ast = parser.parse(tokens)
-    
-    tac_generator = TACGenerator()
-    tac_code = tac_generator.generate_tac(ast)
-
-    for line in tac_code:
-        print(line)

@@ -7,12 +7,15 @@ import argparse
 from tokenizer import Tokenizer
 from my_parser import MyParser
 from TAC import TACGenerator
-import optimizer
+from optimizer import Optimizer
 import pprint
 
 lexer = Tokenizer()
 my_parser = MyParser()
+tac = TACGenerator()
+opt = Optimizer()
 pp = pprint.PrettyPrinter(indent=4, width=45)
+pc = pprint.PrettyPrinter(indent=1, width=25)
 
 parser = argparse.ArgumentParser(prog='compiler.py',
                                  description='Command line interface for compiler.py that will intake a .c file.',
@@ -27,8 +30,9 @@ parser.add_argument('input_file', metavar='input.c', nargs='?', type=argparse.Fi
 # Flags for command line interface and what they will do.
 parser.add_argument('-t', '--tokenizer', action='store_true', help='tokenizer program')
 parser.add_argument('-p', '--parser', action='store_true', help='parser program')
-parser.add_argument('-a', '--tac', action='store_true', help='This flag should print out the Three Address Code.')
+parser.add_argument('-3c', '--tac', action='store_true', help='This flag should print out the Three Address Code.')
 parser.add_argument('-o', '--optimizer', action='store_true', help='optimizer program')
+parser.add_argument('-x', '--x86', action='store_true', help='Print X86 assembly language.')
     
 args = parser.parse_args()
 
@@ -46,8 +50,13 @@ if args.parser:
     pp.pprint(ast)
      
    
-ir = generate_3_address_code(ast)
+tac_code = tac.generate_tac(ast)
 if args.tac:
-    print(ir)
+    pc.pprint(tac_code)
+#    
+#opt_code = Optimizer.optimize(tac_code)
+#if args.optimizer:
+#    print(opt_code)
+    
 
 

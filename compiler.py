@@ -14,8 +14,10 @@ lexer = Tokenizer()
 my_parser = MyParser()
 tac = TACGenerator()
 opt = Optimizer()
-pp = pprint.PrettyPrinter(indent=4, width=45)
+pp = pprint.PrettyPrinter(indent=2, width=44)
 pc = pprint.PrettyPrinter(indent=1, width=25)
+
+
 
 parser = argparse.ArgumentParser(prog='compiler.py',
                                  description='Command line interface for compiler.py that will intake a .c file.',
@@ -48,15 +50,16 @@ ast = my_parser.parse(tokens)
 
 if args.parser:
     pp.pprint(ast)
-     
-   
+ 
 tac_code = tac.generate_tac(ast)
+
 if args.tac:
     pc.pprint(tac_code)
-#    
-#opt_code = Optimizer.optimize(tac_code)
-#if args.optimizer:
-#    print(opt_code)
+    
+
+if args.optimizer:
+    opt_code = opt.optimize(tac_code)
+    print(opt_code)
     
 
 

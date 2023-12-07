@@ -1,31 +1,53 @@
-Symbols:  keyword = {'auto', 'break', 'case', 'char' 'const', 'continue', 'default', 'do', 'double', 'else',
-                     'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 'long', 'register', 'return',
-                     'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'typedef', 'union',
-                     'unsigned', 'void', 'volatile', 'while', 'inline', '_Bool', '_Complex' '_Imaginary'
+To run our program from the command line type "python3 compiler.py <flag> <program>"
 
-Grammar:    Can do math problems
-            Can do int and return 
-            Working on if and while loops
+
+Grammar:    Can handle mathematical expressions. 
+            Can recgonize int and return 
+            The grammar is working with if statements. 
             
             
+            
 
-Tree: Parser is a list, AST tree is a table
+Tree: AST tree is a tuple the uses pretty print to give it a tree like structure.
 
-Usage:-t enters Tokenizer
-      -p enters Parser
+Usage:-t Gives you a breakdown of the tokens from the file it was passed. 
+      -p Gives you an Abstrct Syntax Tree of the file it was  passed.
+      -3c Gives you the intermediate representation. 
+      -o Optimizes the code. Optimizations include constant propagation, constant folding, and deadcode reamoval.
+      -a Gives you the calling conventions along with the IR of the code.
+      -x Gives you x86 assembly languge.
 
 Caveats:    used SLY (Sly Lex Yacc) for the Tokenizer and Parser
-            Still working on if and while loops
+            
             
 	    
 
-Language used : Expr -> Expr + Term  | Expr - Term  | Term
+Language used :
 
-                Term -> Term * Factor  | Term / Factor  | Factor
+Rule 0     S' -> program
+Rule 1     program -> expr
+Rule 2     program -> INT MAIN LPAREN RPAREN LCB stmt_list return_stmt RCB
+Rule 3     stmt_list -> flow_stmt
+Rule 4     stmt_list -> stmt
+Rule 5     stmt_list -> stmt stmt_list
+Rule 6     stmt -> LPAREN expr RPAREN
+Rule 7     stmt -> empty
+Rule 8     stmt -> ID ASSIGN NUM SEMI
+Rule 9     stmt -> INT ID SEMI
+Rule 10    stmt -> INT ID ASSIGN expr SEMI
+Rule 11    empty -> <empty>
+Rule 12    flow_stmt -> IF LPAREN ID LTR NUM RPAREN LCB stmt_list return_stmt RCB
+Rule 13    flow_stmt -> IF LPAREN ID GTR NUM RPAREN LCB stmt_list return_stmt RCB
+Rule 14    return_stmt -> RETURN factor SEMI
+Rule 15    expr -> factor
+Rule 16    expr -> factor / expr  [precedence=left, level=2]
+Rule 17    expr -> factor * expr  [precedence=left, level=2]
+Rule 18    expr -> factor - expr  [precedence=left, level=1]
+Rule 19    expr -> factor + expr  [precedence=left, level=1]
+Rule 20    factor -> ID
+Rule 21    factor -> NUM
 
-                Factor -> ( Expr )  | num  | ID
 
-		Assignment -> some keyword ASSIGN expression
+3-address-code : Optimizes via Constant Propogation, Constant Folding, and Deadcode Elimination. 
 
-
-3-address-code : Optomizes via Constant Propogation, Constant Folding, and Deadcode Elimination. 
+We tested out code from out test files on GitHub.

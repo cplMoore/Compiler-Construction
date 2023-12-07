@@ -14,7 +14,7 @@ lexer = Tokenizer()
 my_parser = MyParser()
 tac = TACGenerator()
 opt = Optimizer()
-pp = pprint.PrettyPrinter(indent=2, width=44)
+pp = pprint.PrettyPrinter(indent=2, width=45)
 pc = pprint.PrettyPrinter(indent=1, width=25)
 
 

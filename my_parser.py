@@ -69,10 +69,14 @@ class MyParser(Parser):
     def stmt(self, p):
         return('=', p.ID, p.NUM)
         
-    @_(' ')
-    def stmt(self, p):
+    @_('')
+    def empty(self, p):
         pass
         
+    @_('empty')
+    def stmt(self, p):
+        pass
+            
     @_('LPAREN expr RPAREN')
     def stmt(self, p):
         return p.expr

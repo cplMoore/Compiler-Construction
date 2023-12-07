@@ -2,7 +2,7 @@ To run our program from the command line type "python3 compiler.py <flag> <progr
 
 
 Grammar:    Can handle mathematical expressions. 
-            Can recgonize int and return 
+            Can recgonize keywords and returns. 
             The grammar is working with if statements. 
             
             

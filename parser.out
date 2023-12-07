@@ -25,48 +25,48 @@ Rule 21    factor -> NUM
 
 Unused terminals:
 
-    ELSE
-    IMAGINARY
-    VOLATILE
-    TYPEDEF
-    CONST
-    GRTEQ
-    GOTO
     SWITCH
-    ENUM
-    STRUCT
-    DO
-    DOUBLE
-    STATIC
-    AUTO
-    COMPLEX
-    DEFAULT
-    SIZEOF
-    SHORT
-    NEGATE
-    FLOAT
-    REGISTER
-    CHAR
-    CONTINUE
-    FOR
-    LONG
-    WHILE
     EQREL
-    EXTERN
-    LOGICOR
-    BREAK
-    INLINE
-    NOTEQ
-    LESEQ
-    CASE
-    UNION
-    UNSIGNED
-    DECREMNT
-    VOID
-    BOOL
     LOGICAND
+    LESEQ
+    FOR
     INCRMNT
+    EXTERN
+    STRUCT
+    AUTO
+    REGISTER
+    IMAGINARY
+    ELSE
+    CHAR
+    NOTEQ
+    DECREMNT
+    LONG
+    NEGATE
+    UNION
+    SHORT
     SIGNED
+    LOGICOR
+    GRTEQ
+    DOUBLE
+    ENUM
+    CONST
+    WHILE
+    BOOL
+    INLINE
+    UNSIGNED
+    GOTO
+    STATIC
+    SIZEOF
+    CONTINUE
+    VOLATILE
+    DEFAULT
+    TYPEDEF
+    BREAK
+    FLOAT
+    DO
+    COMPLEX
+    VOID
+    CASE
 
 Terminals, with rules where they appear:
 

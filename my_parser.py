@@ -31,7 +31,7 @@ class MyParser(Parser):
     )
 
     def __init__(self):
-        self.ast = None
+        self.ast = []
 
     # def error(self, t):
         # print(f"Syntax error at line {t.lineno}, position {t.index}: Unexpected token '{t.value}'")

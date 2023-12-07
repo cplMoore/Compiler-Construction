@@ -8,12 +8,14 @@ from tokenizer import Tokenizer
 from my_parser import MyParser
 from TAC import TACGenerator
 from optimizer import Optimizer
+from amble import PreamblePostambleGenerator
 import pprint
 
 lexer = Tokenizer()
 my_parser = MyParser()
 tac = TACGenerator()
 opt = Optimizer()
+preamble = 
 pp = pprint.PrettyPrinter(indent=2, width=45)
 pc = pprint.PrettyPrinter(indent=1, width=25)
 
@@ -62,8 +64,11 @@ if args.optimizer:
     opt_code = opt.optimize(tac_code)
     print(opt_code)
     
-if args.x86:
-    asm = 
-    
+#if args.amble:
+#    cc = 
+#    
+#if args.x86:
+#    asm = 
+#    
 
 

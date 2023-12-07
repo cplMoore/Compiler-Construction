@@ -10,7 +10,12 @@ class TACGenerator:
         temp_var = f'T{self.temp_count}'
         self.temp_count += 1
         return temp_var
-
+        
+    def basic_block(self):
+        block_var = f'L{self.block_count}:'
+        self.block_count +=1
+        return block_var
+    
     def generate_tac(self, ast):
         breakpoint()
         self.visit(ast)
@@ -34,28 +39,31 @@ class TACGenerator:
             return self.generic_visit(node)
 
     def visit_tuple(self, node):
-        if isinstance(node, tuple):
-        
+        if isinstance(node, tuple):        
             root = node[0]
-            if root == 'main':
-                self.code.append(f'{root}')
+                
+            if root in ('main', 'if', 'else', 'for', 'while', 'goto'):
+                block_result = self.basic_block()
+                self.code.append(f'{block_result} {root}:')                
                 self.visit(node[1])
                 self.visit(node[2])
-                
-            if root in ('+', '-', '*', '/'):
+                                           
+            elif root in ('+', '-', '*', '/'):
                 temp_result = self.new_temp()
                 self.code.append(f'{temp_result} = {self.visit(node[1])} {root} {self.visit(node[2])}')
                 return temp_result
                 
-            if root == '=':
+            elif root == '=':
                 self.code.append(f'{node[1]} = {self.visit(node[2])}')
                 
-            if root == '(':
-                return self.visit(node[1])
                 
-            if root == 'return':
-                self.code.append(f'return {self.visit(node[1])}')
-    
+            elif root == 'return':
+                self.code.append(f'return = {node[1]}')
+                
+            elif isinstance(root, tuple):
+                self.visit_tuple(root)
+
+                
     def visit_int(self, node):
         if isinstance(node, tuple):
             return self.code.append(node)

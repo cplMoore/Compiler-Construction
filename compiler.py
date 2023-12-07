@@ -23,6 +23,7 @@ xasm = X86CodeGenerator()
 ppar = pprint.PrettyPrinter(indent=4, width=45)
 ptac = pprint.PrettyPrinter(indent=4, width=25)
 popt = pprint.PrettyPrinter(indent=4, width=50)
+pasm = pprint.PrettyPrinter(indent=2, width=25)
 
 
 
@@ -75,7 +76,7 @@ if args.amble:
     
 if args.x86:
     asm = xasm.generate_x86_code(tac_code)
-    print(asm)
+    pasm.pprint(asm)
     
 
 

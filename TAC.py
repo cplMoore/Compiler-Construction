@@ -17,7 +17,6 @@ class TACGenerator:
         return block_var
     
     def generate_tac(self, ast):
-        breakpoint()
         self.visit(ast)
         return self.code
 

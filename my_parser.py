@@ -56,6 +56,10 @@ class MyParser(Parser):
     @_('stmt')
     def stmt_list(self, p):
         return p.stmt
+        
+    @_('flow_stmt')
+    def stmt_list(self, p):
+        return p.flow_stmt
 
     @_('INT ID ASSIGN expr SEMI')
     def stmt(self, p):
@@ -80,6 +84,11 @@ class MyParser(Parser):
     @_('LPAREN expr RPAREN')
     def stmt(self, p):
         return p.expr
+        
+    @_('IF LPAREN ID GTR NUM RPAREN LCB stmt_list return_stmt RCB',
+       'IF LPAREN ID LTR NUM RPAREN LCB stmt_list return_stmt RCB')    
+    def flow_stmt(self, p):
+        return(p.IF, p[3], p.ID, p.NUM)
 
     @_('RETURN factor SEMI')
     def return_stmt(self, p):

@@ -20,8 +20,9 @@ preamble = PreamblePostambleGenerator()
 postamble = PreamblePostambleGenerator()
 xasm = X86CodeGenerator()
 
-pp = pprint.PrettyPrinter(indent=2, width=45)
-pc = pprint.PrettyPrinter(indent=1, width=25)
+ppar = pprint.PrettyPrinter(indent=4, width=45)
+ptac = pprint.PrettyPrinter(indent=4, width=25)
+popt = pprint.PrettyPrinter(indent=4, width=50)
 
 
 
@@ -56,22 +57,21 @@ if args.tokenizer:
 ast = my_parser.parse(tokens)
 
 if args.parser:
-    pp.pprint(ast)
+    ppar.pprint(ast)
  
 tac_code = tac.generate_tac(ast)
 
 if args.tac:
-    pc.pprint(tac_code)
+    ptac.pprint(tac_code)
     
 
 if args.optimizer:
     opt_code = opt.optimize(tac_code)
-    print(opt_code)
+    popt.pprint(opt_code)
     
 if args.amble:
-    pre_cc = preamble.generate_tac_with_preamble_postamble(tac_code)
-    post_cc = postamble.generate_tac_with_preamble_postamble(tac_code)
-    print(pre_cc + post_cc)
+    cc = preamble.generate_tac_with_preamble_postamble(tac_code)
+    print(cc)
     
 if args.x86:
     asm = xasm.generate_x86_code(tac_code)

@@ -100,6 +100,3 @@ class MyParser(Parser):
     @_('ID')
     def factor(self, p):
         return p.ID
-
-
-

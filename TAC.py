@@ -17,7 +17,6 @@ class TACGenerator:
         return block_var
     
     def generate_tac(self, ast):
-        breakpoint()
         self.visit(ast)
         return self.code
 
@@ -76,7 +75,8 @@ class TACGenerator:
             return self.code.append(node)
 
         # If it's a leaf node, return its ID value
-        return node        
+        return node 
+              
 
     def generic_visit(self, node):
         raise Exception(f'No visit_{type(node).__name__} method')

@@ -21,7 +21,6 @@ class PreamblePostambleGenerator:
         return postamble
 
     def generate_tac_with_preamble_postamble(self, tac_code):
-        breakpoint()
         preamble = self.generate_preamble()
         postamble = self.generate_postamble()
 

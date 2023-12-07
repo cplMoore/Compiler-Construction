@@ -61,6 +61,18 @@ class MyParser(Parser):
     def stmt(self, p):
         return('=', p.ID, p.expr)
         
+    @_('INT ID SEMI')
+    def stmt(self, p):
+        return p.ID
+        
+    @_('ID ASSIGN NUM SEMI')
+    def stmt(self, p):
+        return('=', p.ID, p.NUM)
+        
+    @_(' ')
+    def stmt(self, p):
+        pass
+        
     @_('LPAREN expr RPAREN')
     def stmt(self, p):
         return p.expr

@@ -1,4 +1,4 @@
-from compiler import MyParser, TACGenerator, Optimizer
+
 
 class X86CodeGenerator:
     def __init__(self):

@@ -22,50 +22,50 @@ Rule 18    factor -> NUM
 
 Unused terminals:
 
-    GTR
     SIGNED
-    UNION
-    EQREL
-    FLOAT
-    NEGATE
-    WHILE
-    REGISTER
-    UNSIGNED
-    DO
-    DEFAULT
-    TYPEDEF
-    DECREMNT
-    VOID
-    CONTINUE
-    STRUCT
-    EXTERN
-    AUTO
-    DOUBLE
-    CONST
-    BREAK
-    LOGICOR
-    LTR
-    GRTEQ
-    FOR
-    SHORT
-    ELSE
-    LONG
     NOTEQ
-    BOOL
-    SIZEOF
-    LOGICAND
-    INLINE
-    INCRMNT
-    STATIC
-    CASE
-    CHAR
-    IMAGINARY
-    GOTO
-    LESEQ
-    ENUM
-    SWITCH
-    COMPLEX
+    AUTO
+    GRTEQ
     VOLATILE
+    CONTINUE
+    FLOAT
+    ELSE
+    FOR
+    GOTO
+    VOID
+    REGISTER
+    BOOL
+    COMPLEX
+    BREAK
+    STRUCT
+    LOGICAND
+    ENUM
+    CONST
+    SHORT
+    WHILE
+    GTR
+    LESEQ
+    INCRMNT
+    SWITCH
+    NEGATE
+    UNION
+    DEFAULT
+    IMAGINARY
+    SIZEOF
+    DO
+    CASE
+    INLINE
+    DECREMNT
+    LOGICOR
+    EQREL
+    DOUBLE
+    CHAR
+    UNSIGNED
+    LTR
+    STATIC
+    LONG
+    EXTERN
+    TYPEDEF
     IF
 
 Terminals, with rules where they appear:

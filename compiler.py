@@ -34,6 +34,7 @@ parser.add_argument('-t', '--tokenizer', action='store_true', help='tokenizer pr
 parser.add_argument('-p', '--parser', action='store_true', help='parser program')
 parser.add_argument('-3c', '--tac', action='store_true', help='This flag should print out the Three Address Code.')
 parser.add_argument('-o', '--optimizer', action='store_true', help='optimizer program')
+parser.add_argument('-a', '--amble', action='store_true', help='Calling conventions')
 parser.add_argument('-x', '--x86', action='store_true', help='Print X86 assembly language.')
     
 args = parser.parse_args()
@@ -60,6 +61,9 @@ if args.tac:
 if args.optimizer:
     opt_code = opt.optimize(tac_code)
     print(opt_code)
+    
+if args.x86:
+    asm = 
     
 
 
